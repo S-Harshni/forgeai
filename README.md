@@ -31,7 +31,24 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 **Review day:** run `sh review.sh "<brief text or brief.txt>" <docs_folder>`. It checks Ollama and the models, runs the deterministic tests, then the factory, and prints the report summary.
 
-**Optional UI:** run `.venv/bin/pip install streamlit && .venv/bin/streamlit run app.py`. It has three tabs: build, chat and reports.
+## Web app
+
+```bash
+.venv/bin/pip install fastapi uvicorn python-multipart
+.venv/bin/python server.py        # open http://localhost:8765
+```
+
+| Page | What it shows |
+|---|---|
+| **Build an agent** | Write a brief, drop in documents, and watch the 7 stages run live with the factory log streaming beside them. |
+| **Overview** | Final and held-out scores, judge agreement, and cost; the pipeline with what each stage concluded; which requested topics the documents can and cannot support; every tool decision and its evidence; what still fails. |
+| **Exam** | Every generated test case, filterable by result, type and dev/held-out split. Click a case to see the agent's answer, the judge's verdict on each expected fact, and what retrieval surfaced. |
+| **Repairs** | Score per iteration (dev, held-out, overall); each patch with why it was tried, what it fixed or broke, and whether it was kept or reverted; a diff of the final prompt against the first draft. |
+| **Agent** | The shipped system prompt, retrieval settings, output contract, tools and version history. Download `agent.json`. |
+| **Try it** | Chat with the produced agent. Answers show clickable citations (with the cited text), the tool-call trace, and abstentions. |
+| **Report** | The full `report.md`. |
+
+The frontend is plain HTML, CSS and JS in `web/` with no build step. The API is in `server.py`.
 
 Leave out `--auto` to get the interactive mode. You then answer up to 5 clarifying questions (press Enter to let ForgeAI decide), and you approve or edit `requirements.json` before generation continues (the human checkpoint).
 
@@ -126,7 +143,8 @@ If runs stall (long gaps between requests), restart Ollama with its log going to
 
 ## Repository layout
 ```
-forge.py            factory CLI          chat.py         generic chat runner
+forge.py            factory CLI          chat.py         generic chat runner (CLI)
+server.py           web API + app        web/            frontend (no build step)
 forgeai/llm.py      Ollama client, JSON validation/retry, budget
 forgeai/ingest.py   pdf/txt/md/csv/docx/json loading + chunking
 forgeai/retrieval.py BM25 + optional embeddings, absolute relevance score

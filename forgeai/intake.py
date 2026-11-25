@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import os
 import subprocess
 from pathlib import Path
@@ -136,8 +137,9 @@ def groundability_guard(req: Requirements, docs: list[Document], log=print) -> R
     vocab = set(idx.idf)
     verdicts: list[TopicVerdict] = []
     for topic in req.must_answer_topics:
-        content = [t for t in tokens(topic) if t not in ACTION_WORDS and not t.isdigit()]
-        missing = [t for t in content if not in_vocab(t, vocab)]
+        raw_words = [w for w in re.findall(r"[A-Za-z][A-Za-z\-]+", topic)]
+        missing = [w.lower() for w in raw_words
+                   if (st := tokens(w)) and st[0] not in ACTION_WORDS and not in_vocab(st[0], vocab)]
         hits = idx.search(topic, k=4)
         best = max((h.relevance for h in hits), default=0.0)
         excerpts = "\n\n".join(f"[{h.chunk.id}] {h.chunk.text[:700]}" for h in hits)
@@ -167,7 +169,8 @@ def groundability_guard(req: Requirements, docs: list[Document], log=print) -> R
             status = "partial"
         src = next((h.chunk.doc for h in hits if chk.evidence and chk.evidence[:40] in h.chunk.text),
                    hits[0].chunk.doc if hits else "")
-        reason = chk.reason + ("" if verified or not chk.evidence else " [evidence quote NOT found in docs - ignored]")
+        reason = chk.reason + ("" if verified or not chk.evidence else
+                               " (the checker's supporting quote was not found in the documents, so it was ignored)")
         verdicts.append(TopicVerdict(topic=topic, status=status, relevance=round(best, 3),
                                      evidence=chk.evidence[:300] if verified else "",
                                      evidence_source=src if verified else "", reason=reason.strip()))
