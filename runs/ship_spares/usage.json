@@ -1,0 +1,56 @@
+{
+  "calls": 233,
+  "prompt_tokens": 209177,
+  "completion_tokens": 9789,
+  "total_tokens": 218966,
+  "seconds": 1427.5,
+  "json_failures_recovered": 37,
+  "server_stalls_retried": 2,
+  "by_stage": {
+    "intake": {
+      "calls": 7,
+      "tokens": 7825,
+      "seconds": 33.29
+    },
+    "guard": {
+      "calls": 5,
+      "tokens": 3864,
+      "seconds": 18.31
+    },
+    "generator": {
+      "calls": 1,
+      "tokens": 1293,
+      "seconds": 12.04
+    },
+    "evalgen": {
+      "calls": 21,
+      "tokens": 6738,
+      "seconds": 137.35
+    },
+    "evalgen_roundtrip": {
+      "calls": 18,
+      "tokens": 4025,
+      "seconds": 44.96
+    },
+    "calibration": {
+      "calls": 8,
+      "tokens": 830,
+      "seconds": 12.84
+    },
+    "judge": {
+      "calls": 20,
+      "tokens": 3801,
+      "seconds": 18.65
+    },
+    "agent_tools": {
+      "calls": 96,
+      "tokens": 97791,
+      "seconds": 215.1
+    },
+    "agent_answer": {
+      "calls": 57,
+      "tokens": 92799,
+      "seconds": 934.88
+    }
+  }
+}

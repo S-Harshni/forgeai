@@ -1,0 +1,388 @@
+{
+  "stats": {
+    "generated": 24,
+    "dropped_unverifiable_facts": 0,
+    "dropped_duplicate": 0,
+    "dropped_oos_actually_answerable": 0,
+    "dropped_leaky_or_empty": 0,
+    "dropped_roundtrip_failed": 6,
+    "facts_trimmed_by_roundtrip": 0,
+    "final": 23,
+    "by_type": {
+      "answerable": 10,
+      "multi_doc": 3,
+      "ambiguous": 4,
+      "out_of_scope": 6
+    }
+  },
+  "cases": [
+    {
+      "id": "E01",
+      "type": "answerable",
+      "question": "What is the compensation rate for overtime for eligible grades?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "1.5 hours"
+      ],
+      "generated_from": [
+        "hr_conduct_remote.pdf#c2"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E02",
+      "type": "answerable",
+      "question": "What happens if an employee is required to work on a public holiday?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_leave_policy.pdf"
+      ],
+      "key_facts": [
+        "replacement day off"
+      ],
+      "generated_from": [
+        "hr_leave_policy.pdf#c5"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E03",
+      "type": "answerable",
+      "question": "What is the maximum duration after a trip for submitting an expense claim and still being reimbursed?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_travel_expenses.pdf"
+      ],
+      "key_facts": [
+        "60 days"
+      ],
+      "generated_from": [
+        "hr_travel_expenses.pdf#c4"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E04",
+      "type": "answerable",
+      "question": "How many weeks of fully paid parental leave do primary and secondary caregivers receive?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_leave_policy.pdf"
+      ],
+      "key_facts": [
+        "18 weeks",
+        "4 weeks"
+      ],
+      "generated_from": [
+        "hr_leave_policy.pdf#c3"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E05",
+      "type": "answerable",
+      "question": "What are the hotel cost reimbursement rates for different cities?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_travel_expenses.pdf"
+      ],
+      "key_facts": [
+        "180 USD",
+        "260 USD"
+      ],
+      "generated_from": [
+        "hr_travel_expenses.pdf#c2"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E06",
+      "type": "answerable",
+      "question": "What is the maximum number of days per week shore staff can work remotely?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "2 days"
+      ],
+      "generated_from": [
+        "hr_conduct_remote.pdf#c0"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E07",
+      "type": "answerable",
+      "question": "What is the minimum time required in advance for booking business travel?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_travel_expenses.pdf"
+      ],
+      "key_facts": [
+        "14 days"
+      ],
+      "generated_from": [
+        "hr_travel_expenses.pdf#c0"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E08",
+      "type": "answerable",
+      "question": "What is the purpose of the Speak Up hotline?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "independent provider",
+        "24 hours a day"
+      ],
+      "generated_from": [
+        "hr_conduct_remote.pdf#c3"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E09",
+      "type": "answerable",
+      "question": "What are the requirements for booking flights in Business Class?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_travel_expenses.pdf"
+      ],
+      "key_facts": [
+        "written approval"
+      ],
+      "generated_from": [
+        "hr_travel_expenses.pdf#c1"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E10",
+      "type": "answerable",
+      "question": "What is the timeframe for an employee to appeal a decision?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "10 working days"
+      ],
+      "generated_from": [
+        "hr_conduct_remote.pdf#c4"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E11",
+      "type": "multi_doc",
+      "question": "What is the maximum daily allowance for hotel costs in high-cost cities like Tokyo and how many working days per year are allowed for remote work from another country?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_travel_expenses.pdf",
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "260 USD",
+        "20"
+      ],
+      "generated_from": [
+        "hr_travel_expenses.pdf#c2",
+        "hr_conduct_remote.pdf#c1"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_multidoc"
+    },
+    {
+      "id": "E12",
+      "type": "multi_doc",
+      "question": "What is the annual leave policy for full-time shore staff, and what are the remote working regulations for hybrid working, as outlined in the HR policies of MERIDIAN SHIPPING LTD?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_leave_policy.pdf",
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "24 working days",
+        "up to 2 days per week"
+      ],
+      "generated_from": [
+        "hr_leave_policy.pdf#c0",
+        "hr_conduct_remote.pdf#c0"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_multidoc"
+    },
+    {
+      "id": "E13",
+      "type": "multi_doc",
+      "question": "What is the maximum duration for a flight to require premium economy booking, and how many working days per year are allowed for remote work from another country?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_travel_expenses.pdf",
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "6 hours",
+        "20 working days"
+      ],
+      "generated_from": [
+        "hr_travel_expenses.pdf#c1",
+        "hr_conduct_remote.pdf#c1"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_multidoc"
+    },
+    {
+      "id": "E14",
+      "type": "ambiguous",
+      "question": "What's the ovtime pay rate for qualified levels?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "1.5 hours"
+      ],
+      "generated_from": [
+        "hr_conduct_remote.pdf#c2"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E15",
+      "type": "ambiguous",
+      "question": "how many weeks of paid leave do primary and secondary caregivers get",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_leave_policy.pdf"
+      ],
+      "key_facts": [
+        "18 weeks",
+        "4 weeks"
+      ],
+      "generated_from": [
+        "hr_leave_policy.pdf#c3"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E16",
+      "type": "ambiguous",
+      "question": "what is the timeline for an employee to appeal a decision",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "10 working days"
+      ],
+      "generated_from": [
+        "hr_conduct_remote.pdf#c4"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E17",
+      "type": "ambiguous",
+      "question": "What's the deal if an employee has to clock in on a stat day?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_leave_policy.pdf"
+      ],
+      "key_facts": [
+        "replacement day off"
+      ],
+      "generated_from": [
+        "hr_leave_policy.pdf#c5"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E18",
+      "type": "out_of_scope",
+      "question": "Can you recommend a good recipe for chocolate cake??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E19",
+      "type": "out_of_scope",
+      "question": "I need to know how much income tax deduction I can claim for this month. Can you help me with that??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E20",
+      "type": "out_of_scope",
+      "question": "Could you please provide me with information on the pension deduction for the next quarter??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "holdout",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E21",
+      "type": "out_of_scope",
+      "question": "I was wondering if there are any changes in the travel policy since the last update. Could you clarify??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E22",
+      "type": "out_of_scope",
+      "question": "I'm planning a trip and need to know the travel policy for domestic trips. Can you assist??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E23",
+      "type": "out_of_scope",
+      "question": "I've been working remotely for a few weeks now and I'm not sure if my hybrid working policy has changed. Could you check??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "holdout",
+      "prompt": "evalgen_oos"
+    }
+  ]
+}

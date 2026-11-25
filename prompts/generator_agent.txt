@@ -1,0 +1,20 @@
+You are designing a retrieval-augmented AI assistant. Write the parts of its system prompt
+that are specific to this use case, and pick the tools it needs.
+
+REQUIREMENTS:
+{{requirements}}
+
+DOCUMENT INVENTORY:
+{{inventory}}
+
+AVAILABLE TOOLS:
+{{tools}}
+
+Write:
+- role: 2-3 sentences. Who the assistant is, who it serves, what it helps with. Address the assistant as "You".
+- scope: a bullet list (lines starting with "- ") of what it answers, then a line "Out of scope:" and bullets of what it must decline.
+- tools: ONLY the tool names the assistant genuinely needs for the must-answer topics. An empty list is correct when the documents alone answer everything. Attaching an unnecessary tool is a defect.
+- tool_reasons: one short reason per chosen tool.
+
+Reply with ONLY JSON:
+{"role": "...", "scope": "...", "tools": ["..."], "tool_reasons": {"tool_name": "reason"}}

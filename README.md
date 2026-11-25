@@ -1,0 +1,144 @@
+# ForgeAI: the agent that builds agents
+
+ForgeAI takes a **one-paragraph brief** and a **folder of documents**. With no human involved, it produces a **working, tested RAG agent**:
+- a system prompt
+- a retrieval configuration
+- the tools the agent needs
+- an output contract
+- an auto-generated eval set
+
+It then runs a critic–optimizer loop on the agent and writes an **honest quality report**.
+
+Everything runs locally on small open models through [Ollama](https://ollama.com):
+- `qwen2.5:3b` generates.
+- `llama3.2:3b` judges. It is a different model family, which counters self-preference.
+
+## Quick start
+
+```bash
+ollama serve &                       # if not already running
+ollama pull qwen2.5:3b && ollama pull llama3.2:3b
+ollama pull nomic-embed-text         # optional: enables hybrid BM25 + embedding retrieval
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+
+# Build an agent (unattended)
+.venv/bin/python forge.py --brief demos/hr_policy/brief.txt --docs demos/hr_policy/docs --out runs/hr_policy --auto
+
+# Chat with any produced agent
+.venv/bin/python chat.py runs/hr_policy/agent.json            # interactive
+.venv/bin/python chat.py runs/hr_policy/agent.json --debug    # show retrieval, tools, citations
+```
+
+**Review day:** run `sh review.sh "<brief text or brief.txt>" <docs_folder>`. It checks Ollama and the models, runs the deterministic tests, then the factory, and prints the report summary.
+
+**Optional UI:** run `.venv/bin/pip install streamlit && .venv/bin/streamlit run app.py`. It has three tabs: build, chat and reports.
+
+Leave out `--auto` to get the interactive mode. You then answer up to 5 clarifying questions (press Enter to let ForgeAI decide), and you approve or edit `requirements.json` before generation continues (the human checkpoint).
+
+Other flags:
+- `--brief` accepts a file path or the brief text itself.
+- `--max-iters N`: maximum optimisation iterations (default 3).
+- `--time-budget SEC`: stop optimising once this much time has passed.
+- `FORGE_TOKEN_BUDGET=N`: hard token budget.
+- `--reuse-evals`: regression mode. Re-runs the old eval set against a regenerated agent.
+
+## Pipeline
+
+```
+brief + docs
+  │
+  ├─[1] Intake interviewer ──── ≤5 questions (user, or auto-answered and logged as assumptions)
+  │                              → requirements.json: scope, audience, tone, must-answer, must-refuse
+  ├─[2] Groundability guard ─── each must-answer topic: retrieval relevance + LLM check
+  │                              whose evidence quote must really exist in the docs
+  │                              → unsupported topics are FLAGGED and moved to must-refuse
+  ├─[3] Agent generator ─────── declarative agent_v0.json: sectioned system prompt,
+  │                              chunking/retrieval params, tools (LLM proposal ∩ evidence gate),
+  │                              output contract
+  ├─[4] Eval generator ──────── ≥20 cases from the docs: answerable, multi-doc, ambiguous,
+  │                              out-of-scope. Generated, then validated; split into dev and holdout
+  ├─[5] Judge ───────────────── deterministic checks first, then a different-model LLM judge
+  │                              on single facts only. Calibrated on known-label cases
+  ├─[6] Critic–optimizer ────── classify failures → ONE targeted patch → re-run (max 3);
+  │                              patches that lower the score are reverted
+  └─[7] Report ──────────────── agent.json, scorecard.md, report.md, iterations.json, transcripts
+```
+
+### Design choices that make the pipeline harder to fool
+
+| Risk | Check |
+|---|---|
+| A small model emits broken JSON | Every structured call is validated with Pydantic, retried with the error fed back, then falls back to a safe default. Unattended runs don't crash. |
+| The guard model says "yes, covered" without evidence | Its evidence sentence must be found in the excerpts (fuzzy match); otherwise the "yes" is ignored. It is combined with an absolute lexical relevance score. |
+| An eval case has wrong expected facts | Every key fact must appear in its source excerpt, with numbers matching exactly, or the case is dropped. The same applies to questions that leak their answer and to duplicates. |
+| An eval fact is real but doesn't answer its question, or a paraphrase changes the meaning | **Round-trip check:** a different model answers each generated question from the source excerpt alone. Only key facts it reproduces are kept; otherwise the case is dropped. |
+| The guard backs a topic with a real but off-topic quote ("on-time rating" → a discount sentence) | **Vocabulary check:** if the corpus never uses a content word of the topic ("rating", "tax"), the topic is a gap unless a verified on-topic quote exists. |
+| The agent's calculator call uses invented operands | Every number in a calculator expression must appear in the question, the retrieved excerpts or earlier tool results; otherwise the call is rejected before it runs. |
+| Small models get date arithmetic wrong | `current_date(add_days=N)` does the arithmetic. Date questions always get today's date. |
+| Failures caused by the eval set, not the agent | The report flags suspect cases (e.g. an "out-of-scope" question that is highly relevant to the docs) but still counts them as failures. |
+| An "out-of-scope" eval question is actually answerable | It is dropped if retrieval finds a highly relevant passage. |
+| The agent hallucinates figures | Every number in an answer must appear in the retrieved text, a tool result or the question. |
+| The agent cites something it was never shown | Citations are checked against the retrieved chunk ids. |
+| An unneeded tool gets attached (weather on an HR bot) | The tool is attached only if the LLM proposes it **and** the brief contains evidence for it. Every decision, including rejections, is logged in `tool_rationale`. |
+| The LLM judge has biases | **Position:** pointwise yes/no on one fact at a time; no pairwise comparisons. **Self-preference:** the judge is a different model family, and the LLM is consulted only after code. **Verbosity:** one fact at a time, answers truncated, numbers checked in code. The judge is calibrated against padded wrong answers. |
+| The optimizer overfits the eval set | About a third of the cases form a **holdout set** the optimizer never sees. The report shows the dev vs holdout gap. |
+| A "fix" makes things worse | A patch that lowers the dev score or the total is reverted, and logged as reverted. |
+| A rewrite causes regressions | Fixes are targeted patches to one prompt section or one retrieval parameter, never a full regeneration. `fixed_cases` and `newly_broken_cases` are logged per iteration. |
+
+### Failure categories and targeted fixes
+| Category | How it is detected | Fix ladder (one per iteration) |
+|---|---|---|
+| retrieval_miss | key facts not in the retrieved context, or the expected source was not retrieved | lower the abstain gate (if that is what caused it) → `top_k`+2 → LLM query expansion → smaller chunks |
+| hallucination | answered an out-of-scope question, or stated numbers not in the context | generalised decline categories in the REFUSAL section → raise the abstain gate → strict-figures rule → self-check rule |
+| wrong_refusal | refused although the facts were retrieved | "answer informal questions if an excerpt is relevant" → lower the gate → `top_k`+2 |
+| prompt_defect | facts were in context but omitted, or the output contract was broken | mandatory citations → complete-answer rule → raise `max_words` |
+
+## Tool registry
+`csv_lookup` · `calculator` (safe AST evaluator) · `current_date` · `weather` (open-meteo, no API key).
+At runtime the agent may chain up to two tool calls, for example a lookup followed by a calculation. It can only call tools attached to its definition.
+
+## Demo runs (all artifacts committed)
+| Run | Documents | Deliberate gap in the brief → guard result | Tools chosen | Evals | Baseline → final | Holdout | Time |
+|---|---|---|---|---|---|---|---|
+| [`runs/hr_policy`](runs/hr_policy) | 3 HR policy PDFs | payslip tax deductions → **flagged** | none | 23 | 20 → 20/23 (87%) | 86% | 9 min |
+| [`runs/ship_spares`](runs/ship_spares) | catalogue CSV, 2 supplier PDFs, policy Markdown | supplier on-time rating → **flagged** | csv_lookup, calculator, current_date (no weather) | 23 | 19 → 19/23 (83%) | 71% (overfitting warning raised) | 24 min |
+| [`runs/selftest_it_helpdesk`](runs/selftest_it_helpdesk) - generalisation check on a brief written after the factory was built | DOCX + TXT | self-service password reset → not flagged (merged into "Passwords") | none | 22 | 15 → 18/22 (82%) | 71% | 7 min |
+
+None of these runs reaches 100%. Each `report.md` lists the remaining failures, classifies them, and flags the ones that look like eval-set defects. Patches that did not pay for themselves were reverted; see the *Optimisation log* in each report. The models run on a 16 GB Apple-silicon laptop.
+
+Each run folder contains:
+- `brief.txt`, `requirements.json`
+- `agent_v0.json` (first draft) and `agent.json` (final)
+- `evals.json`, `judge_calibration.json`
+- `iterations.json` (the change log), `scorecard.md`, `report.md`
+- `final_transcripts.json`, `run.log`, `usage.json`
+
+The demo documents are LLM-synthesized; the prompts are in [`demos/SYNTHESIS_PROMPTS.md`](demos/SYNTHESIS_PROMPTS.md). Every prompt the factory uses, including the eval-generation prompts, is in [`prompts/`](prompts).
+
+## Troubleshooting
+If runs stall (long gaps between requests), restart Ollama with its log going to a file or to `/dev/null`, not to a pipe nobody reads: `ollama serve > /dev/null 2>&1`. The client retries with a 90-second per-request timeout (`FORGE_REQUEST_TIMEOUT`) and counts stalls in `usage.json`.
+
+## Known limitations
+- 3B models have weak instruction following. Expect some prompt-defect failures to remain; the report says which ones.
+- Eval questions come from single excerpts. They are more literal than real user questions, so real-world accuracy is likely lower than the scorecard.
+- Without an embedding model, retrieval is BM25 only, and heavily paraphrased questions can miss. Pull `nomic-embed-text` to enable hybrid retrieval.
+- Scanned PDFs (images without a text layer) are skipped with a warning. There is no OCR.
+
+## Repository layout
+```
+forge.py            factory CLI          chat.py         generic chat runner
+forgeai/llm.py      Ollama client, JSON validation/retry, budget
+forgeai/ingest.py   pdf/txt/md/csv/docx/json loading + chunking
+forgeai/retrieval.py BM25 + optional embeddings, absolute relevance score
+forgeai/intake.py   interviewer, groundability guard, human checkpoint
+forgeai/generator.py agent definition + tool selection
+forgeai/tools.py    tool registry
+forgeai/runtime.py  the agent runtime (shared by chat and evals)
+forgeai/evalgen.py  eval generation + validation
+forgeai/judge.py    deterministic + LLM judge, calibration
+forgeai/optimizer.py critic-optimizer loop
+forgeai/report.py   scorecard + report
+prompts/            every prompt the factory uses
+demos/              briefs + documents for the two demos
+runs/               committed artifacts of the demo runs
+```

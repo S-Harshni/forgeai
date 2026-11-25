@@ -1,0 +1,173 @@
+[
+  {
+    "iteration": 0,
+    "version": 0,
+    "change": "baseline",
+    "summary": {
+      "overall": 0.826,
+      "dev": 0.812,
+      "holdout": 0.857,
+      "passed": 19,
+      "total": 23,
+      "by_type": {
+        "answerable": {
+          "pass": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "multi_doc": {
+          "pass": 2,
+          "total": 3,
+          "rate": 0.667
+        },
+        "ambiguous": {
+          "pass": 3,
+          "total": 4,
+          "rate": 0.75
+        },
+        "out_of_scope": {
+          "pass": 5,
+          "total": 6,
+          "rate": 0.833
+        }
+      },
+      "failures": {
+        "retrieval_miss": 0,
+        "prompt_defect": 2,
+        "hallucination": 1,
+        "wrong_refusal": 1
+      },
+      "grounded_rate": 0.875
+    },
+    "kept": true,
+    "tokens_so_far": 88896
+  },
+  {
+    "iteration": 1,
+    "version": 1,
+    "fix": "prompt_defect:complete_answer",
+    "category": "prompt_defect",
+    "change": "FORMAT: require complete answers with specific figures",
+    "why": "2 dev failure(s) classified prompt_defect",
+    "targeted_cases": [
+      "E10",
+      "E15"
+    ],
+    "fixed_cases": [],
+    "newly_broken_cases": [
+      "E03"
+    ],
+    "score_before": {
+      "overall": 0.826,
+      "dev": 0.812,
+      "holdout": 0.857
+    },
+    "score_after": {
+      "overall": 0.826,
+      "dev": 0.875,
+      "holdout": 0.714
+    },
+    "summary": {
+      "overall": 0.826,
+      "dev": 0.875,
+      "holdout": 0.714,
+      "passed": 19,
+      "total": 23,
+      "by_type": {
+        "answerable": {
+          "pass": 8,
+          "total": 10,
+          "rate": 0.8
+        },
+        "multi_doc": {
+          "pass": 3,
+          "total": 3,
+          "rate": 1.0
+        },
+        "ambiguous": {
+          "pass": 3,
+          "total": 4,
+          "rate": 0.75
+        },
+        "out_of_scope": {
+          "pass": 5,
+          "total": 6,
+          "rate": 0.833
+        }
+      },
+      "failures": {
+        "retrieval_miss": 0,
+        "prompt_defect": 3,
+        "hallucination": 1,
+        "wrong_refusal": 0
+      },
+      "grounded_rate": 0.824
+    },
+    "kept": true,
+    "tokens_so_far": 153874
+  },
+  {
+    "iteration": 2,
+    "version": 2,
+    "fix": "prompt_defect:longer_answers",
+    "category": "prompt_defect",
+    "change": "max_words 150 -> 210",
+    "why": "2 dev failure(s) classified prompt_defect",
+    "targeted_cases": [
+      "E10",
+      "E15"
+    ],
+    "fixed_cases": [],
+    "newly_broken_cases": [
+      "E21"
+    ],
+    "score_before": {
+      "overall": 0.826,
+      "dev": 0.875,
+      "holdout": 0.714
+    },
+    "score_after": {
+      "overall": 0.826,
+      "dev": 0.812,
+      "holdout": 0.857
+    },
+    "summary": {
+      "overall": 0.826,
+      "dev": 0.812,
+      "holdout": 0.857,
+      "passed": 19,
+      "total": 23,
+      "by_type": {
+        "answerable": {
+          "pass": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "multi_doc": {
+          "pass": 3,
+          "total": 3,
+          "rate": 1.0
+        },
+        "ambiguous": {
+          "pass": 3,
+          "total": 4,
+          "rate": 0.75
+        },
+        "out_of_scope": {
+          "pass": 4,
+          "total": 6,
+          "rate": 0.667
+        }
+      },
+      "failures": {
+        "retrieval_miss": 0,
+        "prompt_defect": 2,
+        "hallucination": 2,
+        "wrong_refusal": 0
+      },
+      "grounded_rate": 0.882
+    },
+    "kept": false,
+    "tokens_so_far": 218966
+  }
+]

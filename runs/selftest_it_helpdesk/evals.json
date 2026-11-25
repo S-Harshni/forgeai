@@ -1,0 +1,369 @@
+{
+  "stats": {
+    "generated": 32,
+    "dropped_unverifiable_facts": 0,
+    "dropped_duplicate": 12,
+    "dropped_oos_actually_answerable": 0,
+    "dropped_leaky_or_empty": 0,
+    "dropped_roundtrip_failed": 3,
+    "facts_trimmed_by_roundtrip": 2,
+    "final": 22,
+    "by_type": {
+      "answerable": 9,
+      "multi_doc": 3,
+      "ambiguous": 4,
+      "out_of_scope": 6
+    }
+  },
+  "cases": [
+    {
+      "id": "E01",
+      "type": "answerable",
+      "question": "How often should passwords be changed and what is the duration for account lock after failed login attempts?",
+      "should_refuse": false,
+      "expected_sources": [
+        "it_service_desk_guide.docx"
+      ],
+      "key_facts": [
+        "180 days",
+        "30 minutes"
+      ],
+      "generated_from": [
+        "it_service_desk_guide.docx#c0"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E02",
+      "type": "answerable",
+      "question": "How much is the cost for a one-off top-up of 50 GB?",
+      "should_refuse": false,
+      "expected_sources": [
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "400 USD"
+      ],
+      "generated_from": [
+        "vessel_connectivity.txt#c0"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E03",
+      "type": "answerable",
+      "question": "How long does it take to get a new monitor or docking station through the IT portal?",
+      "should_refuse": false,
+      "expected_sources": [
+        "it_service_desk_guide.docx"
+      ],
+      "key_facts": [
+        "5 working days"
+      ],
+      "generated_from": [
+        "it_service_desk_guide.docx#c1"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E04",
+      "type": "answerable",
+      "question": "What are the size restrictions for attachments sent to vessels by Shore staff?",
+      "should_refuse": false,
+      "expected_sources": [
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "10 MB"
+      ],
+      "generated_from": [
+        "vessel_connectivity.txt#c1"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E05",
+      "type": "answerable",
+      "question": "How long should the response be for a single team blocked issue?",
+      "should_refuse": false,
+      "expected_sources": [
+        "it_service_desk_guide.docx"
+      ],
+      "key_facts": [
+        "1 hour"
+      ],
+      "generated_from": [
+        "it_service_desk_guide.docx#c2"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E06",
+      "type": "answerable",
+      "question": "What happens if the business allowance is exceeded?",
+      "should_refuse": false,
+      "expected_sources": [
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "2 Mbps"
+      ],
+      "generated_from": [
+        "vessel_connectivity.txt#c0"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E07",
+      "type": "answerable",
+      "question": "What is the monthly data allowance for the crew welfare internet?",
+      "should_refuse": false,
+      "expected_sources": [
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "100 GB"
+      ],
+      "generated_from": [
+        "vessel_connectivity.txt#c0"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E08",
+      "type": "answerable",
+      "question": "What is the maximum size of attachments that Shore staff can send to vessels?",
+      "should_refuse": false,
+      "expected_sources": [
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "10 MB"
+      ],
+      "generated_from": [
+        "vessel_connectivity.txt#c1"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E09",
+      "type": "answerable",
+      "question": "How many working days does it take to get a new laptop or monitor through the IT portal?",
+      "should_refuse": false,
+      "expected_sources": [
+        "it_service_desk_guide.docx"
+      ],
+      "key_facts": [
+        "5 working days"
+      ],
+      "generated_from": [
+        "it_service_desk_guide.docx#c1"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E10",
+      "type": "multi_doc",
+      "question": "What is the maximum file size for attachments sent to vessels by shore staff, and what is the response time for a single team blockage incident? Include the file size limit and the response time in your answer",
+      "should_refuse": false,
+      "expected_sources": [
+        "vessel_connectivity.txt",
+        "it_service_desk_guide.docx"
+      ],
+      "key_facts": [
+        "10 MB",
+        "1 hour"
+      ],
+      "generated_from": [
+        "vessel_connectivity.txt#c1",
+        "it_service_desk_guide.docx#c2"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_multidoc"
+    },
+    {
+      "id": "E11",
+      "type": "multi_doc",
+      "question": "What is the maximum file size Shore staff are allowed to send to vessels, and what is the time frame for software updates to navigation systems? Explain the difference in support hours for a broken laptop at head office versus regional offices",
+      "should_refuse": false,
+      "expected_sources": [
+        "it_service_desk_guide.docx",
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "2 working days",
+        "10 MB"
+      ],
+      "generated_from": [
+        "it_service_desk_guide.docx#c1",
+        "vessel_connectivity.txt#c1"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_multidoc"
+    },
+    {
+      "id": "E12",
+      "type": "multi_doc",
+      "question": "What is the password requirement for the Service Desk and what is the maximum data allowance for a vessel's internet connection?",
+      "should_refuse": false,
+      "expected_sources": [
+        "it_service_desk_guide.docx",
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "14 characters",
+        "200 GB"
+      ],
+      "generated_from": [
+        "it_service_desk_guide.docx#c0",
+        "vessel_connectivity.txt#c0"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_multidoc"
+    },
+    {
+      "id": "E13",
+      "type": "ambiguous",
+      "question": "What happens if the biz allowance is over?",
+      "should_refuse": false,
+      "expected_sources": [
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "2 Mbps"
+      ],
+      "generated_from": [
+        "vessel_connectivity.txt#c0"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E14",
+      "type": "ambiguous",
+      "question": "what's the biggest file size shore workers can upload to ships",
+      "should_refuse": false,
+      "expected_sources": [
+        "vessel_connectivity.txt"
+      ],
+      "key_facts": [
+        "10 MB"
+      ],
+      "generated_from": [
+        "vessel_connectivity.txt#c1"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E15",
+      "type": "ambiguous",
+      "question": "How frequently should I change my passwords and for how long will my account be locked if I keep entering wrong passwords?",
+      "should_refuse": false,
+      "expected_sources": [
+        "it_service_desk_guide.docx"
+      ],
+      "key_facts": [
+        "180 days",
+        "30 minutes"
+      ],
+      "generated_from": [
+        "it_service_desk_guide.docx#c0"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E16",
+      "type": "ambiguous",
+      "question": "what is the ideal length for a single team issue reply?",
+      "should_refuse": false,
+      "expected_sources": [
+        "it_service_desk_guide.docx"
+      ],
+      "key_facts": [
+        "1 hour"
+      ],
+      "generated_from": [
+        "it_service_desk_guide.docx#c2"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E17",
+      "type": "out_of_scope",
+      "question": "Can you recommend a good recipe for chocolate cake??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E18",
+      "type": "out_of_scope",
+      "question": "I'm curious about the crew welfare internet policy. Can you tell me more about it??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E19",
+      "type": "out_of_scope",
+      "question": "What's the maximum number of times a user account can be locked out before being permanently disabled??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "holdout",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E20",
+      "type": "out_of_scope",
+      "question": "Could you provide a list of all the laptops we've replaced this year??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E21",
+      "type": "out_of_scope",
+      "question": "How many hours per day are we allowed to use the internet on the ship??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
+      "id": "E22",
+      "type": "out_of_scope",
+      "question": "Do you have any information on the current password policy for our accounts??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "holdout",
+      "prompt": "evalgen_oos"
+    }
+  ]
+}

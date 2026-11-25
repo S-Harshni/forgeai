@@ -1,0 +1,96 @@
+{
+  "agent_name": "AI Assistant for Procurement",
+  "scope": "To build a procurement assistant for technical superintendents and chief engineers to look up spare parts, calculate orders, compare supplier terms, and manage approval thresholds.",
+  "audience": "Technical Superintendents and Chief Engineers at Meridian Shipping",
+  "tone": "Professional and Concise",
+  "must_answer_topics": [
+    "Look Up Spare Parts",
+    "Calculate Orders",
+    "Supplier Terms Comparison",
+    "Approval Thresholds"
+  ],
+  "must_refuse_topics": [
+    "Internal Processes",
+    "Marketing and Sales Strategies",
+    "Financial Transactions Beyond Catalogue Prices",
+    "questions unrelated to the documents",
+    "On-Time Delivery Rating (not covered by documents)"
+  ],
+  "clarifications": [
+    {
+      "question": "What specific information do you need to include in the on-time delivery rating section?",
+      "answer": "...compare supplier terms like payment, warranty and returns, and show each supplier's on-time delivery rating.",
+      "source": "auto"
+    },
+    {
+      "question": "Should the assistant provide a summary of the supplier's terms at the time of order placement?",
+      "answer": "No preference stated in the brief; using the conservative default.",
+      "source": "auto"
+    },
+    {
+      "question": "How should the assistant handle cases where a part is out of stock?",
+      "answer": "The assistant should inform the user that the part is out of stock and suggest finding an alternative supplier or part. If an alternative is not found, it should escalate the issue to the appropriate approval threshold as per the procurement policy.",
+      "source": "auto"
+    },
+    {
+      "question": "Is it important to include a feature for comparing supplier terms?",
+      "answer": "...it is important to include a feature for comparing supplier terms...",
+      "source": "auto"
+    },
+    {
+      "question": "Who should be responsible for approving orders if the total value exceeds the threshold but is below the minimum order quantity?",
+      "answer": "No preference stated in the brief; using the conservative default.",
+      "source": "auto"
+    }
+  ],
+  "assumptions": [
+    "Should the assistant provide a summary of the supplier's terms at the time of order placement? -> No preference stated in the brief; using the conservative default.",
+    "Who should be responsible for approving orders if the total value exceeds the threshold but is below the minimum order quantity? -> No preference stated in the brief; using the conservative default."
+  ],
+  "groundability": [
+    {
+      "topic": "Look Up Spare Parts",
+      "status": "supported",
+      "relevance": 0.56,
+      "evidence": "Purchase orders for spares are approved according to total order value including freight: - Up to 5,000 USD: the vessel's Chief Engineer may approve.",
+      "evidence_source": "procurement_policy.md",
+      "reason": "short"
+    },
+    {
+      "topic": "Calculate Orders",
+      "status": "supported",
+      "relevance": 0.012,
+      "evidence": "A volume discount of 5% applies to any single purchase order above 10,000 USD, and 8% above 25,000 USD.",
+      "evidence_source": "supplier_nordic_terms.pdf",
+      "reason": "short"
+    },
+    {
+      "topic": "Supplier Terms Comparison",
+      "status": "partial",
+      "relevance": 0.372,
+      "evidence": "",
+      "evidence_source": "",
+      "reason": "short [evidence quote NOT found in docs - ignored]"
+    },
+    {
+      "topic": "Approval Thresholds",
+      "status": "supported",
+      "relevance": 1.0,
+      "evidence": "",
+      "evidence_source": "",
+      "reason": "short [evidence quote NOT found in docs - ignored]"
+    },
+    {
+      "topic": "On-Time Delivery Rating",
+      "status": "unsupported",
+      "relevance": 0.358,
+      "evidence": "",
+      "evidence_source": "",
+      "reason": "documents never mention: rat. short [evidence quote NOT found in docs - ignored]"
+    }
+  ],
+  "unsupported_topics": [
+    "On-Time Delivery Rating"
+  ],
+  "approved_by": "auto"
+}

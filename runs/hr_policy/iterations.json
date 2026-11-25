@@ -1,0 +1,176 @@
+[
+  {
+    "iteration": 0,
+    "version": 0,
+    "change": "baseline",
+    "summary": {
+      "overall": 0.87,
+      "dev": 0.875,
+      "holdout": 0.857,
+      "passed": 20,
+      "total": 23,
+      "by_type": {
+        "answerable": {
+          "pass": 10,
+          "total": 10,
+          "rate": 1.0
+        },
+        "multi_doc": {
+          "pass": 3,
+          "total": 3,
+          "rate": 1.0
+        },
+        "ambiguous": {
+          "pass": 2,
+          "total": 4,
+          "rate": 0.5
+        },
+        "out_of_scope": {
+          "pass": 5,
+          "total": 6,
+          "rate": 0.833
+        }
+      },
+      "failures": {
+        "retrieval_miss": 2,
+        "prompt_defect": 0,
+        "hallucination": 1,
+        "wrong_refusal": 0
+      },
+      "grounded_rate": 1.0
+    },
+    "kept": true,
+    "tokens_so_far": 49433
+  },
+  {
+    "iteration": 1,
+    "version": 1,
+    "fix": "retrieval_miss:lower_gate",
+    "category": "retrieval_miss",
+    "change": "abstain gate fired on 2 miss(es): min_relevance 0.2 -> 0.12",
+    "why": "2 dev failure(s) classified retrieval_miss",
+    "targeted_cases": [
+      "E14",
+      "E17"
+    ],
+    "fixed_cases": [
+      "E14"
+    ],
+    "newly_broken_cases": [
+      "E22"
+    ],
+    "score_before": {
+      "overall": 0.87,
+      "dev": 0.875,
+      "holdout": 0.857
+    },
+    "score_after": {
+      "overall": 0.87,
+      "dev": 0.875,
+      "holdout": 0.857
+    },
+    "summary": {
+      "overall": 0.87,
+      "dev": 0.875,
+      "holdout": 0.857,
+      "passed": 20,
+      "total": 23,
+      "by_type": {
+        "answerable": {
+          "pass": 10,
+          "total": 10,
+          "rate": 1.0
+        },
+        "multi_doc": {
+          "pass": 3,
+          "total": 3,
+          "rate": 1.0
+        },
+        "ambiguous": {
+          "pass": 3,
+          "total": 4,
+          "rate": 0.75
+        },
+        "out_of_scope": {
+          "pass": 4,
+          "total": 6,
+          "rate": 0.667
+        }
+      },
+      "failures": {
+        "retrieval_miss": 1,
+        "prompt_defect": 0,
+        "hallucination": 2,
+        "wrong_refusal": 0
+      },
+      "grounded_rate": 1.0
+    },
+    "kept": false,
+    "tokens_so_far": 73500
+  },
+  {
+    "iteration": 2,
+    "version": 1,
+    "fix": "retrieval_miss:top_k_up",
+    "category": "retrieval_miss",
+    "change": "top_k 4 -> 6",
+    "why": "2 dev failure(s) classified retrieval_miss",
+    "targeted_cases": [
+      "E14",
+      "E17"
+    ],
+    "fixed_cases": [],
+    "newly_broken_cases": [
+      "E02",
+      "E03"
+    ],
+    "score_before": {
+      "overall": 0.87,
+      "dev": 0.875,
+      "holdout": 0.857
+    },
+    "score_after": {
+      "overall": 0.783,
+      "dev": 0.812,
+      "holdout": 0.714
+    },
+    "summary": {
+      "overall": 0.783,
+      "dev": 0.812,
+      "holdout": 0.714,
+      "passed": 18,
+      "total": 23,
+      "by_type": {
+        "answerable": {
+          "pass": 8,
+          "total": 10,
+          "rate": 0.8
+        },
+        "multi_doc": {
+          "pass": 3,
+          "total": 3,
+          "rate": 1.0
+        },
+        "ambiguous": {
+          "pass": 2,
+          "total": 4,
+          "rate": 0.5
+        },
+        "out_of_scope": {
+          "pass": 5,
+          "total": 6,
+          "rate": 0.833
+        }
+      },
+      "failures": {
+        "retrieval_miss": 2,
+        "prompt_defect": 1,
+        "hallucination": 2,
+        "wrong_refusal": 0
+      },
+      "grounded_rate": 0.867
+    },
+    "kept": false,
+    "tokens_so_far": 97617
+  }
+]

@@ -1,0 +1,9 @@
+Answer the QUESTION using ONLY the EXCERPTS. Quote the exact figures and phrases from the excerpts.
+If the excerpts do not answer the question, reply with "NOT ANSWERABLE".
+
+EXCERPTS:
+{{excerpts}}
+
+QUESTION: {{question}}
+
+Reply with ONLY JSON: {"answer": "..."}

@@ -1,0 +1,19 @@
+You are a requirements analyst. Write the final requirements for an AI assistant.
+
+BRIEF:
+{{brief}}
+
+DOCUMENT INVENTORY:
+{{inventory}}
+
+DRAFT REQUIREMENTS:
+{{draft}}
+
+CLARIFICATIONS (question -> answer):
+{{qa}}
+
+Update the draft using the clarifications. Keep topics short (2-6 words each).
+must_answer_topics: 4-8 items. must_refuse_topics: 3-6 items.
+Reply with ONLY this JSON:
+{"agent_name": "...", "scope": "one sentence", "audience": "...", "tone": "...",
+ "must_answer_topics": ["..."], "must_refuse_topics": ["..."]}

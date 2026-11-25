@@ -1,0 +1,10 @@
+Decide whether the EXCERPTS below contain information that lets an assistant answer questions about the TOPIC.
+Be strict: related words are not enough; the excerpts must actually state rules, facts or figures about the topic.
+
+TOPIC: {{topic}}
+
+EXCERPTS:
+{{excerpts}}
+
+Reply with ONLY JSON:
+{"covered": "yes" | "partial" | "no", "evidence": "an exact sentence copied from the excerpts, or empty if none", "reason": "short"}

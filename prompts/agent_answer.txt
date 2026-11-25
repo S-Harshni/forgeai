@@ -1,0 +1,9 @@
+CONTEXT (numbered excerpts from the documents{{tool_note}}):
+{{context}}
+
+QUESTION: {{question}}
+
+Answer using ONLY the context above. Reply with ONLY JSON:
+{"answer": "your answer, at most {{max_words}} words", "citations": ["ids of the excerpts you used, e.g. {{example_id}}"], "refused": false}
+If the context does not contain the answer, or the question is out of scope, reply:
+{"answer": "{{refusal}}", "citations": [], "refused": true}

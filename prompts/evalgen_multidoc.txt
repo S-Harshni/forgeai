@@ -1,0 +1,18 @@
+You are writing a test question for an AI assistant used by {{audience}}.
+The question must need information from BOTH excerpts below to answer fully.
+
+EXCERPT A (from "{{doc_a}}"):
+"""
+{{excerpt_a}}
+"""
+
+EXCERPT B (from "{{doc_b}}"):
+"""
+{{excerpt_b}}
+"""
+
+Write ONE realistic question that combines both excerpts. List key facts: exactly one short phrase
+copied word-for-word from A and one copied word-for-word from B (3-10 words each).
+If the excerpts are unrelated, still write a natural two-part question covering both.
+
+Reply with ONLY JSON: {"question": "...", "fact_from_a": "...", "fact_from_b": "..."}

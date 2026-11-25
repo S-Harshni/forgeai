@@ -1,0 +1,14 @@
+You are writing a test question for an AI assistant used by {{audience}}.
+Here is one excerpt from the document "{{doc}}":
+
+"""
+{{excerpt}}
+"""
+
+Write ONE realistic question a user would ask that this excerpt alone fully answers.
+Then list 1-3 key facts: short phrases (3-10 words) COPIED WORD-FOR-WORD from the excerpt
+that a correct answer must contain. Include exact numbers, amounts, durations or codes when present.
+Do not put the key facts themselves into the question.
+Ask about something different from these already-written questions: {{avoid}}
+
+Reply with ONLY JSON: {"question": "...", "key_facts": ["...", "..."]}

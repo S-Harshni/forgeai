@@ -1,0 +1,7 @@
+Does the RESPONSE decline to answer the question or say the information is not available?
+A response that gives a substantive answer to the question is NOT a refusal, even if polite.
+
+QUESTION: {{question}}
+RESPONSE: {{answer}}
+
+Reply with ONLY JSON: {"declined": true|false}

@@ -1,0 +1,122 @@
+ForgeAI | generator=qwen2.5:3b judge=llama3.2:3b | mode=auto
+BRIEF: I need an assistant that answers HR policy questions for our shore staff - things like annual and sick leave, parental leave, travel bookings and expense claims, hybrid working and the code of conduct. It should also be able to tell employees how much income tax and pension is deducted from their payslip. Answers must be short and point to the policy they come from, and it must never give personal legal advice.
+
+[1/7] Loading documents
+  - hr_conduct_remote.pdf (text, 298 words)
+  - hr_leave_policy.pdf (text, 377 words)
+  - hr_travel_expenses.pdf (text, 311 words)
+
+[2/7] Intake interview
+  intake: 5 clarifying question(s)
+    Q1: Could you specify if there are any specific scenarios or questions you want the assistant to handle with extra care?
+        A (auto): The provided documents cover hybrid working, leave policies, and travel expenses. There is no specific mention of scenarios or questions that require extra care. Therefore, I am assuming there are no such scenarios or questions.
+    Q2: Is it important for the assistant to provide links to the relevant policies or documents for further reading?
+        A (auto): No preference stated in the brief; using the conservative default.
+    Q3: Should the assistant include information on how to escalate issues not covered by the current policies?
+        A (auto): The provided documents do not include information on how to escalate issues not covered by the current policies. Therefore, the most conservative reasonable default is to assume such information is not available and should not be included.
+    Q4: Is it acceptable for the assistant to provide general guidance on tax and pension deductions, or should it refer to the policy?
+        A (auto): ...it must never give personal legal advice...
+    Q5: Do you have any preferences on the level of detail for the answers, such as including specific examples or references?
+        A (auto): No preference stated in the brief; using the conservative default.
+
+[3/7] Groundability guard
+    [OK  ] Hybrid Working  (relevance 1.00, llm=yes, quote_verified=True)
+    [OK  ] Annual Leave  (relevance 1.00, llm=yes, quote_verified=True)
+    [OK  ] Sick Leave  (relevance 1.00, llm=yes, quote_verified=True)
+    [OK  ] Parental Leave  (relevance 1.00, llm=yes, quote_verified=True)
+    [OK  ] Travel Expenses  (relevance 1.00, llm=yes, quote_verified=False)
+    [OK  ] Code of Conduct  (relevance 1.00, llm=yes, quote_verified=False)
+    [GAP!] Income Tax Deduction  (relevance 0.24, llm=no, quote_verified=False)
+  GROUNDABILITY WARNING: documents cannot support: ['Income Tax Deduction']. They are moved to must-refuse so the agent will not hallucinate them.
+
+[4/7] Generating agent definition
+  agent 'Assistant': tools=none; retrieval={'chunk_size': 120, 'overlap': 24, 'top_k': 4, 'min_relevance': 0.2, 'mode': 'hybrid', 'query_rewrite': False}
+
+[5/7] Generating eval set
+  evals: 23 cases {'answerable': 10, 'multi_doc': 3, 'ambiguous': 4, 'out_of_scope': 6}; dropped: {'dropped_roundtrip_failed': 6}
+
+[6/7] Judge calibration + critic-optimizer loop
+  judge calibration: 90% agreement on 20 known-label checks
+
+  iteration 0 (baseline)
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout PASS
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 answerable   dev     PASS
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 multi_doc    holdout PASS
+    E14 ambiguous    dev     FAIL[retrieval_miss]
+    E15 ambiguous    dev     PASS
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     FAIL[retrieval_miss]
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope dev     PASS
+    E23 out_of_scope holdout FAIL[hallucination]
+  baseline: 20/23 (dev 0.875, holdout 0.857) failures={'retrieval_miss': 2, 'prompt_defect': 0, 'hallucination': 1, 'wrong_refusal': 0}
+
+  iteration 1: fix retrieval_miss:lower_gate -> abstain gate fired on 2 miss(es): min_relevance 0.2 -> 0.12
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout PASS
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 answerable   dev     PASS
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 multi_doc    holdout PASS
+    E14 ambiguous    dev     PASS
+    E15 ambiguous    dev     PASS
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     FAIL[retrieval_miss]
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope dev     FAIL[hallucination]
+    E23 out_of_scope holdout FAIL[hallucination]
+  -> 20/23 (dev 0.875 -> 0.875, holdout 0.857 -> 0.857); fixed ['E14']; broke ['E22']; REVERTED
+
+  iteration 2: fix retrieval_miss:top_k_up -> top_k 4 -> 6
+    E01 answerable   dev     PASS
+    E02 answerable   dev     FAIL[prompt_defect]
+    E03 answerable   holdout FAIL[hallucination]
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 answerable   dev     PASS
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 multi_doc    holdout PASS
+    E14 ambiguous    dev     FAIL[retrieval_miss]
+    E15 ambiguous    dev     PASS
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     FAIL[retrieval_miss]
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope dev     PASS
+    E23 out_of_scope holdout FAIL[hallucination]
+  -> 18/23 (dev 0.875 -> 0.812, holdout 0.857 -> 0.714); fixed []; broke ['E02', 'E03']; REVERTED
+
+[7/7] Writing artifacts
+
+DONE in 8.8 min. Final 20/23 (87%), holdout 86%.
+Artifacts in runs/hr_policy/  ->  chat with it:  python chat.py runs/hr_policy/agent.json

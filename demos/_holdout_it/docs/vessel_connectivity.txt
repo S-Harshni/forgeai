@@ -1,0 +1,5 @@
+VESSEL CONNECTIVITY FAQ
+Each vessel has a VSAT link with a monthly data allowance of 200 GB for business use. Crew welfare internet is a separate 100 GB allowance.
+When the business allowance is exceeded, speed is reduced to 2 Mbps until the end of the month. The master may request a one-off top-up of 50 GB, which costs 400 USD and is charged to the vessel budget.
+Software updates for navigation systems (ECDIS) must only be installed by the vendor or under remote supervision of the Marine IT team, never by crew alone.
+Shore staff must not send attachments larger than 10 MB to vessels; use the file transfer portal instead.

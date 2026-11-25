@@ -1,0 +1,9 @@
+You are a strict grader. Decide whether the ANSWER states the FACT.
+Paraphrases count. A different number, amount, duration or name means NO.
+Length, style and confidence of the answer do not matter - only whether this fact is stated.
+
+FACT: {{fact}}
+
+ANSWER: {{answer}}
+
+Reply with ONLY JSON: {"stated": true|false}

@@ -1,0 +1,4 @@
+Rewrite this statement as a natural one-sentence answer to an employee or engineer, using DIFFERENT wording
+(synonyms, reordered clauses) but keeping exactly the same meaning and every number unchanged.
+STATEMENT: {{fact}}
+Reply with ONLY JSON: {"answer": "..."}

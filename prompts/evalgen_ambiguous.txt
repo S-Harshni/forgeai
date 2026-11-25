@@ -1,0 +1,7 @@
+Rewrite the question below the way a busy, informal user might type it: vaguer wording,
+an indirect description instead of the exact term, casual phrasing or a small typo.
+The rewritten question must still have exactly the same correct answer. Do not add new information.
+
+ORIGINAL: {{question}}
+
+Reply with ONLY JSON: {"question": "..."}

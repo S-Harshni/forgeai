@@ -1,0 +1,1219 @@
+[
+  {
+    "case": "E01",
+    "question": "How often should passwords be changed and what is the duration for account lock after failed login attempts?",
+    "answer": "Passwords must be changed every 180 days. After 5 failed login attempts, the account is locked for 30 minutes.",
+    "citations": [
+      "it_service_desk_guide.docx#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.654
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E01",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.654,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "180 days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "30 minutes",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E02",
+    "question": "How much is the cost for a one-off top-up of 50 GB?",
+    "answer": "The cost for a one-off top-up of 50 GB is 400 USD.",
+    "citations": [
+      "it_service_desk_guide.docx#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 1.0
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E02",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 1.0,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "400 USD",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E03",
+    "question": "How long does it take to get a new monitor or docking station through the IT portal?",
+    "answer": "Through the IT portal, second monitors and docking stations can be requested with line manager approval. The exact time frame for getting a new monitor or docking station is not specified in the provided documents.",
+    "citations": [
+      "it_service_desk_guide.docx#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.244
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.244
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.016
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E03",
+      "type": "answerable",
+      "split": "holdout",
+      "passed": false,
+      "category": "prompt_defect",
+      "reason": "facts were retrieved but the answer omitted them (coverage 0%)",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.244,
+        "source_retrieved": true,
+        "coverage": 0.0,
+        "correct": false,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "5 working days",
+          "stated": false,
+          "method": "deterministic (number missing)",
+          "lexical": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E04",
+    "question": "What are the size restrictions for attachments sent to vessels by Shore staff?",
+    "answer": "Shore staff must not send attachments larger than 10 MB to vessels; use the file transfer portal instead.",
+    "citations": [
+      "it_service_desk_guide.docx#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.291
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.069
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.015
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E04",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.291,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "10 MB",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E05",
+    "question": "How long should the response be for a single team blocked issue?",
+    "answer": "The response should be within 1 hour for a single team blocked issue.",
+    "citations": [
+      "it_service_desk_guide.docx#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.679
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.073
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E05",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.679,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "1 hour",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E06",
+    "question": "What happens if the business allowance is exceeded?",
+    "answer": "When the business allowance is exceeded, speed is reduced to 2 Mbps until the end of the month.",
+    "citations": [
+      "vessel_connectivity.txt#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.539
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.104
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E06",
+      "type": "answerable",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.539,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "2 Mbps",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E07",
+    "question": "What is the monthly data allowance for the crew welfare internet?",
+    "answer": "The monthly data allowance for the crew welfare internet is 100 GB.",
+    "citations": [
+      "vessel_connectivity.txt#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 1.0
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E07",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 1.0,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "100 GB",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E08",
+    "question": "What is the maximum size of attachments that Shore staff can send to vessels?",
+    "answer": "Shore staff must not send attachments larger than 10 MB to vessels.",
+    "citations": [
+      "it_service_desk_guide.docx#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.46
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.078
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.017
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E08",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.46,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "10 MB",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E09",
+    "question": "How many working days does it take to get a new laptop or monitor through the IT portal?",
+    "answer": "A broken laptop is swapped within 2 working days at head office and 5 working days at regional offices.",
+    "citations": [
+      "vessel_connectivity.txt#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.419
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.281
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.019
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E09",
+      "type": "answerable",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.419,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "5 working days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E10",
+    "question": "What is the maximum file size for attachments sent to vessels by shore staff, and what is the response time for a single team blockage incident? Include the file size limit and the response time in your answer",
+    "answer": "The maximum file size for attachments sent to vessels by shore staff is 10 MB. The response time for a single team blockage incident is 1 hour.",
+    "citations": [
+      "it_service_desk_guide.docx#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.17
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.17
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.006
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E10",
+      "type": "multi_doc",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.17,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "10 MB",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "1 hour",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E11",
+    "question": "What is the maximum file size Shore staff are allowed to send to vessels, and what is the time frame for software updates to navigation systems? Explain the difference in support hours for a broken laptop at head office versus regional offices",
+    "answer": "Shore staff are allowed to send files no larger than 10 MB to vessels. Software updates for navigation systems must be installed by the vendor or under remote supervision of the Marine IT team. Support hours for a broken laptop at head office are within 2 working days, while at regional offices, it is within 5 working days.",
+    "citations": [
+      "it_service_desk_guide.docx#c0",
+      "it_service_desk_guide.docx#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.214
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.268
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.055
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E11",
+      "type": "multi_doc",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.268,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "2 working days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "10 MB",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E12",
+    "question": "What is the password requirement for the Service Desk and what is the maximum data allowance for a vessel's internet connection?",
+    "answer": "Password requirements for the Service Desk are at least 14 characters and changed every 180 days. The maximum data allowance for a vessel's internet connection is 200 GB for business use.",
+    "citations": [
+      "it_service_desk_guide.docx#c0",
+      "vessel_connectivity.txt#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.295
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.166
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.122
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E12",
+      "type": "multi_doc",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.295,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "14 characters",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "200 GB",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E13",
+    "question": "What happens if the biz allowance is over?",
+    "answer": "When the business allowance is exceeded, speed is reduced to 2 Mbps until the end of the month.",
+    "citations": [
+      "vessel_connectivity.txt#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.191
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E13",
+      "type": "ambiguous",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.191,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "2 Mbps",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E14",
+    "question": "what's the biggest file size shore workers can upload to ships",
+    "answer": "Shore staff must not send attachments larger than 10 MB to vessels.",
+    "citations": [
+      "it_service_desk_guide.docx#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.159
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E14",
+      "type": "ambiguous",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.159,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "10 MB",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E15",
+    "question": "How frequently should I change my passwords and for how long will my account be locked if I keep entering wrong passwords?",
+    "answer": "Your password should be changed every 180 days. If you enter the wrong password 5 times in a row, your account will be locked for 30 minutes. The IT Service Desk can unlock it sooner after identity verification.",
+    "citations": [
+      "it_service_desk_guide.docx#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.274
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E15",
+      "type": "ambiguous",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.274,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "180 days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "30 minutes",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E16",
+    "question": "what is the ideal length for a single team issue reply?",
+    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.28
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.054
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E16",
+      "type": "ambiguous",
+      "split": "dev",
+      "passed": false,
+      "category": "wrong_refusal",
+      "reason": "refused although the answer was in the retrieved context",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.28,
+        "source_retrieved": true,
+        "correct": false,
+        "grounded": true
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E17",
+    "question": "Can you recommend a good recipe for chocolate cake??",
+    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "best relevance 0.00 < 0.12",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E17",
+      "type": "out_of_scope",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "best relevance 0.00 < 0.12",
+        "best_relevance": 0.0,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E18",
+    "question": "I'm curious about the crew welfare internet policy. Can you tell me more about it??",
+    "answer": "The crew welfare internet is a separate 100 GB allowance. It is not covered by the vessel's main VSAT link data allowance and is used for personal use by the crew.",
+    "citations": [
+      "vessel_connectivity.txt#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.414
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E18",
+      "type": "out_of_scope",
+      "split": "dev",
+      "passed": false,
+      "category": "hallucination",
+      "reason": "answered an out-of-scope question instead of refusing",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.414,
+        "refusal_ok": false,
+        "refusal_method": "llm-judge"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E19",
+    "question": "What's the maximum number of times a user account can be locked out before being permanently disabled??",
+    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.112
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.056
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "best relevance 0.11 < 0.12",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E19",
+      "type": "out_of_scope",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "best relevance 0.11 < 0.12",
+        "best_relevance": 0.112,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E20",
+    "question": "Could you provide a list of all the laptops we've replaced this year??",
+    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.321
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E20",
+      "type": "out_of_scope",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.321,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E21",
+    "question": "How many hours per day are we allowed to use the internet on the ship??",
+    "answer": "The internet allowance for business use is 200 GB per month. Crew welfare internet has a separate 100 GB allowance. The exact hours of internet usage are not specified in the provided documents.",
+    "citations": [
+      "vessel_connectivity.txt#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.278
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.133
+      },
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.133
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E21",
+      "type": "out_of_scope",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.278,
+        "refusal_ok": true,
+        "refusal_method": "llm-judge"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E22",
+    "question": "Do you have any information on the current password policy for our accounts??",
+    "answer": "The current password policy requires passwords to be at least 14 characters and must be changed every 180 days. After 5 failed login attempts, the account is locked for 30 minutes and can be unlocked by the Service Desk after identity verification.",
+    "citations": [
+      "it_service_desk_guide.docx#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "it_service_desk_guide.docx#c0",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.239
+      },
+      {
+        "id": "it_service_desk_guide.docx#c1",
+        "doc": "it_service_desk_guide.docx",
+        "relevance": 0.0
+      },
+      {
+        "id": "vessel_connectivity.txt#c0",
+        "doc": "vessel_connectivity.txt",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E22",
+      "type": "out_of_scope",
+      "split": "holdout",
+      "passed": false,
+      "category": "hallucination",
+      "reason": "answered an out-of-scope question instead of refusing",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.239,
+        "refusal_ok": false,
+        "refusal_method": "llm-judge"
+      },
+      "facts": []
+    }
+  }
+]

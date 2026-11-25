@@ -1,0 +1,4 @@
+Rewrite the question as a short keyword search query for a document search engine.
+Expand abbreviations, add likely synonyms and the formal policy/catalogue terms a document would use.
+QUESTION: {{question}}
+Reply with ONLY JSON: {"query": "..."}

@@ -1,0 +1,140 @@
+ForgeAI | generator=qwen2.5:3b judge=llama3.2:3b | mode=auto
+BRIEF: An IT helpdesk assistant for shore staff and ship masters: account lockouts and passwords, laptop replacement, support hours and incident priorities, and vessel internet allowances. It should also help users reset their own password directly.
+
+[1/7] Loading documents
+  - it_service_desk_guide.docx (text, 152 words)
+  - vessel_connectivity.txt (text, 112 words)
+
+[2/7] Intake interview
+  intake: 5 clarifying question(s)
+    Q1: What is the preferred tone for the assistant's communication with users? Should the assistant escalate any issues automatically or should the users be prompted to escalate?
+        A (auto): The IT service desk guide does not specify the preferred tone for the assistant's communication with users or whether issues should be escalated automatically. Therefore, the most conservative reasonable default is to assume the assistant should use a professional and friendly tone in their communication and prompt users to escalate issues as needed.
+    Q2: How should the assistant handle cases where information is missing or unclear from the documents? Should it provide a default response or seek clarification?
+        A (auto): No preference stated in the brief; using the conservative default.
+    Q3: Who should the assistant contact for escalation in case of critical issues not covered by the documents?
+        A (auto): No preference stated in the brief; using the conservative default.
+    Q4: Should the assistant maintain a formal or more casual tone when addressing users?
+        A (auto): No preference stated in the brief; using the conservative default.
+    Q5: What level of detail should the assistant provide in its responses? Should it include all the information from the documents or should it summarize the key points?
+        A (auto): No preference stated in the brief; using the conservative default.
+
+[3/7] Groundability guard
+    [PART] Account Lockouts  (relevance 0.28, llm=no, quote_verified=False)
+    [OK  ] Passwords  (relevance 1.00, llm=yes, quote_verified=True)
+    [OK  ] Laptop Replacement  (relevance 0.28, llm=yes, quote_verified=True)
+    [OK  ] Internet Allowances  (relevance 1.00, llm=yes, quote_verified=True)
+    [OK  ] Support Hours  (relevance 1.00, llm=yes, quote_verified=False)
+
+[4/7] Generating agent definition
+  agent 'Assistant': tools=none; retrieval={'chunk_size': 120, 'overlap': 24, 'top_k': 4, 'min_relevance': 0.2, 'mode': 'hybrid', 'query_rewrite': False}
+
+[5/7] Generating eval set
+  evals: 22 cases {'answerable': 9, 'multi_doc': 3, 'ambiguous': 4, 'out_of_scope': 6}; dropped: {'dropped_duplicate': 12, 'dropped_roundtrip_failed': 3}
+
+[6/7] Judge calibration + critic-optimizer loop
+  judge calibration: 100% agreement on 21 known-label checks
+
+  iteration 0 (baseline)
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout FAIL[prompt_defect]
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 multi_doc    dev     FAIL[retrieval_miss]
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    holdout PASS
+    E13 ambiguous    dev     FAIL[retrieval_miss]
+    E14 ambiguous    dev     FAIL[retrieval_miss]
+    E15 ambiguous    holdout PASS
+    E16 ambiguous    dev     FAIL[wrong_refusal]
+    E17 out_of_scope dev     PASS
+    E18 out_of_scope dev     FAIL[hallucination]
+    E19 out_of_scope holdout PASS
+    E20 out_of_scope dev     PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope holdout FAIL[hallucination]
+  baseline: 15/22 (dev 0.667, holdout 0.714) failures={'retrieval_miss': 3, 'prompt_defect': 1, 'hallucination': 2, 'wrong_refusal': 1}
+
+  iteration 1: fix retrieval_miss:lower_gate -> abstain gate fired on 3 miss(es): min_relevance 0.2 -> 0.12
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout FAIL[prompt_defect]
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 multi_doc    dev     PASS
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    holdout PASS
+    E13 ambiguous    dev     PASS
+    E14 ambiguous    dev     PASS
+    E15 ambiguous    holdout PASS
+    E16 ambiguous    dev     FAIL[wrong_refusal]
+    E17 out_of_scope dev     PASS
+    E18 out_of_scope dev     FAIL[hallucination]
+    E19 out_of_scope holdout PASS
+    E20 out_of_scope dev     PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope holdout FAIL[hallucination]
+  -> 18/22 (dev 0.667 -> 0.867, holdout 0.714 -> 0.714); fixed ['E10', 'E13', 'E14']; broke []; KEPT
+
+  iteration 2: fix hallucination:refusal_topics -> added generalised decline categories to REFUSAL section: ['policy-related-questions', 'non-service-related-questions', 'personal-requests']
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout FAIL[prompt_defect]
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 multi_doc    dev     PASS
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    holdout PASS
+    E13 ambiguous    dev     PASS
+    E14 ambiguous    dev     PASS
+    E15 ambiguous    holdout PASS
+    E16 ambiguous    dev     FAIL[wrong_refusal]
+    E17 out_of_scope dev     PASS
+    E18 out_of_scope dev     FAIL[hallucination]
+    E19 out_of_scope holdout PASS
+    E20 out_of_scope dev     PASS
+    E21 out_of_scope dev     FAIL[hallucination]
+    E22 out_of_scope holdout FAIL[hallucination]
+  -> 17/22 (dev 0.867 -> 0.8, holdout 0.714 -> 0.714); fixed []; broke ['E21']; REVERTED
+
+  iteration 3: fix hallucination:raise_gate -> min_relevance 0.12 -> 0.19 (abstain more)
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout FAIL[prompt_defect]
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 multi_doc    dev     FAIL[retrieval_miss]
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    holdout PASS
+    E13 ambiguous    dev     PASS
+    E14 ambiguous    dev     FAIL[retrieval_miss]
+    E15 ambiguous    holdout PASS
+    E16 ambiguous    dev     FAIL[wrong_refusal]
+    E17 out_of_scope dev     PASS
+    E18 out_of_scope dev     FAIL[hallucination]
+    E19 out_of_scope holdout PASS
+    E20 out_of_scope dev     PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope holdout FAIL[hallucination]
+  -> 16/22 (dev 0.867 -> 0.733, holdout 0.714 -> 0.714); fixed []; broke ['E10', 'E14']; REVERTED
+
+[7/7] Writing artifacts
+
+DONE in 7.0 min. Final 18/22 (82%), holdout 71%.
+Artifacts in runs/selftest_it_helpdesk/  ->  chat with it:  python chat.py runs/selftest_it_helpdesk/agent.json

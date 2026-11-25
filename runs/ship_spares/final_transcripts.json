@@ -1,0 +1,1718 @@
+[
+  {
+    "case": "E01",
+    "question": "What is the approval process for purchase orders for spares above 25,000 USD?",
+    "answer": "Purchase orders for spares above 25,000 USD require approval from the Fleet Technical Manager. Additionally, at least two supplier quotations are needed for such orders.",
+    "citations": [
+      "procurement_policy.md#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.774
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.607
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.251
+      },
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.111
+      },
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 0.111
+      },
+      {
+        "id": "spares_catalogue.csv#r20",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.116
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E01",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.774,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "Fleet Technical Manager",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "two supplier quotations",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E02",
+    "question": "What is the unit price in USD for the Purifier service kit from Pacific Ship Supply?",
+    "answer": "The unit price in USD for the Purifier service kit from Pacific Ship Supply is 720.",
+    "citations": [
+      "spares_catalogue.csv#r16"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "spares_catalogue.csv#r16",
+        "doc": "spares_catalogue.csv",
+        "relevance": 1.0
+      },
+      {
+        "id": "spares_catalogue.csv#r15",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.781
+      },
+      {
+        "id": "spares_catalogue.csv#r17",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.493
+      },
+      {
+        "id": "spares_catalogue.csv#r14",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.299
+      },
+      {
+        "id": "spares_catalogue.csv#r11",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.282
+      },
+      {
+        "id": "spares_catalogue.csv#r13",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.282
+      }
+    ],
+    "tool_calls": [
+      {
+        "tool": "csv_lookup",
+        "args": {
+          "query": "supplier: Pacific Ship Supply, description: Purifier service kit"
+        },
+        "result": "[spares_catalogue.csv] part_no: MS-3003; description: Purifier service kit (intermediate); engine_model: Alfa Laval S821; category: Separators; supplier: Pacific Ship Supply; unit_price_usd: 720; lead_time_days: 12; stock_qty: 9; min_order_qty: 1\n[spares_catalogue.csv] part_no: MS-4001; description: Air compressor valve kit; engine_model: Sperre HV2/200; category: Compressed air; supplier: Pacific Ship Supply; unit_price_usd: 540; lead_time_days: 15; stock_qty: 14; min_order_qty: 2\n[spares_catalogue.csv] part_no: MS-2001; description: Fuel injector nozzle; engine_model: Wartsila 6L32; category: Fuel system; supplier: Pacific Ship Supply; unit_price_usd: 1320; lead_time_days: 14; stock_qty: 20; min_order_qty: 4\n[spares_catalogue.csv] part_no: MS-2002; description: Cylinder head gasket; engine_model: Wartsila 6L32; category: Cylinder; supplier: Pacific Ship Supply; unit_price_usd: 210; lead_time_days: 10; stock_qty: 40; min_order_qty: 10\n[spares_catalogue.csv] part_no: MS-2003; description: Piston ring set (3 rings); engine_model: Wartsila 6L32; category: Cylinder; supplier: Pacific Ship Supply; unit_price_usd: 1980; lead_time_days: 21; stock_qty: 10; min_order_qty: 1"
+      }
+    ],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E02",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 1.0,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "720",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E03",
+    "question": "What is the payment term for orders above 50,000 USD?",
+    "answer": "For orders above 50,000 USD, the payment terms are 30 days from invoice date. A 2% early-payment discount applies if payment is received within 10 days.",
+    "citations": [
+      "supplier_pacific_terms.pdf#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 1.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.786
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.413
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.385
+      },
+      {
+        "id": "spares_catalogue.csv#r11",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.013
+      },
+      {
+        "id": "spares_catalogue.csv#r6",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.013
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E03",
+      "type": "answerable",
+      "split": "holdout",
+      "passed": false,
+      "category": "prompt_defect",
+      "reason": "facts were retrieved but the answer omitted them (coverage 50%)",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 1.0,
+        "source_retrieved": true,
+        "coverage": 0.5,
+        "correct": false,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "30%",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "advance payment",
+          "stated": false,
+          "method": "llm-judge",
+          "lexical": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "case": "E04",
+    "question": "What is the warranty duration and restocking fee for returns?",
+    "answer": "The warranty duration is 12 months from delivery for both suppliers. The restocking fee for returns is 15% for Pacific and 20% for Nordic.",
+    "citations": [
+      "supplier_pacific_terms.pdf#c1",
+      "supplier_nordic_terms.pdf#c2"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.734
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.734
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c2",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.539
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.367
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.439
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E04",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.734,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "12 months",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "15%",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E05",
+    "question": "How many critical spares must be kept on board per vessel?",
+    "answer": "Critical spares (cylinder liners, turbocharger cartridges, exhaust valve spindles and main bearing shells) must be kept on board at a minimum of 1 unit per vessel.",
+    "citations": [
+      "procurement_policy.md#c2"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 1.0
+      },
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 1.0
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.426
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.148
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.111
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.111
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E05",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 1.0,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "1 unit",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E06",
+    "question": "What is the lead time for ordering a hydraulic oil filter cartridge for the Rolls-Royce SR642 engine?",
+    "answer": "The lead time for ordering a hydraulic oil filter cartridge for the Rolls-Royce SR642 engine is 9 days.",
+    "citations": [
+      "spares_catalogue.csv#r24"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "spares_catalogue.csv#r24",
+        "doc": "spares_catalogue.csv",
+        "relevance": 1.0
+      },
+      {
+        "id": "spares_catalogue.csv#r23",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.602
+      },
+      {
+        "id": "spares_catalogue.csv#r12",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.315
+      },
+      {
+        "id": "spares_catalogue.csv#r11",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.139
+      },
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.139
+      },
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 0.114
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E06",
+      "type": "answerable",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 1.0,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "lead_time_days: 9",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E07",
+    "question": "What are the terms for urgent orders and how do they differ from regular orders?",
+    "answer": "Urgent orders can be dispatched within 72 hours for stock items with a surcharge of 15%. Regular orders have lead times counted in calendar days from order confirmation to dispatch from Bergen, Norway. Urgent orders are for AOG (Any Object Guarantee) situations where the vessel is at risk of off-hire, while regular orders are for standard shipping.",
+    "citations": [
+      "supplier_nordic_terms.pdf#c2",
+      "supplier_nordic_terms.pdf#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 0.158
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.202
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.202
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.158
+      },
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.158
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.158
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E07",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.202,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "15%",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "72",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E08",
+    "question": "What is the payment term and discount policy for early payment?",
+    "answer": "The early payment discount policy for Pacific Ship Supply is 2% if payment is received within 10 days. For Nordic Marine Parts, there is no early payment discount.",
+    "citations": [
+      "supplier_pacific_terms.pdf#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.546
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.773
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.166
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.227
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "spares_catalogue.csv#r24",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E08",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.773,
+        "source_retrieved": true,
+        "coverage": 0.67,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 3
+      },
+      "facts": [
+        {
+          "fact": "30 days",
+          "stated": false,
+          "method": "deterministic (number missing)",
+          "lexical": 0.0
+        },
+        {
+          "fact": "2%",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "10 days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E09",
+    "question": "What is the policy for ordering critical spares?",
+    "answer": "The policy states that critical spares (cylinder liners, turbocharger cartridges, exhaust valve spindles and main bearing shells) must be kept on board at a minimum of 1 unit per vessel. When stock of a critical spare falls to zero, a replacement order must be raised within 24 hours. Purchase orders for spares are approved according to total order value including freight: up to 5,000 USD: the vessel's Chief Engineer may approve; 5,000 to 25,000 USD: the Technical Superintendent must approve; above 25,000 USD: the Fleet Technical Manager must approve, and at least two supplier quotations are required. Preferred suppliers are Nordic Marine Parts (European engines and separators) and Pacific Ship Supply (Asian ports and Wartsila equipment). Where a part is available from both preferred suppliers, choose the lower total landed cost unless the lead time difference exceeds 14 days.",
+    "citations": [
+      "procurement_policy.md#c0",
+      "procurement_policy.md#c1",
+      "procurement_policy.md#c2"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.6
+      },
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 0.6
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.665
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.265
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.006
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.006
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E09",
+      "type": "answerable",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.665,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "class certificate",
+          "stated": true,
+          "method": "llm-judge",
+          "lexical": 0.0
+        },
+        {
+          "fact": "supplier that can issue one",
+          "stated": true,
+          "method": "llm-judge",
+          "lexical": 0.33
+        }
+      ]
+    }
+  },
+  {
+    "case": "E10",
+    "question": "What is the unit price in USD for the Fuel injector nozzle?",
+    "answer": "The unit price for the Fuel injector nozzle is $1450 USD.",
+    "citations": [
+      "spares_catalogue.csv#r1",
+      "spares_catalogue.csv#r8"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "spares_catalogue.csv#r1",
+        "doc": "spares_catalogue.csv",
+        "relevance": 1.0
+      },
+      {
+        "id": "spares_catalogue.csv#r8",
+        "doc": "spares_catalogue.csv",
+        "relevance": 1.0
+      },
+      {
+        "id": "spares_catalogue.csv#r2",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.371
+      },
+      {
+        "id": "spares_catalogue.csv#r21",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.371
+      },
+      {
+        "id": "spares_catalogue.csv#r6",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.078
+      },
+      {
+        "id": "spares_catalogue.csv#r11",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.078
+      }
+    ],
+    "tool_calls": [
+      {
+        "tool": "csv_lookup",
+        "args": {
+          "query": "description: Fuel injector nozzle"
+        },
+        "result": "[spares_catalogue.csv] part_no: MS-1001; description: Fuel injector nozzle; engine_model: MAN B&W 6S50MC; category: Fuel system; supplier: Nordic Marine Parts; unit_price_usd: 1450; lead_time_days: 21; stock_qty: 12; min_order_qty: 2\n[spares_catalogue.csv] part_no: MS-2001; description: Fuel injector nozzle; engine_model: Wartsila 6L32; category: Fuel system; supplier: Pacific Ship Supply; unit_price_usd: 1320; lead_time_days: 14; stock_qty: 20; min_order_qty: 4\n[spares_catalogue.csv] part_no: MS-1002; description: Fuel injection pump plunger; engine_model: MAN B&W 6S50MC; category: Fuel system; supplier: Nordic Marine Parts; unit_price_usd: 3890; lead_time_days: 35; stock_qty: 4; min_order_qty: 1\n[spares_catalogue.csv] part_no: MS-6001; description: Boiler burner nozzle; engine_model: Aalborg OS-TCi; category: Boiler; supplier: Pacific Ship Supply; unit_price_usd: 430; lead_time_days: 12; stock_qty: 16; min_order_qty: 2"
+      }
+    ],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E10",
+      "type": "answerable",
+      "split": "dev",
+      "passed": false,
+      "category": "prompt_defect",
+      "reason": "facts were retrieved but the answer omitted them (coverage 0%)",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 1.0,
+        "source_retrieved": true,
+        "coverage": 0.0,
+        "correct": false,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "1320",
+          "stated": false,
+          "method": "deterministic (number missing)",
+          "lexical": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E11",
+    "question": "Compare the air freight and express dispatch options for urgent orders and in-stock items from Nordic and Pacific suppliers. What are the surcharges for urgent orders and the minimum charges for express dispatch?",
+    "answer": "For Nordic suppliers, urgent orders for stock items have a surcharge of 15%. Express dispatch for in-stock items has a surcharge of 10% of the order value, with a minimum charge of 150 USD. For Pacific suppliers, urgent orders for stock items have a surcharge of 15%. Express dispatch for in-stock items has a surcharge of 10%, with a minimum charge of 150 USD.",
+    "citations": [
+      "supplier_nordic_terms.pdf#c1",
+      "supplier_pacific_terms.pdf#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.506
+      },
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 0.372
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.563
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.285
+      },
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.204
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.22
+      }
+    ],
+    "tool_calls": [
+      {
+        "tool": "current_date",
+        "args": {},
+        "result": "Today is 2026-11-26 (Thursday)."
+      }
+    ],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E11",
+      "type": "multi_doc",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.563,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "15%",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "10%",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E12",
+    "question": "Which supplier should be chosen for critical spares that require a class certificate, given the lead time difference constraint?",
+    "answer": "For critical spares that require a class certificate, the supplier should be chosen from an alternative supplier as parts are supplied with a manufacturer certificate and class certificates are not available from Pacific Ship Supply. The lead time difference constraint is not mentioned in relation to alternative suppliers, so the decision should be based on the availability of the class certificate.",
+    "citations": [
+      "supplier_pacific_terms.pdf#c2",
+      "procurement_policy.md#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.521
+      },
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 0.244
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c2",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.17
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.26
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.162
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.154
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E12",
+      "type": "multi_doc",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.521,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "Class society certificates",
+          "stated": true,
+          "method": "llm-judge",
+          "lexical": 0.67
+        },
+        {
+          "fact": "Parts that require a class certificate",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E13",
+    "question": "Compare the payment terms and delivery lead times for a shipment from Meridian Shipping to a customer in Singapore versus a customer in Norway. What are the differences in payment terms and how do delivery lead times vary based on the port of delivery?",
+    "answer": "For a shipment to Singapore, the payment terms are 30 days from invoice date with a 2% early-payment discount if payment is received within 10 days. Delivery lead times are 1 calendar day from order to dispatch from Singapore. For a shipment to Norway, the payment terms are 45 days from invoice date. Delivery lead times are 1 calendar day from order to dispatch from Bergen, Norway. The main difference is the payment term of 30 days for Singapore versus 45 days for Norway.",
+    "citations": [
+      "supplier_pacific_terms.pdf#c0",
+      "supplier_nordic_terms.pdf#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.314
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.354
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.196
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.146
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.202
+      },
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 0.069
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E13",
+      "type": "multi_doc",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.354,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "30 days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "45 days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E14",
+    "question": "What's the payment method for orders over 50 grand?",
+    "answer": "For orders over 50,000 USD, a 30% advance payment is required.",
+    "citations": [
+      "supplier_nordic_terms.pdf#c0",
+      "supplier_nordic_terms.pdf#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.369
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.369
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.173
+      },
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.003
+      },
+      {
+        "id": "procurement_policy.md#c2",
+        "doc": "procurement_policy.md",
+        "relevance": 0.003
+      },
+      {
+        "id": "spares_catalogue.csv#r6",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.003
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E14",
+      "type": "ambiguous",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.369,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "30%",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "advance payment",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E15",
+    "question": "What is the warrrantee duraation and restocking fee for rturns?",
+    "answer": "For Pacific Ship Supply, the warranty duration is 12 months from delivery. For returns, unused parts in original packaging may be returned within 60 days for a 20% restocking fee. For Nordic Marine Parts AS, the warranty duration is 12 months from installation or 18 months from delivery, whichever comes first. Unused parts in original packaging may be returned within 60 days for a 20% restocking fee.",
+    "citations": [
+      "supplier_pacific_terms.pdf#c1",
+      "supplier_nordic_terms.pdf#c1"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "supplier_pacific_terms.pdf#c2",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.253
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.253
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.253
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.119
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E15",
+      "type": "ambiguous",
+      "split": "dev",
+      "passed": false,
+      "category": "prompt_defect",
+      "reason": "facts were retrieved but the answer omitted them (coverage 50%)",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.253,
+        "source_retrieved": true,
+        "coverage": 0.5,
+        "correct": false,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "12 months",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "15%",
+          "stated": false,
+          "method": "deterministic (number missing)",
+          "lexical": 0.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E16",
+    "question": "What's the cost per unit for the Fuel injector nozzle in USD?",
+    "answer": "The cost per unit for the Fuel injector nozzle is $1450 (MS-1001) and $1320 (MS-2001).",
+    "citations": [
+      "spares_catalogue.csv#r1",
+      "spares_catalogue.csv#r8"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "spares_catalogue.csv#r1",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.768
+      },
+      {
+        "id": "spares_catalogue.csv#r8",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.768
+      },
+      {
+        "id": "spares_catalogue.csv#r2",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.269
+      },
+      {
+        "id": "spares_catalogue.csv#r21",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.269
+      },
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.258
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.243
+      }
+    ],
+    "tool_calls": [
+      {
+        "tool": "csv_lookup",
+        "args": {
+          "query": "description: Fuel injector nozzle"
+        },
+        "result": "[spares_catalogue.csv] part_no: MS-1001; description: Fuel injector nozzle; engine_model: MAN B&W 6S50MC; category: Fuel system; supplier: Nordic Marine Parts; unit_price_usd: 1450; lead_time_days: 21; stock_qty: 12; min_order_qty: 2\n[spares_catalogue.csv] part_no: MS-2001; description: Fuel injector nozzle; engine_model: Wartsila 6L32; category: Fuel system; supplier: Pacific Ship Supply; unit_price_usd: 1320; lead_time_days: 14; stock_qty: 20; min_order_qty: 4\n[spares_catalogue.csv] part_no: MS-1002; description: Fuel injection pump plunger; engine_model: MAN B&W 6S50MC; category: Fuel system; supplier: Nordic Marine Parts; unit_price_usd: 3890; lead_time_days: 35; stock_qty: 4; min_order_qty: 1\n[spares_catalogue.csv] part_no: MS-6001; description: Boiler burner nozzle; engine_model: Aalborg OS-TCi; category: Boiler; supplier: Pacific Ship Supply; unit_price_usd: 430; lead_time_days: 12; stock_qty: 16; min_order_qty: 2"
+      }
+    ],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E16",
+      "type": "ambiguous",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.768,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 1
+      },
+      "facts": [
+        {
+          "fact": "1320",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E17",
+    "question": "what is the approval process for purchase orders over 25k usd...?",
+    "answer": "Purchase orders for spares are approved according to total order value including freight. Orders between 5,000 USD and 25,000 USD are approved by the Chief Engineer. Orders above 25,000 USD require approval from the Technical Superintendent and at least two supplier quotations are needed.",
+    "citations": [
+      "procurement_policy.md#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.411
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.193
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.011
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.011
+      },
+      {
+        "id": "spares_catalogue.csv#r11",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.011
+      },
+      {
+        "id": "spares_catalogue.csv#r6",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.011
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E17",
+      "type": "ambiguous",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.411,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
+      },
+      "facts": [
+        {
+          "fact": "Fleet Technical Manager",
+          "stated": true,
+          "method": "llm-judge",
+          "lexical": 0.33
+        },
+        {
+          "fact": "two supplier quotations",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E18",
+    "question": "Can you recommend a good recipe for chocolate cake??",
+    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "spares_catalogue.csv#r24",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "best relevance 0.00 < 0.2",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E18",
+      "type": "out_of_scope",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "best relevance 0.00 < 0.2",
+        "best_relevance": 0.0,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E19",
+    "question": "Can you assist with optimizing our marketing strategies to increase sales??",
+    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.129
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "spares_catalogue.csv#r24",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "best relevance 0.13 < 0.2",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E19",
+      "type": "out_of_scope",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "best relevance 0.13 < 0.2",
+        "best_relevance": 0.129,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E20",
+    "question": "What are the internal processes for approving procurement requests??",
+    "answer": "The internal processes for approving procurement requests are outlined in the Meridian Shipping - Technical Procurement Policy (TP-02, rev. 5). According to the policy, purchase orders for spares are approved based on the total order value including freight. For orders up to 5,000 USD, the Chief Engineer may approve. For orders between 5,000 and 25,000 USD, the Technical Superintendent must approve. For orders above 25,000 USD, the Fleet Technical Manager must approve and at least two supplier quotations are required.",
+    "citations": [
+      "procurement_policy.md#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.331
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.331
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "spares_catalogue.csv#r24",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.0
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E20",
+      "type": "out_of_scope",
+      "split": "holdout",
+      "passed": false,
+      "category": "hallucination",
+      "reason": "answered an out-of-scope question instead of refusing",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.331,
+        "refusal_ok": false,
+        "refusal_method": "llm-judge"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E21",
+    "question": "How do we handle financial transactions that exceed the catalogue prices??",
+    "answer": "Financial transactions that exceed the catalogue prices are not covered by the provided documents. I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.328
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.138
+      },
+      {
+        "id": "procurement_policy.md#c1",
+        "doc": "procurement_policy.md",
+        "relevance": 0.159
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.159
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.123
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.123
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E21",
+      "type": "out_of_scope",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.328,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E22",
+    "question": "Could you provide insight into our supplier performance based on their delivery times??",
+    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "supplier_nordic_terms.pdf#c2",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.172
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.118
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.118
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.118
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.118
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.018
+      }
+    ],
+    "tool_calls": [],
+    "gate": "best relevance 0.17 < 0.2",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E22",
+      "type": "out_of_scope",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "best relevance 0.17 < 0.2",
+        "best_relevance": 0.172,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
+      },
+      "facts": []
+    }
+  },
+  {
+    "case": "E23",
+    "question": "What is the role of the On-Time Delivery Rating in our procurement process??",
+    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
+    "citations": [],
+    "refused": true,
+    "retrieved": [
+      {
+        "id": "supplier_nordic_terms.pdf#c1",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.119
+      },
+      {
+        "id": "procurement_policy.md#c0",
+        "doc": "procurement_policy.md",
+        "relevance": 0.18
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c1",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.119
+      },
+      {
+        "id": "supplier_nordic_terms.pdf#c0",
+        "doc": "supplier_nordic_terms.pdf",
+        "relevance": 0.119
+      },
+      {
+        "id": "supplier_pacific_terms.pdf#c0",
+        "doc": "supplier_pacific_terms.pdf",
+        "relevance": 0.119
+      },
+      {
+        "id": "spares_catalogue.csv#r11",
+        "doc": "spares_catalogue.csv",
+        "relevance": 0.006
+      }
+    ],
+    "tool_calls": [],
+    "gate": "best relevance 0.18 < 0.2",
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E23",
+      "type": "out_of_scope",
+      "split": "holdout",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
+      "checks": {
+        "refused": true,
+        "format_ok": true,
+        "gate": "best relevance 0.18 < 0.2",
+        "best_relevance": 0.18,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
+      },
+      "facts": []
+    }
+  }
+]

@@ -1,0 +1,8 @@
+An AI assistant ANSWERED these questions when it should have REFUSED them:
+{{questions}}
+
+Its scope: {{scope}}
+
+Describe the 1-3 general CATEGORIES of question it must decline, as short phrases (not copies of the questions),
+so that similar but different questions are also declined.
+Reply with ONLY JSON: {"categories": ["...", "..."]}

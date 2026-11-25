@@ -1,0 +1,25 @@
+part_no,description,engine_model,category,supplier,unit_price_usd,lead_time_days,stock_qty,min_order_qty
+MS-1001,Fuel injector nozzle,MAN B&W 6S50MC,Fuel system,Nordic Marine Parts,1450,21,12,2
+MS-1002,Fuel injection pump plunger,MAN B&W 6S50MC,Fuel system,Nordic Marine Parts,3890,35,4,1
+MS-1003,Exhaust valve spindle,MAN B&W 6S50MC,Exhaust,Nordic Marine Parts,5200,42,3,1
+MS-1004,Exhaust valve seat ring,MAN B&W 6S50MC,Exhaust,Nordic Marine Parts,1780,42,6,1
+MS-1005,Piston ring set (4 rings),MAN B&W 6S50MC,Cylinder,Nordic Marine Parts,2640,28,8,1
+MS-1006,Cylinder liner,MAN B&W 6S50MC,Cylinder,Nordic Marine Parts,18500,60,1,1
+MS-1007,Main bearing shell,MAN B&W 6S50MC,Bearings,Nordic Marine Parts,4100,45,2,1
+MS-2001,Fuel injector nozzle,Wartsila 6L32,Fuel system,Pacific Ship Supply,1320,14,20,4
+MS-2002,Cylinder head gasket,Wartsila 6L32,Cylinder,Pacific Ship Supply,210,10,40,10
+MS-2003,Piston ring set (3 rings),Wartsila 6L32,Cylinder,Pacific Ship Supply,1980,21,10,1
+MS-2004,Turbocharger cartridge,Wartsila 6L32,Turbocharger,Pacific Ship Supply,22400,56,1,1
+MS-2005,Lube oil filter element,Wartsila 6L32,Lubrication,Pacific Ship Supply,85,7,150,20
+MS-2006,Connecting rod bearing,Wartsila 6L32,Bearings,Pacific Ship Supply,960,30,6,2
+MS-3001,Purifier bowl disc stack,Alfa Laval S821,Separators,Nordic Marine Parts,3150,30,2,1
+MS-3002,Purifier service kit (major),Alfa Laval S821,Separators,Nordic Marine Parts,1640,18,5,1
+MS-3003,Purifier service kit (intermediate),Alfa Laval S821,Separators,Pacific Ship Supply,720,12,9,1
+MS-4001,Air compressor valve kit,Sperre HV2/200,Compressed air,Pacific Ship Supply,540,15,14,2
+MS-4002,Air compressor piston ring set,Sperre HV2/200,Compressed air,Pacific Ship Supply,310,15,18,2
+MS-5001,Seawater pump mechanical seal,Desmi ESL 150,Pumps,Nordic Marine Parts,690,20,7,1
+MS-5002,Seawater pump impeller,Desmi ESL 150,Pumps,Nordic Marine Parts,1250,25,3,1
+MS-6001,Boiler burner nozzle,Aalborg OS-TCi,Boiler,Pacific Ship Supply,430,12,16,2
+MS-6002,Boiler water gauge glass,Aalborg OS-TCi,Boiler,Pacific Ship Supply,95,7,30,5
+MS-7001,Steering gear hydraulic seal kit,Rolls-Royce SR642,Steering,Nordic Marine Parts,2870,40,2,1
+MS-7002,Hydraulic oil filter cartridge,Rolls-Royce SR642,Steering,Pacific Ship Supply,160,9,25,4

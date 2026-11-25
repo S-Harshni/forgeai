@@ -1,0 +1,1 @@
+An IT helpdesk assistant for shore staff and ship masters: account lockouts and passwords, laptop replacement, support hours and incident priorities, and vessel internet allowances. It should also help users reset their own password directly.

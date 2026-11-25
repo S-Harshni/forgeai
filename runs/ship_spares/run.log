@@ -1,0 +1,121 @@
+ForgeAI | generator=qwen2.5:3b judge=llama3.2:3b | mode=auto
+BRIEF: Build a procurement assistant for our technical superintendents and chief engineers. It should look up spare parts in our catalogue (price, stock, lead time, supplier, minimum order), calculate order totals including supplier discounts and fees, tell them who has to approve an order, and estimate the dispatch date for an order placed today. It should also compare supplier terms like payment, warranty and returns, and show each supplier's on-time delivery rating.
+
+[1/7] Loading documents
+  - procurement_policy.md (text, 205 words)
+  - spares_catalogue.csv (table, 24 rows)
+  - supplier_nordic_terms.pdf (text, 256 words)
+  - supplier_pacific_terms.pdf (text, 213 words)
+
+[2/7] Intake interview
+  intake: 5 clarifying question(s)
+    Q1: What specific information do you need to include in the on-time delivery rating section?
+        A (auto): ...compare supplier terms like payment, warranty and returns, and show each supplier's on-time delivery rating.
+    Q2: Should the assistant provide a summary of the supplier's terms at the time of order placement?
+        A (auto): No preference stated in the brief; using the conservative default.
+    Q3: How should the assistant handle cases where a part is out of stock?
+        A (auto): The assistant should inform the user that the part is out of stock and suggest finding an alternative supplier or part. If an alternative is not found, it should escalate the issue to the appropriate approval threshold as per the procurement policy.
+    Q4: Is it important to include a feature for comparing supplier terms?
+        A (auto): ...it is important to include a feature for comparing supplier terms...
+    Q5: Who should be responsible for approving orders if the total value exceeds the threshold but is below the minimum order quantity?
+        A (auto): No preference stated in the brief; using the conservative default.
+
+[3/7] Groundability guard
+    [OK  ] Look Up Spare Parts  (relevance 0.56, llm=yes, quote_verified=True)
+    [OK  ] Calculate Orders  (relevance 0.01, llm=yes, quote_verified=True)
+    [PART] Supplier Terms Comparison  (relevance 0.37, llm=yes, quote_verified=False)
+    [OK  ] Approval Thresholds  (relevance 1.00, llm=yes, quote_verified=False)
+    [GAP!] On-Time Delivery Rating  (relevance 0.36, llm=yes, quote_verified=False)
+  GROUNDABILITY WARNING: documents cannot support: ['On-Time Delivery Rating']. They are moved to must-refuse so the agent will not hallucinate them.
+
+[4/7] Generating agent definition
+  agent 'AI Assistant for Procurement': tools=['csv_lookup', 'calculator', 'current_date']; retrieval={'chunk_size': 120, 'overlap': 24, 'top_k': 6, 'min_relevance': 0.2, 'mode': 'hybrid', 'query_rewrite': False}
+
+[5/7] Generating eval set
+  evals: 23 cases {'answerable': 10, 'multi_doc': 3, 'ambiguous': 4, 'out_of_scope': 6}; dropped: {'dropped_unverifiable_facts': 1, 'dropped_roundtrip_failed': 1}
+
+[6/7] Judge calibration + critic-optimizer loop
+  judge calibration: 90% agreement on 20 known-label checks
+
+  iteration 0 (baseline)
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout PASS
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 answerable   dev     FAIL[prompt_defect]
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    dev     FAIL[wrong_refusal]
+    E13 multi_doc    holdout PASS
+    E14 ambiguous    dev     PASS
+    E15 ambiguous    dev     FAIL[prompt_defect]
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     PASS
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout FAIL[hallucination]
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope dev     PASS
+    E23 out_of_scope holdout PASS
+  baseline: 19/23 (dev 0.812, holdout 0.857) failures={'retrieval_miss': 0, 'prompt_defect': 2, 'hallucination': 1, 'wrong_refusal': 1}
+
+  iteration 1: fix prompt_defect:complete_answer -> FORMAT: require complete answers with specific figures
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout FAIL[prompt_defect]
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 answerable   dev     FAIL[prompt_defect]
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 multi_doc    holdout PASS
+    E14 ambiguous    dev     PASS
+    E15 ambiguous    dev     FAIL[prompt_defect]
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     PASS
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout FAIL[hallucination]
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope dev     PASS
+    E23 out_of_scope holdout PASS
+  -> 19/23 (dev 0.812 -> 0.875, holdout 0.857 -> 0.714); fixed []; broke ['E03']; KEPT
+
+  iteration 2: fix prompt_defect:longer_answers -> max_words 150 -> 210
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout PASS
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 answerable   dev     FAIL[prompt_defect]
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 multi_doc    holdout PASS
+    E14 ambiguous    dev     PASS
+    E15 ambiguous    dev     FAIL[prompt_defect]
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     PASS
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout FAIL[hallucination]
+    E21 out_of_scope dev     FAIL[hallucination]
+    E22 out_of_scope dev     PASS
+    E23 out_of_scope holdout PASS
+  -> 19/23 (dev 0.875 -> 0.812, holdout 0.714 -> 0.857); fixed []; broke ['E21']; REVERTED
+
+[7/7] Writing artifacts
+
+DONE in 23.8 min. Final 19/23 (83%), holdout 71%.
+Artifacts in runs/ship_spares/  ->  chat with it:  python chat.py runs/ship_spares/agent.json

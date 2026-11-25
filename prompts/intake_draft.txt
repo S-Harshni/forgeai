@@ -1,0 +1,22 @@
+You are a requirements analyst configuring an AI assistant for a company.
+Read the requester's BRIEF and the INVENTORY of documents the assistant will use.
+
+BRIEF:
+{{brief}}
+
+DOCUMENT INVENTORY:
+{{inventory}}
+
+Produce a first draft of the requirements and the clarifying questions you still need answered.
+Rules:
+- requested_topics: EVERY distinct topic or capability the BRIEF asks the assistant to handle, as short phrases
+  (2-6 words), even ones the documents may not cover. A later step checks coverage, so do not filter here.
+- must_answer_topics: 4-8 short topic phrases the assistant must handle (include all requested_topics).
+- must_refuse_topics: 3-6 short topic phrases the assistant must decline (off-topic, risky, or explicitly excluded by the brief).
+- questions: at most 5 questions for the REQUESTER about their intent and preferences that the brief leaves open
+  (audience boundaries, what to do when information is missing, escalation contact, tone, level of detail).
+  Never ask factual questions that the documents answer. Do not ask what the brief already says.
+
+Reply with ONLY this JSON:
+{"agent_name": "...", "scope": "one sentence", "audience": "...", "tone": "...",
+ "requested_topics": ["..."], "must_answer_topics": ["..."], "must_refuse_topics": ["..."], "questions": ["..."]}

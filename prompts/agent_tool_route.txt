@@ -1,0 +1,18 @@
+You may call ONE tool now to help answer the user's question, or none.
+TOOLS:
+{{tools}}
+
+RELEVANT EXCERPTS:
+{{context}}
+
+QUESTION: {{question}}
+
+TOOL RESULTS SO FAR:
+{{previous}}
+
+If another tool call is needed (looking up table rows, arithmetic, today's date, weather), reply with
+{"tool": "tool_name", "args": {...}}. If the results so far are enough, or no tool helps, reply {"tool": null, "args": {}}.
+For calculator, args must be {"expression": "<arithmetic using only numbers from the question or results>"}.
+For a future date (dispatch, delivery, deadline), call current_date with {"add_days": <number of days from the excerpts or question>} -
+this is a different call from plain current_date and does the date arithmetic for you.
+Never repeat an identical call that is already in the results. Reply with ONLY JSON.
