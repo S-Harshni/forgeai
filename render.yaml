@@ -1,0 +1,19 @@
+# One-click deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+# You will be asked for GROQ_API_KEY (free key from https://console.groq.com/keys).
+services:
+  - type: web
+    name: forgeai
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    healthCheckPath: /api/runs
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: HOST
+        value: 0.0.0.0
+      - key: FORGE_PROVIDER
+        value: groq
+      - key: GROQ_API_KEY
+        sync: false

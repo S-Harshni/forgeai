@@ -80,6 +80,18 @@ def select_tools(proposed: list[str], reasons: dict, req: Requirements, brief: s
     return chosen, rationale
 
 
+REPO = Path(__file__).resolve().parent.parent
+
+
+def _portable(path: str) -> str:
+    """Store document folders relative to the repo so a definition works on any machine (e.g. Render)."""
+    p = Path(path).resolve()
+    try:
+        return str(p.relative_to(REPO))
+    except ValueError:
+        return str(p)
+
+
 def _slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", s.lower()).strip("_")[:40] or "agent"
 
@@ -115,7 +127,7 @@ def generate_agent(req: Requirements, brief: str, docs: list[Document], docs_dir
     agent = AgentDefinition(
         name=req.agent_name or "Assistant",
         description=req.scope,
-        docs_dir=str(Path(docs_dir).resolve()),
+        docs_dir=_portable(docs_dir),
         prompt_sections=sections,
         retrieval=choose_retrieval(docs),
         model=AGENT_MODEL,

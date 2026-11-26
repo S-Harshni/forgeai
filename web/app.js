@@ -58,8 +58,8 @@ async function loadHealth() {
     const h = await api("/api/health");
     if (h.static) { $("#health").innerHTML = `<span class="dot ok"></span>Hosted demo<br><span class="mono">recorded runs · run locally to build</span>`; return; }
     $("#health").innerHTML = h.models_ready
-      ? `<span class="dot ok"></span>Ollama ready<br><span class="mono">${esc(h.gen_model)} · judge ${esc(h.judge_model)}</span>`
-      : `<span class="dot bad"></span>${h.ollama ? "Models missing" : "Ollama offline"}<br><span class="mono">ollama serve</span>`;
+      ? `<span class="dot ok"></span>${h.provider === "openai" ? "Models online" : "Ollama ready"}<br><span class="mono">${esc(h.gen_model)} · judge ${esc(h.judge_model)}</span>`
+      : `<span class="dot bad"></span>${h.reachable ? "Models missing" : h.provider === "openai" ? "Model API unreachable" : "Ollama offline"}<br><span class="mono">${h.provider === "openai" ? "check GROQ_API_KEY" : "ollama serve"}</span>`;
   } catch { $("#health").innerHTML = `<span class="dot bad"></span>Server offline`; }
 }
 

@@ -47,12 +47,22 @@ def main():
     t0 = time.time()
     brief_path = Path(args.brief)
     brief = brief_path.read_text().strip() if brief_path.exists() else args.brief.strip()
-    if not llm.available_models():
-        sys.exit(f"Ollama is not reachable at {llm.OLLAMA_URL}. Start it with `ollama serve`.")
-    missing = [m for m in (llm.GEN_MODEL, llm.JUDGE_MODEL) if m not in llm.available_models()]
-    if missing:
-        sys.exit(f"Missing Ollama models: {missing}. Run: " + " && ".join(f"ollama pull {m}" for m in missing))
-    log(f"ForgeAI | generator={llm.GEN_MODEL} judge={llm.JUDGE_MODEL} | mode={'auto' if args.auto else 'interactive'}")
+    have = llm.available_models()
+    if llm.PROVIDER == "openai":
+        if not llm.OPENAI_API_KEY:
+            sys.exit("FORGE_PROVIDER is an API provider but no key is set: export GROQ_API_KEY=... (or OPENAI_API_KEY).")
+        if not have:
+            sys.exit(f"Could not list models at {llm.OPENAI_BASE_URL} - check the API key.")
+        missing = [m for m in (llm.GEN_MODEL, llm.JUDGE_MODEL) if m not in have]
+        if missing:
+            sys.exit(f"Models not offered by {llm.OPENAI_BASE_URL}: {missing}. Set FORGE_GEN_MODEL / FORGE_JUDGE_MODEL.")
+    else:
+        if not have:
+            sys.exit(f"Ollama is not reachable at {llm.OLLAMA_URL}. Start it with `ollama serve`.")
+        missing = [m for m in (llm.GEN_MODEL, llm.JUDGE_MODEL) if m not in have]
+        if missing:
+            sys.exit(f"Missing Ollama models: {missing}. Run: " + " && ".join(f"ollama pull {m}" for m in missing))
+    log(f"ForgeAI | provider={llm.PROVIDER} generator={llm.GEN_MODEL} judge={llm.JUDGE_MODEL} | mode={'auto' if args.auto else 'interactive'}")
     log(f"BRIEF: {brief}\n")
     (out / "brief.txt").write_text(brief + "\n")
 

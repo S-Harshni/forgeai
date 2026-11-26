@@ -1,4 +1,4 @@
-"""Thin Ollama client with schema-validated JSON calls, retries and budget accounting.
+"""Thin LLM client (local Ollama, or any OpenAI-compatible API such as Groq) with schema-validated JSON calls, retries and budget accounting.
 
 Small local models frequently emit broken or off-schema JSON. Every structured call
 here is validated with Pydantic, retried with the validation error fed back, and
@@ -19,9 +19,18 @@ import requests
 from pydantic import BaseModel, ValidationError
 
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
-# Generator / agent model and a *different family* judge model (self-preference defence).
-GEN_MODEL = os.environ.get("FORGE_GEN_MODEL", "qwen2.5:3b")
-JUDGE_MODEL = os.environ.get("FORGE_JUDGE_MODEL", "llama3.2:3b")
+# PROVIDER: "ollama" (local, default) or "openai" (any OpenAI-compatible API: Groq, Together, vLLM...).
+# FORGE_PROVIDER=groq is shorthand for openai + Groq's endpoint.
+PROVIDER = os.environ.get("FORGE_PROVIDER", "ollama").lower()
+OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL", "https://api.groq.com/openai/v1" if PROVIDER == "groq" else "")
+OPENAI_API_KEY = os.environ.get("GROQ_API_KEY") or os.environ.get("OPENAI_API_KEY", "")
+if PROVIDER == "groq":
+    PROVIDER = "openai"
+_DEFAULTS = {"ollama": ("qwen2.5:3b", "llama3.2:3b"),
+             # different model families for generator and judge (self-preference defence)
+             "openai": ("llama-3.1-8b-instant", "openai/gpt-oss-20b")}[PROVIDER if PROVIDER in ("ollama", "openai") else "ollama"]
+GEN_MODEL = os.environ.get("FORGE_GEN_MODEL", _DEFAULTS[0])
+JUDGE_MODEL = os.environ.get("FORGE_JUDGE_MODEL", _DEFAULTS[1])
 # The model the *produced agent* runs on (recorded in its definition).
 AGENT_MODEL = os.environ.get("FORGE_AGENT_MODEL", GEN_MODEL)
 
@@ -86,10 +95,46 @@ def render(name: str, **kw) -> str:
 
 def available_models() -> list[str]:
     try:
+        if PROVIDER == "openai":
+            r = requests.get(f"{OPENAI_BASE_URL}/models", timeout=10,
+                             headers={"Authorization": f"Bearer {OPENAI_API_KEY}"})
+            return [m["id"] for m in r.json().get("data", [])]
         r = requests.get(f"{OLLAMA_URL}/api/tags", timeout=5)
         return [m["name"] for m in r.json().get("models", [])]
     except Exception:
         return []
+
+
+def _chat_openai(messages, model, json_mode, temperature, max_tokens, seed, stage, t0) -> str:
+    body: dict[str, Any] = {"model": model, "messages": messages, "temperature": temperature,
+                            "max_tokens": max_tokens, "seed": seed}
+    if json_mode:
+        body["response_format"] = {"type": "json_object"}
+        if not any("json" in m["content"].lower() for m in messages):  # API requires the word
+            messages[-1]["content"] += "\n\nReply in JSON."
+    last_err = None
+    for attempt in range(6):
+        try:
+            r = requests.post(f"{OPENAI_BASE_URL}/chat/completions", json=body, timeout=(10, REQUEST_TIMEOUT),
+                              headers={"Authorization": f"Bearer {OPENAI_API_KEY}"})
+            if r.status_code == 429 or r.status_code >= 500:  # rate limit / transient: honour Retry-After
+                wait = float(r.headers.get("retry-after", 0) or 0) or 2.0 * (attempt + 1)
+                USAGE.stalls += 1
+                time.sleep(min(wait, 30))
+                continue
+            if r.status_code == 400 and json_mode and "json" in r.text.lower():
+                body.pop("response_format", None)  # model rejected JSON mode; rely on prompt + parser
+                continue
+            r.raise_for_status()
+            data = r.json()
+            u = data.get("usage", {})
+            USAGE.add(stage, u.get("prompt_tokens", 0), u.get("completion_tokens", 0), time.time() - t0)
+            return data["choices"][0]["message"].get("content") or ""
+        except requests.RequestException as e:
+            last_err = e
+            USAGE.stalls += 1
+            time.sleep(2.0 * (attempt + 1))
+    raise RuntimeError(f"LLM API unreachable at {OPENAI_BASE_URL}: {last_err}")
 
 
 def chat(prompt: str, *, system: str = "", model: str = GEN_MODEL, json_mode: bool = False,
@@ -100,6 +145,8 @@ def chat(prompt: str, *, system: str = "", model: str = GEN_MODEL, json_mode: bo
     if system:
         messages.append({"role": "system", "content": system})
     messages.append({"role": "user", "content": prompt})
+    if PROVIDER == "openai":
+        return _chat_openai(messages, model, json_mode, temperature, max_tokens, seed, stage, time.time())
     body: dict[str, Any] = {
         "model": model,
         "messages": messages,

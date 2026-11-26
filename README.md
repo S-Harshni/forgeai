@@ -1,6 +1,8 @@
 # ForgeAI: the agent that builds agents
 
-**Live demo:** https://s-harshni.github.io/forgeai/
+**Live demo (recorded runs):** https://s-harshni.github.io/forgeai/
+
+**Fully live version (chat and new builds work):** deploy to Render with the included `render.yaml`. See [Deploy live](#deploy-live).
 
 The hosted page shows the recorded runs: dashboards, the exam explorer, the repair log, agent definitions and reports. Chat replays the agent's real recorded answers. Live chat and new builds need the local app below, because everything runs on local Ollama models.
 
@@ -143,6 +145,22 @@ Each run folder contains:
 - `final_transcripts.json`, `run.log`, `usage.json`
 
 The demo documents are LLM-synthesized; the prompts are in [`demos/SYNTHESIS_PROMPTS.md`](demos/SYNTHESIS_PROMPTS.md). Every prompt the factory uses, including the eval-generation prompts, is in [`prompts/`](prompts).
+
+## Deploy live
+
+A free Render instance can't run local models (512 MB RAM), so the hosted version calls an OpenAI-compatible API instead. It defaults to Groq, which has a free tier.
+
+1. Create a free API key at https://console.groq.com/keys.
+2. In Render, go to **New → Blueprint**, pick this repository, and paste the key when it asks for `GROQ_API_KEY`.
+3. Open the `*.onrender.com` URL. The free instance sleeps when idle, so the first request takes about a minute.
+
+Hosted defaults: generator and agent `llama-3.1-8b-instant`, judge `openai/gpt-oss-20b` (a different model family, which counters self-preference). Override them with `FORGE_GEN_MODEL`, `FORGE_JUDGE_MODEL` and `FORGE_AGENT_MODEL`. Any other OpenAI-compatible API works with `FORGE_PROVIDER=openai`, `OPENAI_BASE_URL` and `OPENAI_API_KEY`.
+
+Public-hosting limits:
+- one build at a time
+- at most 12 documents per build, 8 MB each
+- briefs under 4,000 characters
+- agents built on the hosted instance live on Render's temporary disk and disappear on restart; the committed demo runs are always there
 
 ## Troubleshooting
 If runs stall (long gaps between requests), restart Ollama with its log going to a file or to `/dev/null`, not to a pipe nobody reads: `ollama serve > /dev/null 2>&1`. The client retries with a 90-second per-request timeout (`FORGE_REQUEST_TIMEOUT`) and counts stalls in `usage.json`.

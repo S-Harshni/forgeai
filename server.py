@@ -24,6 +24,8 @@ RUNS = ROOT / "runs"
 WEB = ROOT / "web"
 UPLOADS = ROOT / "uploads"
 PORT = int(os.environ.get("PORT", "8765"))
+HOST = os.environ.get("HOST", "127.0.0.1")          # render.yaml sets 0.0.0.0
+MAX_FILES, MAX_FILE_MB = 12, 8                        # public-hosting limits
 
 app = FastAPI(title="ForgeAI")
 _agents: dict = {}
@@ -125,6 +127,12 @@ def chat(name: str, body: Ask):
 @app.post("/api/forge")
 async def forge(brief: str = Form(...), name: str = Form(...), max_iters: int = Form(3),
                 files: list[UploadFile] = File(...)):
+    if any(j["proc"].poll() is None for j in _jobs.values()):
+        raise HTTPException(429, "Another agent is being built right now - please try again in a few minutes.")
+    if len(files) > MAX_FILES:
+        raise HTTPException(400, f"Upload at most {MAX_FILES} documents.")
+    if len(brief) > 4000:
+        raise HTTPException(400, "Keep the brief under 4000 characters.")
     name = re.sub(r"[^A-Za-z0-9_\-]+", "_", name.strip())[:50].strip("_") or "agent"
     if (RUNS / name).exists() or name in _jobs:
         name = f"{name}_{int(time.time()) % 100000}"
@@ -135,7 +143,10 @@ async def forge(brief: str = Form(...), name: str = Form(...), max_iters: int = 
         fname = Path(f.filename or "").name
         if not fname or fname.startswith("."):
             continue
-        (docs / fname).write_bytes(await f.read())
+        data = await f.read()
+        if len(data) > MAX_FILE_MB * 1024 * 1024:
+            raise HTTPException(400, f"{fname} is larger than {MAX_FILE_MB} MB.")
+        (docs / fname).write_bytes(data)
         n += 1
     if not n:
         raise HTTPException(400, "upload at least one document")
@@ -169,7 +180,8 @@ def job(name: str):
 def health():
     from forgeai import llm
     models = llm.available_models()
-    return {"ollama": bool(models), "gen_model": llm.GEN_MODEL, "judge_model": llm.JUDGE_MODEL,
+    return {"provider": llm.PROVIDER, "reachable": bool(models), "ollama": bool(models),
+            "gen_model": llm.GEN_MODEL, "judge_model": llm.JUDGE_MODEL,
             "models_ready": all(m in models for m in (llm.GEN_MODEL, llm.JUDGE_MODEL))}
 
 
@@ -183,4 +195,4 @@ def spa(path: str):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=PORT, log_level="warning")
+    uvicorn.run(app, host=HOST, port=PORT, log_level="warning")

@@ -19,6 +19,14 @@ from .textutil import fact_present, looks_like_refusal, numbers
 from .tools import REGISTRY, bind_tables, run_tool
 
 
+REPO = Path(__file__).resolve().parent.parent
+
+
+def resolve_docs(path: str) -> Path:
+    p = Path(path)
+    return p if p.is_absolute() else REPO / p
+
+
 class Route(BaseModel):
     tool: str | None = None
     args: dict = Field(default_factory=dict)
@@ -49,7 +57,7 @@ class Response:
 class Agent:
     def __init__(self, definition: AgentDefinition, docs=None):
         self.d = definition
-        self.docs = docs if docs is not None else load_folder(definition.docs_dir)
+        self.docs = docs if docs is not None else load_folder(resolve_docs(definition.docs_dir))
         bind_tables(self.docs)
         self.model = definition.model or AGENT_MODEL
         r = definition.retrieval

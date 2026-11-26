@@ -16,14 +16,14 @@ import numpy as np
 import requests
 
 from .ingest import Chunk
-from .llm import OLLAMA_URL, available_models
+from .llm import OLLAMA_URL, PROVIDER, available_models
 from .textutil import tokens
 
 EMBED_CANDIDATES = ["nomic-embed-text", "mxbai-embed-large", "all-minilm", "bge-m3"]
 
 
 def pick_embed_model() -> str | None:
-    if os.environ.get("FORGE_NO_EMBED"):
+    if os.environ.get("FORGE_NO_EMBED") or PROVIDER != "ollama":
         return None
     have = available_models()
     for cand in EMBED_CANDIDATES:
