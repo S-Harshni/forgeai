@@ -4,3 +4,4 @@ __pycache__/
 runs_*.err
 .DS_Store
 uploads/
+media/
