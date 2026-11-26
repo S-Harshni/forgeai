@@ -154,7 +154,7 @@ A free Render instance can't run local models (512 MB RAM), so the hosted versio
 2. In Render, go to **New → Blueprint**, pick this repository, and paste the key when it asks for `GROQ_API_KEY`.
 3. Open the `*.onrender.com` URL. The free instance sleeps when idle, so the first request takes about a minute.
 
-Hosted defaults: generator and agent `llama-3.1-8b-instant`, judge `openai/gpt-oss-20b` (a different model family, which counters self-preference). Override them with `FORGE_GEN_MODEL`, `FORGE_JUDGE_MODEL` and `FORGE_AGENT_MODEL`. Any other OpenAI-compatible API works with `FORGE_PROVIDER=openai`, `OPENAI_BASE_URL` and `OPENAI_API_KEY`.
+Hosted defaults: generator and agent `qwen/qwen3.8-27b`, judge `openai/gpt-oss-20b` (a different model family, which counters self-preference). Override them with `FORGE_GEN_MODEL`, `FORGE_JUDGE_MODEL` and `FORGE_AGENT_MODEL`. Any other OpenAI-compatible API works with `FORGE_PROVIDER=openai`, `OPENAI_BASE_URL` and `OPENAI_API_KEY`.
 
 Public-hosting limits:
 - one build at a time

@@ -28,7 +28,7 @@ if PROVIDER == "groq":
     PROVIDER = "openai"
 _DEFAULTS = {"ollama": ("qwen2.5:3b", "llama3.2:3b"),
              # different model families for generator and judge (self-preference defence)
-             "openai": ("llama-3.1-8b-instant", "openai/gpt-oss-20b")}[PROVIDER if PROVIDER in ("ollama", "openai") else "ollama"]
+             "openai": ("qwen/qwen3.8-27b", "openai/gpt-oss-20b")}[PROVIDER if PROVIDER in ("ollama", "openai") else "ollama"]
 GEN_MODEL = os.environ.get("FORGE_GEN_MODEL", _DEFAULTS[0])
 JUDGE_MODEL = os.environ.get("FORGE_JUDGE_MODEL", _DEFAULTS[1])
 # The model the *produced agent* runs on (recorded in its definition).
@@ -129,7 +129,8 @@ def _chat_openai(messages, model, json_mode, temperature, max_tokens, seed, stag
             data = r.json()
             u = data.get("usage", {})
             USAGE.add(stage, u.get("prompt_tokens", 0), u.get("completion_tokens", 0), time.time() - t0)
-            return data["choices"][0]["message"].get("content") or ""
+            content = data["choices"][0]["message"].get("content") or ""
+            return re.sub(r"<think>.*?</think>", "", content, flags=re.S).strip()  # reasoning models
         except requests.RequestException as e:
             last_err = e
             USAGE.stalls += 1
