@@ -12,7 +12,7 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 
 from .ingest import chunk_documents, load_folder
-from .llm import AGENT_MODEL, chat, json_call, render, _extract_json
+from .llm import AGENT_MODEL, available_models, chat, json_call, render, _extract_json
 from .models import AgentDefinition
 from .retrieval import Index
 from .textutil import fact_present, looks_like_refusal, numbers
@@ -60,6 +60,12 @@ class Agent:
         self.docs = docs if docs is not None else load_folder(resolve_docs(definition.docs_dir))
         bind_tables(self.docs)
         self.model = definition.model or AGENT_MODEL
+        self.model_note = ""
+        have = available_models()
+        if have and self.model not in have:
+            # e.g. an agent built locally on Ollama, served on a hosted API: run it on the provider default.
+            self.model_note = f"built with {self.model}; served on {AGENT_MODEL} (not offered by this provider)"
+            self.model = AGENT_MODEL
         r = definition.retrieval
         self.index = Index(chunk_documents(self.docs, r.chunk_size, r.overlap), mode=r.mode)
 

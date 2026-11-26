@@ -118,6 +118,8 @@ def chat(name: str, body: Ask):
     snippets = {h.chunk.id: h.chunk.text for h in agent.index.search(body.question, k=12)}
     out = r.to_dict()
     out["latency_ms"] = int((time.time() - t0) * 1000)
+    out["model"] = agent.model
+    out["model_note"] = agent.model_note
     out["sources"] = [{"id": c, "text": snippets.get(c, next((x["result"] for x in r.tool_calls
                                                               if f"tool:{x['tool']}" == c), ""))[:600]}
                       for c in r.citations]

@@ -122,10 +122,11 @@ def _chat_openai(messages, model, json_mode, temperature, max_tokens, seed, stag
                 USAGE.stalls += 1
                 time.sleep(min(wait, 30))
                 continue
-            if r.status_code == 400 and json_mode and "json" in r.text.lower():
+            if r.status_code == 400 and json_mode and "response_format" in body and "json" in r.text.lower():
                 body.pop("response_format", None)  # model rejected JSON mode; rely on prompt + parser
                 continue
-            r.raise_for_status()
+            if r.status_code >= 400:  # not retryable: surface the provider's own message
+                raise RuntimeError(f"{OPENAI_BASE_URL} returned {r.status_code} for model {model}: {r.text[:300]}")
             data = r.json()
             u = data.get("usage", {})
             USAGE.add(stage, u.get("prompt_tokens", 0), u.get("completion_tokens", 0), time.time() - t0)
