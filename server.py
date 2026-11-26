@@ -182,7 +182,9 @@ def health():
     models = llm.available_models()
     return {"provider": llm.PROVIDER, "reachable": bool(models), "ollama": bool(models),
             "gen_model": llm.GEN_MODEL, "judge_model": llm.JUDGE_MODEL,
-            "models_ready": all(m in models for m in (llm.GEN_MODEL, llm.JUDGE_MODEL))}
+            "models_ready": all(m in models for m in (llm.GEN_MODEL, llm.JUDGE_MODEL)),
+            "missing": [m for m in (llm.GEN_MODEL, llm.JUDGE_MODEL) if m not in models],
+            "available": sorted(models) if llm.PROVIDER == "openai" else []}
 
 
 app.mount("/assets", StaticFiles(directory=WEB), name="assets")
