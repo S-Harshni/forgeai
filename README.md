@@ -1,8 +1,10 @@
 # ForgeAI: the agent that builds agents
 
-**Live demo (recorded runs):** https://s-harshni.github.io/forgeai/
+**Live app:** https://forgeai-frk3.onrender.com. Chat and new builds both work there; it runs on Groq-hosted open models. It's a free instance, so the first visit after a quiet period takes about a minute to wake up.
 
-**Fully live version (chat and new builds work):** deploy to Render with the included `render.yaml`. See [Deploy live](#deploy-live).
+**Static backup (recorded runs only):** https://s-harshni.github.io/forgeai/
+
+To deploy your own copy, use the included `render.yaml`; see [Deploy live](#deploy-live).
 
 The hosted page shows the recorded runs: dashboards, the exam explorer, the repair log, agent definitions and reports. Chat replays the agent's real recorded answers. Live chat and new builds need the local app below, because everything runs on local Ollama models.
 
