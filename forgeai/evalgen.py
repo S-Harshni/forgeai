@@ -13,7 +13,7 @@ from .ingest import Chunk, Document, chunk_documents
 from .llm import JUDGE_MODEL, json_call, render
 from .models import EvalCase, Requirements
 from .retrieval import Index
-from .textutil import fact_present, jaccard, numbers
+from .textutil import fact_present, jaccard, looks_like_refusal, numbers, tokens
 
 TARGET = {"answerable": 10, "multi_doc": 3, "ambiguous": 4, "out_of_scope": 6}
 MIN_CASES = 22
@@ -81,16 +81,50 @@ class RT(BaseModel):
     answer: object = ""
 
 
-def _roundtrip(question: str, facts: list[str], excerpts: list[Chunk]) -> list[str]:
-    """Independent model (different family) answers the question from the excerpts alone.
-    Returns the key facts it reproduced; facts it did not reproduce are not trusted.
-    Catches facts that exist in the excerpt but do not answer the question, and paraphrases
-    that changed the meaning."""
-    ex = "\n\n".join(f"[{c.doc}] {c.text}" for c in excerpts)
+_CORPUS: dict = {"idx": None}
+
+
+def _distractors(question: str, sources: list[Chunk], k: int = 3) -> list[Chunk]:
+    idx = _CORPUS["idx"]
+    if idx is None:
+        return []
+    src_ids = {c.id for c in sources}
+    return [h.chunk for h in idx.search(question, k=k + len(sources)) if h.chunk.id not in src_ids][:k]
+
+
+def _roundtrip(question: str, facts: list[str], excerpts: list[Chunk], stats: dict | None = None) -> list[str]:
+    """Independent model (different family) answers the question from the source excerpt(s) shuffled
+    among the most similar excerpts from the rest of the corpus.
+
+    Returns the key facts it reproduced. Catches (a) facts that exist in the excerpt but don't answer
+    the question, (b) paraphrases that changed the meaning, and (c) questions whose answer is not
+    unique in the corpus (e.g. "price of the fuel injector nozzle" when two nozzles exist): if the
+    answer uses a figure that only a competing excerpt contains, the case is ambiguous and rejected."""
+    distract = _distractors(question, excerpts)
+    # Deterministic ambiguity test: a rival excerpt that matches the question's words at least as well
+    # as the source, but lacks the expected figures, means the question doesn't pin down one answer.
+    fact_nums = set().union(set(), *(numbers(f) for f in facts))
+    if fact_nums:
+        qtok = set(tokens(question))
+        src_cov = max(len(qtok & set(tokens(c.text))) for c in excerpts)
+        for d in distract:
+            if src_cov and len(qtok & set(tokens(d.text))) >= src_cov and not fact_nums <= numbers(d.text):
+                if stats is not None:
+                    stats["dropped_not_unique_in_corpus"] = stats.get("dropped_not_unique_in_corpus", 0) + 1
+                return []
+    shown = excerpts + distract
+    random.Random(len(question)).shuffle(shown)  # no position cue for the source
+    ex = "\n\n".join(f"[{c.doc}] {c.text}" for c in shown)
     a = json_call(render("evalgen_roundtrip", excerpts=ex, question=question), RT, model=JUDGE_MODEL,
                   fallback=lambda: RT(answer=""), stage="evalgen_roundtrip", temperature=0.0, retries=1).answer
     a = a if isinstance(a, str) else " ".join(map(str, a.values() if isinstance(a, dict) else a))
     if not a.strip() or "not answerable" in a.lower():
+        return []
+    src_nums = set().union(*(numbers(c.text) for c in excerpts)) | numbers(question)
+    rival_nums = set().union(set(), *(numbers(c.text) for c in distract)) - src_nums
+    if numbers(a) & rival_nums:
+        if stats is not None:
+            stats["dropped_not_unique_in_corpus"] = stats.get("dropped_not_unique_in_corpus", 0) + 1
         return []
     ok = []
     for f in facts:
@@ -100,9 +134,37 @@ def _roundtrip(question: str, facts: list[str], excerpts: list[Chunk]) -> list[s
     return ok
 
 
-def _roundtrip_ok(question, facts, excerpts) -> list[str]:
-    ok = _roundtrip(question, facts, excerpts)
+def _roundtrip_ok(question, facts, excerpts, stats=None) -> list[str]:
+    ok = _roundtrip(question, facts, excerpts, stats)
     return ok if len(ok) * 2 >= len(facts) and ok else []
+
+
+def _answerable_from_corpus(question: str) -> bool:
+    """For 'out-of-scope' candidates: does an independent model find a grounded answer in the corpus?"""
+    hits = _distractors(question, [], k=3)
+    if not hits:
+        return False
+    ex = "\n\n".join(f"[{c.doc}] {c.text}" for c in hits)
+    a = json_call(render("evalgen_roundtrip", excerpts=ex, question=question), RT, model=JUDGE_MODEL,
+                  fallback=lambda: RT(answer="NOT ANSWERABLE"), stage="evalgen_roundtrip", temperature=0.0,
+                  retries=1).answer
+    a = a if isinstance(a, str) else " ".join(map(str, a.values() if isinstance(a, dict) else a))
+    if not a.strip() or "not answerable" in a.lower() or looks_like_refusal(a):
+        return False
+    return fact_present(a, ex) >= 0.6  # the answer is mostly made of the excerpts' own words
+
+
+SHORT_OK = {"a", "an", "am", "as", "at", "be", "by", "do", "go", "he", "if", "in", "is", "it", "me", "my", "no",
+            "of", "on", "or", "so", "to", "up", "us", "we", "hr", "it", "id", "pc", "ok", "pm", "am", "vs", "eg"}
+
+
+def _garbled(q: str) -> bool:
+    """Informal rewrites are fine; word salad is not a fair test of anything."""
+    words = re.findall(r"[A-Za-z]+", q)
+    if len(words) < 3:
+        return True
+    frags = sum(1 for w in words if len(w) <= 2 and w.lower() not in SHORT_OK)
+    return frags / len(words) > 0.2
 
 
 def _clean_q(q: str) -> str:
@@ -118,6 +180,7 @@ def generate_evals(req: Requirements, docs: list[Document], log=print, seed: int
     words = sum(len(d.text.split()) for d in docs if d.kind == "text") + 12 * sum(len(d.rows) for d in docs if d.kind == "table")
     # Small corpora need smaller excerpts, or every question collapses onto the same few passages.
     chunks = chunk_documents(docs, 70 if words < 1500 else 150, 0)
+    _CORPUS["idx"] = Index(chunks, mode="bm25")
     cases: list[EvalCase] = []
     stats = {"generated": 0, "dropped_unverifiable_facts": 0, "dropped_duplicate": 0,
              "dropped_oos_actually_answerable": 0, "dropped_leaky_or_empty": 0,
@@ -145,7 +208,7 @@ def generate_evals(req: Requirements, docs: list[Document], log=print, seed: int
         if _dup(qa.question, cases):
             stats["dropped_duplicate"] += 1
             continue
-        confirmed = _roundtrip_ok(qa.question, facts, [c])
+        confirmed = _roundtrip_ok(qa.question, facts, [c], stats)
         if not confirmed:
             stats["dropped_roundtrip_failed"] += 1
             continue
@@ -185,7 +248,7 @@ def generate_evals(req: Requirements, docs: list[Document], log=print, seed: int
             if _dup(m.question, cases):
                 stats["dropped_duplicate"] += 1
                 continue
-            confirmed = _roundtrip(m.question, fa + fb, [ca, cb])
+            confirmed = _roundtrip(m.question, fa + fb, [ca, cb], stats)
             if len(confirmed) < 2:  # a multi-doc case must keep a fact from each document
                 stats["dropped_roundtrip_failed"] += 1
                 continue
@@ -208,11 +271,14 @@ def generate_evals(req: Requirements, docs: list[Document], log=print, seed: int
         if len(q.question) < 8 or jaccard(q.question, b.question) > 0.85 or _dup(q.question, [x for x in cases if x is not b]):
             stats["dropped_duplicate"] += 1
             continue
+        if _garbled(q.question):
+            stats["dropped_garbled"] = stats.get("dropped_garbled", 0) + 1
+            continue
         if any(fact_present(f, q.question) >= 0.9 for f in b.key_facts):
             stats["dropped_leaky_or_empty"] += 1
             continue
         src = [c for c in chunks if c.id in b.generated_from]
-        if not _roundtrip_ok(q.question, b.key_facts, src):  # paraphrase must keep the same answer
+        if not _roundtrip_ok(q.question, b.key_facts, src, stats):  # paraphrase must keep the same answer
             stats["dropped_roundtrip_failed"] += 1
             continue
         cases.append(EvalCase(id="", type="ambiguous", question=_clean_q(q.question), should_refuse=False,
@@ -233,7 +299,7 @@ def generate_evals(req: Requirements, docs: list[Document], log=print, seed: int
         if sum(x.type == "out_of_scope" for x in cases) >= TARGET["out_of_scope"]:
             break
         top = idx.search(q, k=1)
-        if top and top[0].relevance >= 0.8:  # documents look like they answer it -> mislabeled
+        if (top and top[0].relevance >= 0.8) or _answerable_from_corpus(q):  # docs answer it -> mislabeled
             stats["dropped_oos_actually_answerable"] += 1
             continue
         if _dup(q, cases):
@@ -256,7 +322,7 @@ def generate_evals(req: Requirements, docs: list[Document], log=print, seed: int
         if not facts or _dup(qa.question, cases):
             stats["dropped_duplicate" if facts else "dropped_unverifiable_facts"] += 1
             continue
-        confirmed = _roundtrip_ok(qa.question, facts, [c])
+        confirmed = _roundtrip_ok(qa.question, facts, [c], stats)
         if not confirmed:
             stats["dropped_roundtrip_failed"] += 1
             continue

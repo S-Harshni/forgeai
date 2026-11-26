@@ -1,14 +1,14 @@
 {
-  "n": 20,
-  "agreement": 0.9,
+  "n": 21,
+  "agreement": 0.857,
   "by_kind": {
     "positive": "8/8",
     "verbose-negative": "8/8",
-    "paraphrase-positive": "2/4"
+    "paraphrase-positive": "2/5"
   },
-  "llm_judge_invocations": 3,
+  "llm_judge_invocations": 4,
   "false_positives": 0,
-  "false_negatives": 2,
+  "false_negatives": 3,
   "details": [
     {
       "case": "E09",
@@ -16,15 +16,15 @@
       "expected": true,
       "got": true,
       "method": "deterministic",
-      "answer": "Yes - written approval."
+      "answer": "Yes - 24 hours a day."
     },
     {
       "case": "E09",
       "kind": "verbose-negative",
       "expected": false,
       "got": false,
-      "method": "llm-judge",
-      "answer": "18 weeks. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cove"
+      "method": "deterministic (number missing)",
+      "answer": "31 hours a day. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This i"
     },
     {
       "case": "E09",
@@ -32,7 +32,7 @@
       "expected": true,
       "got": false,
       "method": "llm-judge",
-      "answer": "approval granted..."
+      "answer": "24 hours continuously"
     },
     {
       "case": "E04",
@@ -40,7 +40,7 @@
       "expected": true,
       "got": true,
       "method": "deterministic",
-      "answer": "Yes - 18 weeks."
+      "answer": "Yes - 20 working days."
     },
     {
       "case": "E04",
@@ -48,15 +48,7 @@
       "expected": false,
       "got": false,
       "method": "deterministic (number missing)",
-      "answer": "25 weeks. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cove"
-    },
-    {
-      "case": "E04",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "After 18 weeks, please ensure all tasks are completed and reviewed."
+      "answer": "27 working days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This "
     },
     {
       "case": "E07",
@@ -64,7 +56,7 @@
       "expected": true,
       "got": true,
       "method": "deterministic",
-      "answer": "Yes - 14 days."
+      "answer": "Yes - 2 days."
     },
     {
       "case": "E07",
@@ -72,7 +64,7 @@
       "expected": false,
       "got": false,
       "method": "deterministic (number missing)",
-      "answer": "21 days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cover"
+      "answer": "9 days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covere"
     },
     {
       "case": "E15",
@@ -80,15 +72,15 @@
       "expected": true,
       "got": true,
       "method": "deterministic",
-      "answer": "Yes - 18 weeks."
+      "answer": "Yes - replacement day off."
     },
     {
       "case": "E15",
       "kind": "verbose-negative",
       "expected": false,
       "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "25 weeks. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cove"
+      "method": "llm-judge",
+      "answer": "24 hours a day. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This i"
     },
     {
       "case": "E15",
@@ -96,7 +88,7 @@
       "expected": true,
       "got": true,
       "method": "deterministic",
-      "answer": "After 18 weeks, please ensure all tasks are completed and reviewed."
+      "answer": "replacement for a day off"
     },
     {
       "case": "E12",
@@ -128,7 +120,7 @@
       "expected": true,
       "got": true,
       "method": "deterministic",
-      "answer": "Yes - 10 working days."
+      "answer": "Yes - 24 hours a day."
     },
     {
       "case": "E16",
@@ -136,7 +128,15 @@
       "expected": false,
       "got": false,
       "method": "deterministic (number missing)",
-      "answer": "17 working days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This "
+      "answer": "31 hours a day. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This i"
+    },
+    {
+      "case": "E16",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": false,
+      "method": "llm-judge",
+      "answer": "24 hours continuously"
     },
     {
       "case": "E03",
@@ -160,7 +160,7 @@
       "expected": true,
       "got": true,
       "method": "deterministic",
-      "answer": "Yes - 6 hours."
+      "answer": "Yes - 25 USD."
     },
     {
       "case": "E13",
@@ -168,7 +168,15 @@
       "expected": false,
       "got": false,
       "method": "deterministic (number missing)",
-      "answer": "13 hours. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cove"
+      "answer": "32 USD. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covere"
+    },
+    {
+      "case": "E13",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Please charge $25 USD for this service."
     }
   ]
 }

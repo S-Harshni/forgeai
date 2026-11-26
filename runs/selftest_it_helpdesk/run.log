@@ -29,7 +29,7 @@ BRIEF: An IT helpdesk assistant for shore staff and ship masters: account lockou
   agent 'Assistant': tools=none; retrieval={'chunk_size': 120, 'overlap': 24, 'top_k': 4, 'min_relevance': 0.2, 'mode': 'hybrid', 'query_rewrite': False}
 
 [5/7] Generating eval set
-  evals: 22 cases {'answerable': 9, 'multi_doc': 3, 'ambiguous': 4, 'out_of_scope': 6}; dropped: {'dropped_duplicate': 12, 'dropped_roundtrip_failed': 3}
+  evals: 22 cases {'answerable': 10, 'multi_doc': 3, 'ambiguous': 4, 'out_of_scope': 5}; dropped: {'dropped_duplicate': 36, 'dropped_oos_actually_answerable': 6, 'dropped_roundtrip_failed': 4}
 
 [6/7] Judge calibration + critic-optimizer loop
   judge calibration: 100% agreement on 21 known-label checks
@@ -37,104 +37,79 @@ BRIEF: An IT helpdesk assistant for shore staff and ship masters: account lockou
   iteration 0 (baseline)
     E01 answerable   dev     PASS
     E02 answerable   dev     PASS
-    E03 answerable   holdout FAIL[prompt_defect]
+    E03 answerable   holdout PASS
     E04 answerable   dev     PASS
     E05 answerable   dev     PASS
     E06 answerable   holdout PASS
     E07 answerable   dev     PASS
     E08 answerable   dev     PASS
     E09 answerable   holdout PASS
-    E10 multi_doc    dev     FAIL[retrieval_miss]
+    E10 answerable   dev     PASS
     E11 multi_doc    dev     PASS
-    E12 multi_doc    holdout PASS
-    E13 ambiguous    dev     FAIL[retrieval_miss]
-    E14 ambiguous    dev     FAIL[retrieval_miss]
-    E15 ambiguous    holdout PASS
-    E16 ambiguous    dev     FAIL[wrong_refusal]
-    E17 out_of_scope dev     PASS
-    E18 out_of_scope dev     FAIL[hallucination]
-    E19 out_of_scope holdout PASS
-    E20 out_of_scope dev     PASS
-    E21 out_of_scope dev     PASS
-    E22 out_of_scope holdout FAIL[hallucination]
-  baseline: 15/22 (dev 0.667, holdout 0.714) failures={'retrieval_miss': 3, 'prompt_defect': 1, 'hallucination': 2, 'wrong_refusal': 1}
-
-  iteration 1: fix retrieval_miss:lower_gate -> abstain gate fired on 3 miss(es): min_relevance 0.2 -> 0.12
-    E01 answerable   dev     PASS
-    E02 answerable   dev     PASS
-    E03 answerable   holdout FAIL[prompt_defect]
-    E04 answerable   dev     PASS
-    E05 answerable   dev     PASS
-    E06 answerable   holdout PASS
-    E07 answerable   dev     PASS
-    E08 answerable   dev     PASS
-    E09 answerable   holdout PASS
-    E10 multi_doc    dev     PASS
-    E11 multi_doc    dev     PASS
-    E12 multi_doc    holdout PASS
-    E13 ambiguous    dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 multi_doc    holdout PASS
     E14 ambiguous    dev     PASS
-    E15 ambiguous    holdout PASS
-    E16 ambiguous    dev     FAIL[wrong_refusal]
-    E17 out_of_scope dev     PASS
-    E18 out_of_scope dev     FAIL[hallucination]
-    E19 out_of_scope holdout PASS
-    E20 out_of_scope dev     PASS
+    E15 ambiguous    dev     PASS
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     FAIL[retrieval_miss]
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout PASS
     E21 out_of_scope dev     PASS
-    E22 out_of_scope holdout FAIL[hallucination]
-  -> 18/22 (dev 0.667 -> 0.867, holdout 0.714 -> 0.714); fixed ['E10', 'E13', 'E14']; broke []; KEPT
+    E22 out_of_scope dev     FAIL[hallucination]
+  baseline: 20/22 (dev 0.875, holdout 1.0) failures={'retrieval_miss': 1, 'prompt_defect': 0, 'hallucination': 1, 'wrong_refusal': 0}
 
-  iteration 2: fix hallucination:refusal_topics -> added generalised decline categories to REFUSAL section: ['policy-related-questions', 'non-service-related-questions', 'personal-requests']
+  iteration 1: fix hallucination:refusal_topics -> added generalised decline categories to REFUSAL section: ['requests_for_personal_changes', 'requests_for_additional_resources', 'requests_for_unlimited_access']
     E01 answerable   dev     PASS
     E02 answerable   dev     PASS
-    E03 answerable   holdout FAIL[prompt_defect]
+    E03 answerable   holdout PASS
     E04 answerable   dev     PASS
     E05 answerable   dev     PASS
     E06 answerable   holdout PASS
     E07 answerable   dev     PASS
     E08 answerable   dev     PASS
     E09 answerable   holdout PASS
-    E10 multi_doc    dev     PASS
+    E10 answerable   dev     PASS
     E11 multi_doc    dev     PASS
-    E12 multi_doc    holdout PASS
-    E13 ambiguous    dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 multi_doc    holdout PASS
     E14 ambiguous    dev     PASS
-    E15 ambiguous    holdout PASS
-    E16 ambiguous    dev     FAIL[wrong_refusal]
-    E17 out_of_scope dev     PASS
-    E18 out_of_scope dev     FAIL[hallucination]
-    E19 out_of_scope holdout PASS
-    E20 out_of_scope dev     PASS
-    E21 out_of_scope dev     FAIL[hallucination]
-    E22 out_of_scope holdout FAIL[hallucination]
-  -> 17/22 (dev 0.867 -> 0.8, holdout 0.714 -> 0.714); fixed []; broke ['E21']; REVERTED
+    E15 ambiguous    dev     PASS
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     FAIL[retrieval_miss]
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope dev     PASS
+  -> 21/22 (dev 0.875 -> 0.938, holdout 1.0 -> 1.0); fixed ['E22']; broke []; KEPT
 
-  iteration 3: fix hallucination:raise_gate -> min_relevance 0.12 -> 0.19 (abstain more)
+  iteration 2: fix retrieval_miss:lower_gate -> abstain gate fired on 1 miss(es): min_relevance 0.2 -> 0.12
     E01 answerable   dev     PASS
     E02 answerable   dev     PASS
-    E03 answerable   holdout FAIL[prompt_defect]
+    E03 answerable   holdout PASS
     E04 answerable   dev     PASS
     E05 answerable   dev     PASS
     E06 answerable   holdout PASS
     E07 answerable   dev     PASS
     E08 answerable   dev     PASS
     E09 answerable   holdout PASS
-    E10 multi_doc    dev     FAIL[retrieval_miss]
+    E10 answerable   dev     PASS
     E11 multi_doc    dev     PASS
-    E12 multi_doc    holdout PASS
-    E13 ambiguous    dev     PASS
-    E14 ambiguous    dev     FAIL[retrieval_miss]
-    E15 ambiguous    holdout PASS
-    E16 ambiguous    dev     FAIL[wrong_refusal]
-    E17 out_of_scope dev     PASS
-    E18 out_of_scope dev     FAIL[hallucination]
-    E19 out_of_scope holdout PASS
-    E20 out_of_scope dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 multi_doc    holdout PASS
+    E14 ambiguous    dev     PASS
+    E15 ambiguous    dev     PASS
+    E16 ambiguous    holdout PASS
+    E17 ambiguous    dev     PASS
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope dev     PASS
+    E20 out_of_scope holdout PASS
     E21 out_of_scope dev     PASS
-    E22 out_of_scope holdout FAIL[hallucination]
-  -> 16/22 (dev 0.867 -> 0.733, holdout 0.714 -> 0.714); fixed []; broke ['E10', 'E14']; REVERTED
+    E22 out_of_scope dev     PASS
+  -> 22/22 (dev 0.938 -> 1.0, holdout 1.0 -> 1.0); fixed ['E17']; broke []; KEPT
 
 [7/7] Writing artifacts
 
-DONE in 7.0 min. Final 18/22 (82%), holdout 71%.
+DONE in 8.5 min. Final 22/22 (100%), holdout 100%.
 Artifacts in runs/selftest_it_helpdesk/  ->  chat with it:  python chat.py runs/selftest_it_helpdesk/agent.json

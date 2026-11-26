@@ -33,6 +33,19 @@ def pick_embed_model() -> str | None:
     return None
 
 
+def _edit(a: str, b: str, limit: int) -> int:
+    """Levenshtein distance with early exit once it exceeds `limit`."""
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        for j, cb in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
+        if min(cur) > limit:
+            return limit + 1
+        prev = cur
+    return prev[-1]
+
+
 @dataclass
 class Hit:
     chunk: Chunk
@@ -92,10 +105,28 @@ class Index:
         tot = sum(w.values())
         return np.array([sum(w[t] for t in qs if t in tf) / tot for tf in self.tfs])
 
+    def _correct(self, q: list[str]) -> list[str]:
+        """Typo tolerance: map an out-of-vocabulary query word to the closest corpus word."""
+        out = []
+        for t in q:
+            if t in self.idf or len(t) < 4 or t.isdigit():
+                out.append(t)
+                continue
+            limit = 1 if len(t) < 5 else 2
+            best, bd = None, limit + 1
+            for v in self.idf:
+                if abs(len(v) - len(t)) > limit or v[0] != t[0]:
+                    continue
+                d = _edit(t, v, limit)
+                if d < bd:
+                    best, bd = v, d
+            out.append(best if best else t)
+        return out
+
     def search(self, query: str, k: int = 4) -> list[Hit]:
         if not self.chunks:
             return []
-        q = tokens(query)
+        q = self._correct(tokens(query))
         bm = self._bm25(q)
         cov = self._coverage(q)
         rel = cov

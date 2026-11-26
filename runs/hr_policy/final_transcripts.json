@@ -31,6 +31,7 @@
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E01",
@@ -67,7 +68,7 @@
     "question": "What happens if an employee is required to work on a public holiday?",
     "answer": "If an employee is required to work on a public holiday, they receive a replacement day off within 30 days.",
     "citations": [
-      "hr_leave_policy.pdf#c1"
+      "hr_leave_policy.pdf#c3"
     ],
     "refused": false,
     "retrieved": [
@@ -94,6 +95,7 @@
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": true,
     "format_ok": true,
     "verdict": {
       "case_id": "E02",
@@ -157,6 +159,7 @@
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E03",
@@ -190,8 +193,84 @@
   },
   {
     "case": "E04",
+    "question": "What is the limit on working from another country and how is the home office allowance structured?",
+    "answer": "The limit on working from another country is 20 working days per year. The home office allowance is structured as a one-time home office allowance of 300 USD for equipment, claimable within the first 3 months of employment or of starting a hybrid arrangement.",
+    "citations": [
+      "hr_conduct_remote.pdf#c0"
+    ],
+    "refused": false,
+    "retrieved": [
+      {
+        "id": "hr_conduct_remote.pdf#c0",
+        "doc": "hr_conduct_remote.pdf",
+        "relevance": 0.736
+      },
+      {
+        "id": "hr_conduct_remote.pdf#c1",
+        "doc": "hr_conduct_remote.pdf",
+        "relevance": 0.322
+      },
+      {
+        "id": "hr_leave_policy.pdf#c3",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.264
+      },
+      {
+        "id": "hr_travel_expenses.pdf#c3",
+        "doc": "hr_travel_expenses.pdf",
+        "relevance": 0.192
+      }
+    ],
+    "tool_calls": [],
+    "gate": "",
+    "auto_cited": false,
+    "format_ok": true,
+    "verdict": {
+      "case_id": "E04",
+      "type": "answerable",
+      "split": "dev",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
+      "checks": {
+        "refused": false,
+        "format_ok": true,
+        "gate": "",
+        "best_relevance": 0.736,
+        "source_retrieved": true,
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 3
+      },
+      "facts": [
+        {
+          "fact": "20 working days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "300 USD",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "first 3 months",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "case": "E05",
     "question": "How many weeks of fully paid parental leave do primary and secondary caregivers receive?",
-    "answer": "Primary caregivers receive 18 weeks of fully paid parental leave. Secondary caregivers receive 4 weeks of fully paid parental leave.",
+    "answer": "Primary caregivers receive 18 weeks of fully paid parental leave. Secondary care givers receive 4 weeks of fully paid parental leave.",
     "citations": [
       "hr_leave_policy.pdf#c2"
     ],
@@ -220,9 +299,10 @@
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
-      "case_id": "E04",
+      "case_id": "E05",
       "type": "answerable",
       "split": "dev",
       "passed": true,
@@ -258,9 +338,9 @@
     }
   },
   {
-    "case": "E05",
+    "case": "E06",
     "question": "What are the hotel cost reimbursement rates for different cities?",
-    "answer": "Hotel costs are reimbursed up to 180 USD per night in standard locations and up to 260 USD per night in high-cost cities such as Singapore, London, Oslo and Tokyo. These rates are mentioned in [hr_travel_expenses.pdf#c1].",
+    "answer": "Hotel costs are reimbursed up to 180 USD per night in standard locations and up to 260 USD per night in high-cost cities such as Singapore, London, Oslo and Tokyo. The reimbursement rates are specified in [hr_travel_expenses.pdf#c1].",
     "citations": [
       "hr_travel_expenses.pdf#c1"
     ],
@@ -289,11 +369,12 @@
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
-      "case_id": "E05",
+      "case_id": "E06",
       "type": "answerable",
-      "split": "dev",
+      "split": "holdout",
       "passed": true,
       "category": null,
       "reason": "correct and grounded",
@@ -327,7 +408,7 @@
     }
   },
   {
-    "case": "E06",
+    "case": "E07",
     "question": "What is the maximum number of days per week shore staff can work remotely?",
     "answer": "Shore staff may work remotely for up to 2 days per week, subject to line manager agreement.",
     "citations": [
@@ -358,11 +439,12 @@
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
-      "case_id": "E06",
+      "case_id": "E07",
       "type": "answerable",
-      "split": "holdout",
+      "split": "dev",
       "passed": true,
       "category": null,
       "reason": "correct and grounded",
@@ -390,40 +472,41 @@
     }
   },
   {
-    "case": "E07",
-    "question": "What is the minimum time required in advance for booking business travel?",
-    "answer": "All business travel must be booked through the corporate travel desk at least 14 days before departure where possible.",
+    "case": "E08",
+    "question": "What is the policy regarding unused sick leave and how many days of paid sick leave do employees receive per year?",
+    "answer": "Employees receive 12 days of paid sick leave per year. Unused sick leave beyond the 12 days is not paid out, except on termination of employment. Unused sick leave beyond the carry-over limit is not paid out either.",
     "citations": [
-      "hr_travel_expenses.pdf#c0"
+      "hr_leave_policy.pdf#c1"
     ],
     "refused": false,
     "retrieved": [
       {
-        "id": "hr_travel_expenses.pdf#c0",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.346
-      },
-      {
-        "id": "hr_travel_expenses.pdf#c1",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.346
-      },
-      {
-        "id": "hr_travel_expenses.pdf#c3",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.278
+        "id": "hr_leave_policy.pdf#c1",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.656
       },
       {
         "id": "hr_leave_policy.pdf#c0",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.26
+        "relevance": 0.548
+      },
+      {
+        "id": "hr_leave_policy.pdf#c3",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.338
+      },
+      {
+        "id": "hr_leave_policy.pdf#c2",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.281
       }
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
-      "case_id": "E07",
+      "case_id": "E08",
       "type": "answerable",
       "split": "dev",
       "passed": true,
@@ -433,7 +516,7 @@
         "refused": false,
         "format_ok": true,
         "gate": "",
-        "best_relevance": 0.346,
+        "best_relevance": 0.656,
         "source_retrieved": true,
         "coverage": 1.0,
         "correct": true,
@@ -444,7 +527,7 @@
       },
       "facts": [
         {
-          "fact": "14 days",
+          "fact": "12 days",
           "stated": true,
           "method": "deterministic",
           "lexical": 1.0
@@ -453,9 +536,9 @@
     }
   },
   {
-    "case": "E08",
+    "case": "E09",
     "question": "What is the purpose of the Speak Up hotline?",
-    "answer": "The Speak Up hotline is operated by an independent provider and is available 24 hours a day for concerns related to harassment, discrimination, and bullying. Concerns can be raised with a line manager, with HR, or anonymously through the Speak Up hotline.",
+    "answer": "The Speak Up hotline is operated by an independent provider and is available 24 hours a day for reporting harassment, discrimination, and bullying concerns.",
     "citations": [
       "hr_conduct_remote.pdf#c2"
     ],
@@ -484,11 +567,12 @@
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
-      "case_id": "E08",
+      "case_id": "E09",
       "type": "answerable",
-      "split": "dev",
+      "split": "holdout",
       "passed": true,
       "category": null,
       "reason": "correct and grounded",
@@ -503,15 +587,9 @@
         "grounded": true,
         "unsupported_numbers": [],
         "citation_ok": true,
-        "facts_in_context": 2
+        "facts_in_context": 1
       },
       "facts": [
-        {
-          "fact": "independent provider",
-          "stated": true,
-          "method": "deterministic",
-          "lexical": 1.0
-        },
         {
           "fact": "24 hours a day",
           "stated": true,
@@ -522,100 +600,38 @@
     }
   },
   {
-    "case": "E09",
-    "question": "What are the requirements for booking flights in Business Class?",
-    "answer": "Business class requires written approval from a department director.",
+    "case": "E10",
+    "question": "What is the annual leave policy for full-time shore staff?",
+    "answer": "Full-time shore staff receive 24 working days of paid annual leave per calendar year. Employees with more than 5 years of continuous service receive 27 working days.",
     "citations": [
-      "hr_travel_expenses.pdf#c0"
+      "hr_leave_policy.pdf#c0"
     ],
     "refused": false,
     "retrieved": [
       {
-        "id": "hr_travel_expenses.pdf#c0",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.675
-      },
-      {
-        "id": "hr_travel_expenses.pdf#c1",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.46
-      },
-      {
-        "id": "hr_travel_expenses.pdf#c3",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.131
+        "id": "hr_leave_policy.pdf#c0",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 1.0
       },
       {
         "id": "hr_conduct_remote.pdf#c0",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.0
-      }
-    ],
-    "tool_calls": [],
-    "gate": "",
-    "format_ok": true,
-    "verdict": {
-      "case_id": "E09",
-      "type": "answerable",
-      "split": "holdout",
-      "passed": true,
-      "category": null,
-      "reason": "correct and grounded",
-      "checks": {
-        "refused": false,
-        "format_ok": true,
-        "gate": "",
-        "best_relevance": 0.675,
-        "source_retrieved": true,
-        "coverage": 1.0,
-        "correct": true,
-        "grounded": true,
-        "unsupported_numbers": [],
-        "citation_ok": true,
-        "facts_in_context": 1
-      },
-      "facts": [
-        {
-          "fact": "written approval",
-          "stated": true,
-          "method": "deterministic",
-          "lexical": 1.0
-        }
-      ]
-    }
-  },
-  {
-    "case": "E10",
-    "question": "What is the timeframe for an employee to appeal a decision?",
-    "answer": "Employees have the right to appeal a decision within 10 working days.",
-    "citations": [
-      "hr_conduct_remote.pdf#c3"
-    ],
-    "refused": false,
-    "retrieved": [
-      {
-        "id": "hr_conduct_remote.pdf#c3",
-        "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.593
+        "relevance": 0.505
       },
       {
         "id": "hr_leave_policy.pdf#c3",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
-      },
-      {
-        "id": "hr_leave_policy.pdf#c0",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
+        "relevance": 0.557
       },
       {
         "id": "hr_leave_policy.pdf#c1",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
+        "relevance": 0.356
       }
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E10",
@@ -628,18 +644,24 @@
         "refused": false,
         "format_ok": true,
         "gate": "",
-        "best_relevance": 0.593,
+        "best_relevance": 1.0,
         "source_retrieved": true,
         "coverage": 1.0,
         "correct": true,
         "grounded": true,
         "unsupported_numbers": [],
         "citation_ok": true,
-        "facts_in_context": 1
+        "facts_in_context": 2
       },
       "facts": [
         {
-          "fact": "10 working days",
+          "fact": "24 working days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "27 working days",
           "stated": true,
           "method": "deterministic",
           "lexical": 1.0
@@ -659,26 +681,27 @@
       {
         "id": "hr_travel_expenses.pdf#c1",
         "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.445
+        "relevance": 0.483
       },
       {
         "id": "hr_conduct_remote.pdf#c0",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.274
-      },
-      {
-        "id": "hr_leave_policy.pdf#c3",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.098
+        "relevance": 0.328
       },
       {
         "id": "hr_travel_expenses.pdf#c2",
         "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.115
+        "relevance": 0.155
+      },
+      {
+        "id": "hr_leave_policy.pdf#c0",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.079
       }
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E11",
@@ -691,7 +714,7 @@
         "refused": false,
         "format_ok": true,
         "gate": "",
-        "best_relevance": 0.445,
+        "best_relevance": 0.483,
         "source_retrieved": true,
         "coverage": 1.0,
         "correct": true,
@@ -719,7 +742,7 @@
   {
     "case": "E12",
     "question": "What is the annual leave policy for full-time shore staff, and what are the remote working regulations for hybrid working, as outlined in the HR policies of MERIDIAN SHIPPING LTD?",
-    "answer": "Full-time shore staff receive 24 working days of paid annual leave per calendar year. Employees with more than 5 years of continuous service receive 27 working days. For hybrid working, shore staff may work remotely for up to 2 days per week, subject to line manager agreement. Operations centre staff on duty rotas must work on site during their rostered shifts. Remote work from another country requires HR approval and is limited to 20 working days per year. The company provides a one-time home office allowance of 300 USD for equipment, claimable within the first 3 months of employment or of starting a hybrid arrangement.",
+    "answer": "Full-time shore staff receive 24 working days of paid annual leave per calendar year. Employees with more than 5 years of continuous service receive 27 working days. For hybrid working, shore staff may work remotely for up to 2 days per week, subject to line manager agreement. Operations centre staff on duty rosters must work on site during their rostered shifts. Remote work from another country requires HR approval and is limited to 20 working days per year. The company provides a one-time home office allowance of 300 USD for equipment, claimable within the first 3 months of employment or of starting a hybrid arrangement.",
     "citations": [
       "hr_leave_policy.pdf#c0",
       "hr_conduct_remote.pdf#c0"
@@ -729,26 +752,27 @@
       {
         "id": "hr_leave_policy.pdf#c0",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.557
+        "relevance": 0.598
       },
       {
         "id": "hr_conduct_remote.pdf#c0",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.558
+        "relevance": 0.6
       },
       {
         "id": "hr_travel_expenses.pdf#c0",
         "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.297
+        "relevance": 0.319
       },
       {
         "id": "hr_leave_policy.pdf#c3",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.243
+        "relevance": 0.261
       }
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E12",
@@ -761,7 +785,7 @@
         "refused": false,
         "format_ok": true,
         "gate": "",
-        "best_relevance": 0.558,
+        "best_relevance": 0.6,
         "source_retrieved": true,
         "coverage": 1.0,
         "correct": true,
@@ -788,53 +812,54 @@
   },
   {
     "case": "E13",
-    "question": "What is the maximum duration for a flight to require premium economy booking, and how many working days per year are allowed for remote work from another country?",
-    "answer": "The maximum duration for a flight to require premium economy booking is 6 hours or more. For remote work from another country, up to 20 working days per year are allowed.",
+    "question": "What is the maximum value of a gift that employees must declare to the Compliance team within 5 working days, and what is the maximum value of hospitality that must be declared to avoid reimbursement issues?",
+    "answer": "Employees must declare any gift above 50 USD to the Compliance team within 5 working days. There is no specific maximum value mentioned for hospitality that must be declared to avoid reimbursement issues. However, client entertainment is limited to 90 USD per person and must be pre-approved by a line manager.",
     "citations": [
-      "hr_travel_expenses.pdf#c0",
-      "hr_conduct_remote.pdf#c0"
+      "hr_conduct_remote.pdf#c1",
+      "hr_travel_expenses.pdf#c2"
     ],
     "refused": false,
     "retrieved": [
       {
-        "id": "hr_travel_expenses.pdf#c0",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.324
-      },
-      {
-        "id": "hr_conduct_remote.pdf#c0",
+        "id": "hr_conduct_remote.pdf#c1",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.34
+        "relevance": 0.526
       },
       {
-        "id": "hr_leave_policy.pdf#c3",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.255
+        "id": "hr_conduct_remote.pdf#c2",
+        "doc": "hr_conduct_remote.pdf",
+        "relevance": 0.419
       },
       {
-        "id": "hr_leave_policy.pdf#c1",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.105
+        "id": "hr_travel_expenses.pdf#c2",
+        "doc": "hr_travel_expenses.pdf",
+        "relevance": 0.14
+      },
+      {
+        "id": "hr_travel_expenses.pdf#c3",
+        "doc": "hr_travel_expenses.pdf",
+        "relevance": 0.104
       }
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E13",
       "type": "multi_doc",
       "split": "holdout",
-      "passed": true,
-      "category": null,
-      "reason": "correct and grounded",
+      "passed": false,
+      "category": "prompt_defect",
+      "reason": "facts were retrieved but the answer omitted them (coverage 50%)",
       "checks": {
         "refused": false,
         "format_ok": true,
         "gate": "",
-        "best_relevance": 0.34,
+        "best_relevance": 0.526,
         "source_retrieved": true,
-        "coverage": 1.0,
-        "correct": true,
+        "coverage": 0.5,
+        "correct": false,
         "grounded": true,
         "unsupported_numbers": [],
         "citation_ok": true,
@@ -842,13 +867,13 @@
       },
       "facts": [
         {
-          "fact": "6 hours",
-          "stated": true,
-          "method": "deterministic",
-          "lexical": 1.0
+          "fact": "25 USD",
+          "stated": false,
+          "method": "deterministic (number missing)",
+          "lexical": 0.0
         },
         {
-          "fact": "20 working days",
+          "fact": "50 USD",
           "stated": true,
           "method": "deterministic",
           "lexical": 1.0
@@ -858,86 +883,113 @@
   },
   {
     "case": "E14",
-    "question": "What's the ovtime pay rate for qualified levels?",
-    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
-    "citations": [],
-    "refused": true,
+    "question": "What's the max to work abroad and how's the home office payout set up?",
+    "answer": "The max to work abroad is 20 working days per year. The home office allowance is a one-time payment of 300 USD for equipment, claimable within the first 3 months of employment or of starting a hybrid arrangement.",
+    "citations": [
+      "hr_conduct_remote.pdf#c0"
+    ],
+    "refused": false,
     "retrieved": [
+      {
+        "id": "hr_conduct_remote.pdf#c0",
+        "doc": "hr_conduct_remote.pdf",
+        "relevance": 0.21
+      },
       {
         "id": "hr_conduct_remote.pdf#c1",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.163
+        "relevance": 0.177
       },
       {
-        "id": "hr_leave_policy.pdf#c2",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.099
+        "id": "hr_travel_expenses.pdf#c3",
+        "doc": "hr_travel_expenses.pdf",
+        "relevance": 0.144
       },
       {
         "id": "hr_leave_policy.pdf#c3",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.099
-      },
-      {
-        "id": "hr_leave_policy.pdf#c1",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.099
+        "relevance": 0.131
       }
     ],
     "tool_calls": [],
-    "gate": "best relevance 0.16 < 0.2",
+    "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E14",
       "type": "ambiguous",
       "split": "dev",
-      "passed": false,
-      "category": "retrieval_miss",
-      "reason": "refused; expected source ['hr_conduct_remote.pdf'] not (fully) retrieved [abstain gate: best relevance 0.16 < 0.2]",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
       "checks": {
-        "refused": true,
+        "refused": false,
         "format_ok": true,
-        "gate": "best relevance 0.16 < 0.2",
-        "best_relevance": 0.163,
+        "gate": "",
+        "best_relevance": 0.21,
         "source_retrieved": true,
-        "correct": false,
-        "grounded": true
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 3
       },
-      "facts": []
+      "facts": [
+        {
+          "fact": "20 working days",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "300 USD",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "first 3 months",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
     }
   },
   {
     "case": "E15",
-    "question": "how many weeks of paid leave do primary and secondary caregivers get",
-    "answer": "Primary caregivers receive 18 weeks of fully paid parental leave. Secondary caregivers receive 4 weeks of fully paid parental leave.",
+    "question": "What occurs if an employee needs to put in time on a public day off?",
+    "answer": "If an employee needs to put in time on a public day off, they receive a replacement day off within 30 days.",
     "citations": [
-      "hr_leave_policy.pdf#c2"
+      "hr_leave_policy.pdf#c3"
     ],
     "refused": false,
     "retrieved": [
       {
-        "id": "hr_leave_policy.pdf#c2",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 1.0
-      },
-      {
         "id": "hr_leave_policy.pdf#c3",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.288
+        "relevance": 0.269
       },
       {
-        "id": "hr_leave_policy.pdf#c1",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.288
+        "id": "hr_conduct_remote.pdf#c1",
+        "doc": "hr_conduct_remote.pdf",
+        "relevance": 0.234
+      },
+      {
+        "id": "hr_travel_expenses.pdf#c0",
+        "doc": "hr_travel_expenses.pdf",
+        "relevance": 0.276
       },
       {
         "id": "hr_leave_policy.pdf#c0",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.193
+        "relevance": 0.108
       }
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": true,
     "format_ok": true,
     "verdict": {
       "case_id": "E15",
@@ -950,24 +1002,18 @@
         "refused": false,
         "format_ok": true,
         "gate": "",
-        "best_relevance": 1.0,
+        "best_relevance": 0.276,
         "source_retrieved": true,
         "coverage": 1.0,
         "correct": true,
         "grounded": true,
         "unsupported_numbers": [],
         "citation_ok": true,
-        "facts_in_context": 2
+        "facts_in_context": 1
       },
       "facts": [
         {
-          "fact": "18 weeks",
-          "stated": true,
-          "method": "deterministic",
-          "lexical": 1.0
-        },
-        {
-          "fact": "4 weeks",
+          "fact": "replacement day off",
           "stated": true,
           "method": "deterministic",
           "lexical": 1.0
@@ -977,36 +1023,37 @@
   },
   {
     "case": "E16",
-    "question": "what is the timeline for an employee to appeal a decision",
-    "answer": "Employees have the right to be accompanied by a colleague at any formal disciplinary meeting and may appeal a decision within 10 working days. This information is from [hr_conduct_remote.pdf#c3].",
+    "question": "What's the speak up helpline for?",
+    "answer": "The Speak Up hotline can be used to raise concerns anonymously. It is operated by an independent provider and available 24 hours a day.",
     "citations": [
-      "hr_conduct_remote.pdf#c3"
+      "hr_conduct_remote.pdf#c2"
     ],
     "refused": false,
     "retrieved": [
       {
-        "id": "hr_conduct_remote.pdf#c3",
+        "id": "hr_conduct_remote.pdf#c2",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.593
+        "relevance": 0.454
+      },
+      {
+        "id": "hr_travel_expenses.pdf#c1",
+        "doc": "hr_travel_expenses.pdf",
+        "relevance": 0.092
       },
       {
         "id": "hr_leave_policy.pdf#c3",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
-      },
-      {
-        "id": "hr_leave_policy.pdf#c0",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
+        "relevance": 0.092
       },
       {
         "id": "hr_leave_policy.pdf#c1",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
+        "relevance": 0.092
       }
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E16",
@@ -1019,7 +1066,7 @@
         "refused": false,
         "format_ok": true,
         "gate": "",
-        "best_relevance": 0.593,
+        "best_relevance": 0.454,
         "source_retrieved": true,
         "coverage": 1.0,
         "correct": true,
@@ -1030,7 +1077,7 @@
       },
       "facts": [
         {
-          "fact": "10 working days",
+          "fact": "24 hours a day",
           "stated": true,
           "method": "deterministic",
           "lexical": 1.0
@@ -1040,52 +1087,72 @@
   },
   {
     "case": "E17",
-    "question": "What's the deal if an employee has to clock in on a stat day?",
-    "answer": "I'm sorry, I can't answer that from the documents I have access to.",
-    "citations": [],
-    "refused": true,
+    "question": "what are the hotel cost rates for various cities",
+    "answer": "Hotel costs are reimbursed up to 180 USD per night in standard locations and up to 260 USD per night in high-cost cities such as Singapore, London, Oslo and Tokyo. The specific rates for other cities are not provided in the given context.",
+    "citations": [
+      "hr_travel_expenses.pdf#c1"
+    ],
+    "refused": false,
     "retrieved": [
       {
-        "id": "hr_leave_policy.pdf#c3",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
+        "id": "hr_travel_expenses.pdf#c1",
+        "doc": "hr_travel_expenses.pdf",
+        "relevance": 0.545
       },
       {
-        "id": "hr_leave_policy.pdf#c0",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
-      },
-      {
-        "id": "hr_leave_policy.pdf#c1",
-        "doc": "hr_leave_policy.pdf",
-        "relevance": 0.053
-      },
-      {
-        "id": "hr_conduct_remote.pdf#c3",
+        "id": "hr_conduct_remote.pdf#c1",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.053
+        "relevance": 0.182
+      },
+      {
+        "id": "hr_conduct_remote.pdf#c0",
+        "doc": "hr_conduct_remote.pdf",
+        "relevance": 0.0
+      },
+      {
+        "id": "hr_conduct_remote.pdf#c2",
+        "doc": "hr_conduct_remote.pdf",
+        "relevance": 0.0
       }
     ],
     "tool_calls": [],
-    "gate": "best relevance 0.05 < 0.2",
+    "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E17",
       "type": "ambiguous",
       "split": "dev",
-      "passed": false,
-      "category": "retrieval_miss",
-      "reason": "refused; expected source ['hr_leave_policy.pdf'] not (fully) retrieved [abstain gate: best relevance 0.05 < 0.2]",
+      "passed": true,
+      "category": null,
+      "reason": "correct and grounded",
       "checks": {
-        "refused": true,
+        "refused": false,
         "format_ok": true,
-        "gate": "best relevance 0.05 < 0.2",
-        "best_relevance": 0.053,
+        "gate": "",
+        "best_relevance": 0.545,
         "source_retrieved": true,
-        "correct": false,
-        "grounded": true
+        "coverage": 1.0,
+        "correct": true,
+        "grounded": true,
+        "unsupported_numbers": [],
+        "citation_ok": true,
+        "facts_in_context": 2
       },
-      "facts": []
+      "facts": [
+        {
+          "fact": "180 USD",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        },
+        {
+          "fact": "260 USD",
+          "stated": true,
+          "method": "deterministic",
+          "lexical": 1.0
+        }
+      ]
     }
   },
   {
@@ -1096,28 +1163,29 @@
     "refused": true,
     "retrieved": [
       {
-        "id": "hr_conduct_remote.pdf#c0",
-        "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.0
+        "id": "hr_leave_policy.pdf#c2",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.248
       },
       {
-        "id": "hr_conduct_remote.pdf#c1",
-        "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.0
+        "id": "hr_leave_policy.pdf#c0",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.082
       },
       {
-        "id": "hr_conduct_remote.pdf#c2",
-        "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.0
+        "id": "hr_leave_policy.pdf#c3",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.082
       },
       {
-        "id": "hr_conduct_remote.pdf#c3",
-        "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.0
+        "id": "hr_leave_policy.pdf#c1",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.082
       }
     ],
     "tool_calls": [],
-    "gate": "best relevance 0.00 < 0.2",
+    "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E18",
@@ -1129,8 +1197,8 @@
       "checks": {
         "refused": true,
         "format_ok": true,
-        "gate": "best relevance 0.00 < 0.2",
-        "best_relevance": 0.0,
+        "gate": "",
+        "best_relevance": 0.248,
         "refusal_ok": true,
         "refusal_method": "deterministic"
       },
@@ -1167,6 +1235,7 @@
     ],
     "tool_calls": [],
     "gate": "best relevance 0.14 < 0.2",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E19",
@@ -1194,28 +1263,29 @@
     "refused": true,
     "retrieved": [
       {
+        "id": "hr_travel_expenses.pdf#c2",
+        "doc": "hr_travel_expenses.pdf",
+        "relevance": 0.252
+      },
+      {
         "id": "hr_conduct_remote.pdf#c2",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.145
+        "relevance": 0.157
       },
       {
         "id": "hr_conduct_remote.pdf#c1",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.111
+        "relevance": 0.12
       },
       {
         "id": "hr_conduct_remote.pdf#c0",
         "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.111
-      },
-      {
-        "id": "hr_travel_expenses.pdf#c2",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.088
+        "relevance": 0.12
       }
     ],
     "tool_calls": [],
-    "gate": "best relevance 0.14 < 0.2",
+    "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E20",
@@ -1227,8 +1297,8 @@
       "checks": {
         "refused": true,
         "format_ok": true,
-        "gate": "best relevance 0.14 < 0.2",
-        "best_relevance": 0.145,
+        "gate": "",
+        "best_relevance": 0.252,
         "refusal_ok": true,
         "refusal_method": "deterministic"
       },
@@ -1245,26 +1315,27 @@
       {
         "id": "hr_travel_expenses.pdf#c0",
         "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.089
+        "relevance": 0.07
       },
       {
-        "id": "hr_travel_expenses.pdf#c1",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.049
+        "id": "hr_leave_policy.pdf#c3",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.157
       },
       {
-        "id": "hr_travel_expenses.pdf#c2",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.049
+        "id": "hr_leave_policy.pdf#c0",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.031
       },
       {
-        "id": "hr_travel_expenses.pdf#c3",
-        "doc": "hr_travel_expenses.pdf",
-        "relevance": 0.049
+        "id": "hr_conduct_remote.pdf#c3",
+        "doc": "hr_conduct_remote.pdf",
+        "relevance": 0.031
       }
     ],
     "tool_calls": [],
-    "gate": "best relevance 0.09 < 0.2",
+    "gate": "best relevance 0.16 < 0.2",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E21",
@@ -1276,8 +1347,8 @@
       "checks": {
         "refused": true,
         "format_ok": true,
-        "gate": "best relevance 0.09 < 0.2",
-        "best_relevance": 0.089,
+        "gate": "best relevance 0.16 < 0.2",
+        "best_relevance": 0.157,
         "refusal_ok": true,
         "refusal_method": "deterministic"
       },
@@ -1314,6 +1385,7 @@
     ],
     "tool_calls": [],
     "gate": "best relevance 0.16 < 0.2",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E22",
@@ -1335,51 +1407,52 @@
   },
   {
     "case": "E23",
-    "question": "I've been working remotely for a few weeks now and I'm not sure if my hybrid working policy has changed. Could you check??",
-    "answer": "Based on the information provided in the documents, your hybrid working policy has not changed. You may work remotely for up to 2 days per week, subject to line manager agreement. The company provides a one-time home office allowance of 300 USD for equipment, claimable within the first 3 months of employment or of starting a hybrid arrangement. Please ensure you are in compliance with the terms of your hybrid working policy.",
+    "question": "I heard there might be a new policy on leave for employees who are on vacation. Can you inform me about it??",
+    "answer": "There is no specific information about a new policy on leave for employees who are on vacation in the provided documents. The documents cover annual leave, sick leave, parental leave, and compassionate leave, but do not mention any new policy related to vacation leave.",
     "citations": [
-      "hr_conduct_remote.pdf#c0"
+      "hr_leave_policy.pdf#c0"
     ],
-    "refused": false,
+    "refused": true,
     "retrieved": [
       {
-        "id": "hr_conduct_remote.pdf#c0",
-        "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.237
+        "id": "hr_leave_policy.pdf#c1",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.418
       },
       {
-        "id": "hr_conduct_remote.pdf#c1",
-        "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.119
+        "id": "hr_leave_policy.pdf#c2",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.247
       },
       {
         "id": "hr_leave_policy.pdf#c0",
         "doc": "hr_leave_policy.pdf",
-        "relevance": 0.055
+        "relevance": 0.185
       },
       {
-        "id": "hr_conduct_remote.pdf#c3",
-        "doc": "hr_conduct_remote.pdf",
-        "relevance": 0.055
+        "id": "hr_leave_policy.pdf#c3",
+        "doc": "hr_leave_policy.pdf",
+        "relevance": 0.117
       }
     ],
     "tool_calls": [],
     "gate": "",
+    "auto_cited": false,
     "format_ok": true,
     "verdict": {
       "case_id": "E23",
       "type": "out_of_scope",
       "split": "holdout",
-      "passed": false,
-      "category": "hallucination",
-      "reason": "answered an out-of-scope question instead of refusing",
+      "passed": true,
+      "category": null,
+      "reason": "correctly refused",
       "checks": {
-        "refused": false,
+        "refused": true,
         "format_ok": true,
         "gate": "",
-        "best_relevance": 0.237,
-        "refusal_ok": false,
-        "refusal_method": "llm-judge"
+        "best_relevance": 0.418,
+        "refusal_ok": true,
+        "refusal_method": "deterministic"
       },
       "facts": []
     }

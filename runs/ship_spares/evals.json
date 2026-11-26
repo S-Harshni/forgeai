@@ -1,16 +1,17 @@
 {
   "stats": {
-    "generated": 20,
-    "dropped_unverifiable_facts": 1,
-    "dropped_duplicate": 0,
-    "dropped_oos_actually_answerable": 0,
+    "generated": 32,
+    "dropped_unverifiable_facts": 4,
+    "dropped_duplicate": 2,
+    "dropped_oos_actually_answerable": 2,
     "dropped_leaky_or_empty": 0,
-    "dropped_roundtrip_failed": 1,
+    "dropped_roundtrip_failed": 9,
     "facts_trimmed_by_roundtrip": 0,
-    "final": 23,
+    "dropped_not_unique_in_corpus": 8,
+    "final": 22,
     "by_type": {
       "answerable": 10,
-      "multi_doc": 3,
+      "multi_doc": 2,
       "ambiguous": 4,
       "out_of_scope": 6
     }
@@ -54,42 +55,6 @@
     {
       "id": "E03",
       "type": "answerable",
-      "question": "What is the payment term for orders above 50,000 USD?",
-      "should_refuse": false,
-      "expected_sources": [
-        "supplier_nordic_terms.pdf"
-      ],
-      "key_facts": [
-        "30%",
-        "advance payment"
-      ],
-      "generated_from": [
-        "supplier_nordic_terms.pdf#c1"
-      ],
-      "split": "holdout",
-      "prompt": "evalgen_answerable"
-    },
-    {
-      "id": "E04",
-      "type": "answerable",
-      "question": "What is the warranty duration and restocking fee for returns?",
-      "should_refuse": false,
-      "expected_sources": [
-        "supplier_pacific_terms.pdf"
-      ],
-      "key_facts": [
-        "12 months",
-        "15%"
-      ],
-      "generated_from": [
-        "supplier_pacific_terms.pdf#c2"
-      ],
-      "split": "dev",
-      "prompt": "evalgen_answerable"
-    },
-    {
-      "id": "E05",
-      "type": "answerable",
       "question": "How many critical spares must be kept on board per vessel?",
       "should_refuse": false,
       "expected_sources": [
@@ -101,11 +66,11 @@
       "generated_from": [
         "procurement_policy.md#c2"
       ],
-      "split": "dev",
+      "split": "holdout",
       "prompt": "evalgen_answerable"
     },
     {
-      "id": "E06",
+      "id": "E04",
       "type": "answerable",
       "question": "What is the lead time for ordering a hydraulic oil filter cartridge for the Rolls-Royce SR642 engine?",
       "should_refuse": false,
@@ -118,29 +83,11 @@
       "generated_from": [
         "spares_catalogue.csv#r24"
       ],
-      "split": "holdout",
-      "prompt": "evalgen_answerable"
-    },
-    {
-      "id": "E07",
-      "type": "answerable",
-      "question": "What are the terms for urgent orders and how do they differ from regular orders?",
-      "should_refuse": false,
-      "expected_sources": [
-        "supplier_nordic_terms.pdf"
-      ],
-      "key_facts": [
-        "15%",
-        "72"
-      ],
-      "generated_from": [
-        "supplier_nordic_terms.pdf#c2"
-      ],
       "split": "dev",
       "prompt": "evalgen_answerable"
     },
     {
-      "id": "E08",
+      "id": "E05",
       "type": "answerable",
       "question": "What is the payment term and discount policy for early payment?",
       "should_refuse": false,
@@ -159,19 +106,71 @@
       "prompt": "evalgen_answerable"
     },
     {
-      "id": "E09",
+      "id": "E06",
       "type": "answerable",
-      "question": "What is the policy for ordering critical spares?",
+      "question": "What is the duration of the agreement mentioned in the document?",
       "should_refuse": false,
       "expected_sources": [
-        "procurement_policy.md"
+        "supplier_pacific_terms.pdf"
       ],
       "key_facts": [
-        "class certificate",
-        "supplier that can issue one"
+        "24 months"
       ],
       "generated_from": [
-        "procurement_policy.md#c1"
+        "supplier_pacific_terms.pdf#c0"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E07",
+      "type": "answerable",
+      "question": "What is the unit price in USD for the Aalborg OS-TCi boiler burner nozzle?",
+      "should_refuse": false,
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "key_facts": [
+        "430"
+      ],
+      "generated_from": [
+        "spares_catalogue.csv#r21"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E08",
+      "type": "answerable",
+      "question": "What is the part number, description, and engine model for the seawater pump mechanical seal?",
+      "should_refuse": false,
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "key_facts": [
+        "MS-5001",
+        "Desmi ESL 150"
+      ],
+      "generated_from": [
+        "spares_catalogue.csv#r19"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E09",
+      "type": "answerable",
+      "question": "What is the payment policy for orders above 50,000 USD?",
+      "should_refuse": false,
+      "expected_sources": [
+        "supplier_nordic_terms.pdf"
+      ],
+      "key_facts": [
+        "30%",
+        "advance payment"
+      ],
+      "generated_from": [
+        "supplier_nordic_terms.pdf#c1"
       ],
       "split": "holdout",
       "prompt": "evalgen_answerable"
@@ -179,16 +178,16 @@
     {
       "id": "E10",
       "type": "answerable",
-      "question": "What is the unit price in USD for the Fuel injector nozzle?",
+      "question": "What is the minimum amount for the surcharge on express dispatch?",
       "should_refuse": false,
       "expected_sources": [
-        "spares_catalogue.csv"
+        "supplier_pacific_terms.pdf"
       ],
       "key_facts": [
-        "1320"
+        "150 USD"
       ],
       "generated_from": [
-        "spares_catalogue.csv#r8"
+        "supplier_pacific_terms.pdf#c2"
       ],
       "split": "dev",
       "prompt": "evalgen_answerable"
@@ -216,26 +215,6 @@
     {
       "id": "E12",
       "type": "multi_doc",
-      "question": "Which supplier should be chosen for critical spares that require a class certificate, given the lead time difference constraint?",
-      "should_refuse": false,
-      "expected_sources": [
-        "supplier_pacific_terms.pdf",
-        "procurement_policy.md"
-      ],
-      "key_facts": [
-        "Class society certificates",
-        "Parts that require a class certificate"
-      ],
-      "generated_from": [
-        "supplier_pacific_terms.pdf#c3",
-        "procurement_policy.md#c1"
-      ],
-      "split": "dev",
-      "prompt": "evalgen_multidoc"
-    },
-    {
-      "id": "E13",
-      "type": "multi_doc",
       "question": "Compare the payment terms and delivery lead times for a shipment from Meridian Shipping to a customer in Singapore versus a customer in Norway. What are the differences in payment terms and how do delivery lead times vary based on the port of delivery?",
       "should_refuse": false,
       "expected_sources": [
@@ -250,23 +229,39 @@
         "supplier_pacific_terms.pdf#c1",
         "supplier_nordic_terms.pdf#c1"
       ],
-      "split": "holdout",
+      "split": "dev",
       "prompt": "evalgen_multidoc"
+    },
+    {
+      "id": "E13",
+      "type": "ambiguous",
+      "question": "What's the lead time for ordering a hydraulic oil filter for the SR642 engine?",
+      "should_refuse": false,
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "key_facts": [
+        "lead_time_days: 9"
+      ],
+      "generated_from": [
+        "spares_catalogue.csv#r24"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_ambiguous"
     },
     {
       "id": "E14",
       "type": "ambiguous",
-      "question": "What's the payment method for orders over 50 grand?",
+      "question": "What's the time frame for the deal in the report?",
       "should_refuse": false,
       "expected_sources": [
-        "supplier_nordic_terms.pdf"
+        "supplier_pacific_terms.pdf"
       ],
       "key_facts": [
-        "30%",
-        "advance payment"
+        "24 months"
       ],
       "generated_from": [
-        "supplier_nordic_terms.pdf#c1"
+        "supplier_pacific_terms.pdf#c0"
       ],
       "split": "dev",
       "prompt": "evalgen_ambiguous"
@@ -274,42 +269,7 @@
     {
       "id": "E15",
       "type": "ambiguous",
-      "question": "What is the warrrantee duraation and restocking fee for rturns?",
-      "should_refuse": false,
-      "expected_sources": [
-        "supplier_pacific_terms.pdf"
-      ],
-      "key_facts": [
-        "12 months",
-        "15%"
-      ],
-      "generated_from": [
-        "supplier_pacific_terms.pdf#c2"
-      ],
-      "split": "dev",
-      "prompt": "evalgen_ambiguous"
-    },
-    {
-      "id": "E16",
-      "type": "ambiguous",
-      "question": "What's the cost per unit for the Fuel injector nozzle in USD?",
-      "should_refuse": false,
-      "expected_sources": [
-        "spares_catalogue.csv"
-      ],
-      "key_facts": [
-        "1320"
-      ],
-      "generated_from": [
-        "spares_catalogue.csv#r8"
-      ],
-      "split": "holdout",
-      "prompt": "evalgen_ambiguous"
-    },
-    {
-      "id": "E17",
-      "type": "ambiguous",
-      "question": "what is the approval process for purchase orders over 25k usd...?",
+      "question": "what is the procedure for approving spare parts orders over 25k USD",
       "should_refuse": false,
       "expected_sources": [
         "procurement_policy.md"
@@ -321,11 +281,29 @@
       "generated_from": [
         "procurement_policy.md#c0"
       ],
+      "split": "holdout",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E16",
+      "type": "ambiguous",
+      "question": "what is the part number, descrption, and engine modle for the seawater pump mechanical seal",
+      "should_refuse": false,
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "key_facts": [
+        "MS-5001",
+        "Desmi ESL 150"
+      ],
+      "generated_from": [
+        "spares_catalogue.csv#r19"
+      ],
       "split": "dev",
       "prompt": "evalgen_ambiguous"
     },
     {
-      "id": "E18",
+      "id": "E17",
       "type": "out_of_scope",
       "question": "Can you recommend a good recipe for chocolate cake??",
       "should_refuse": true,
@@ -336,7 +314,7 @@
       "prompt": "evalgen_oos"
     },
     {
-      "id": "E19",
+      "id": "E18",
       "type": "out_of_scope",
       "question": "Can you assist with optimizing our marketing strategies to increase sales??",
       "should_refuse": true,
@@ -347,9 +325,9 @@
       "prompt": "evalgen_oos"
     },
     {
-      "id": "E20",
+      "id": "E19",
       "type": "out_of_scope",
-      "question": "What are the internal processes for approving procurement requests??",
+      "question": "Could you provide insight into our supplier performance based on their delivery times??",
       "should_refuse": true,
       "expected_sources": [],
       "key_facts": [],
@@ -358,9 +336,20 @@
       "prompt": "evalgen_oos"
     },
     {
+      "id": "E20",
+      "type": "out_of_scope",
+      "question": "What is the role of the On-Time Delivery Rating in our procurement process??",
+      "should_refuse": true,
+      "expected_sources": [],
+      "key_facts": [],
+      "generated_from": [],
+      "split": "dev",
+      "prompt": "evalgen_oos"
+    },
+    {
       "id": "E21",
       "type": "out_of_scope",
-      "question": "How do we handle financial transactions that exceed the catalogue prices??",
+      "question": "I'm curious about the financial health of Meridian Shipping, how does that affect our procurement decisions??",
       "should_refuse": true,
       "expected_sources": [],
       "key_facts": [],
@@ -371,18 +360,7 @@
     {
       "id": "E22",
       "type": "out_of_scope",
-      "question": "Could you provide insight into our supplier performance based on their delivery times??",
-      "should_refuse": true,
-      "expected_sources": [],
-      "key_facts": [],
-      "generated_from": [],
-      "split": "dev",
-      "prompt": "evalgen_oos"
-    },
-    {
-      "id": "E23",
-      "type": "out_of_scope",
-      "question": "What is the role of the On-Time Delivery Rating in our procurement process??",
+      "question": "Can you help me calculate the best marketing budget to allocate to the next quarter??",
       "should_refuse": true,
       "expected_sources": [],
       "key_facts": [],

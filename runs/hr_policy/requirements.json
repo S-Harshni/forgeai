@@ -89,7 +89,7 @@
       "relevance": 1.0,
       "evidence": "",
       "evidence_source": "",
-      "reason": "short [evidence quote NOT found in docs - ignored]"
+      "reason": "short (the checker's supporting quote was not found in the documents, so it was ignored)"
     },
     {
       "topic": "Code of Conduct",
@@ -97,7 +97,7 @@
       "relevance": 1.0,
       "evidence": "",
       "evidence_source": "",
-      "reason": "short [evidence quote NOT found in docs - ignored]"
+      "reason": "short (the checker's supporting quote was not found in the documents, so it was ignored)"
     },
     {
       "topic": "Income Tax Deduction",

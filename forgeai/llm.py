@@ -22,6 +22,8 @@ OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 # Generator / agent model and a *different family* judge model (self-preference defence).
 GEN_MODEL = os.environ.get("FORGE_GEN_MODEL", "qwen2.5:3b")
 JUDGE_MODEL = os.environ.get("FORGE_JUDGE_MODEL", "llama3.2:3b")
+# The model the *produced agent* runs on (recorded in its definition).
+AGENT_MODEL = os.environ.get("FORGE_AGENT_MODEL", GEN_MODEL)
 
 PROMPT_DIR = Path(__file__).resolve().parent.parent / "prompts"
 

@@ -411,6 +411,7 @@ function renderMsg(m) {
   return `<div class="msg bot"><div class="bubble">${esc(r.answer)}</div>
     <div class="meta">${r.refused ? `<span class="chip neutral">Declined</span>` : ""}
       ${r.sources.map((s) => `<button class="src" data-id="${esc(s.id)}" data-text="${esc(s.text)}">${esc(s.id)}</button>`).join("")}
+      ${r.auto_cited ? `<span class="chip outline" title="The model gave no ids; the runtime matched the answer to these excerpts">attributed</span>` : ""}
       <span class="muted mono" style="font-size:11.5px;margin-left:auto">${(r.latency_ms / 1000).toFixed(1)}s</span></div>
     <div class="src-body" hidden></div>
     ${r.tool_calls.map((t) => `<div class="trace">↳ <b>${esc(TOOL_LABEL[t.tool] || t.tool)}</b> ${esc(JSON.stringify(t.args))} → ${esc(t.result.slice(0, 140))}</div>`).join("")}

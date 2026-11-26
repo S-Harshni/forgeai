@@ -178,10 +178,10 @@ def optimize(defn: AgentDefinition, cases: list[EvalCase], docs, max_iters: int 
         fixed = [cid for cid in targeted if next(v for v in verdicts if v.case_id == cid).passed]
         broke = [v.case_id for v in verdicts if not v.passed and
                  next(b for b in best["verdicts"] if b.case_id == v.case_id).passed]
-        # A patch must pay for itself: strictly better on dev, or equal on dev and better overall.
-        # Ties are reverted (keep the simpler definition).
+        # A patch must pay for itself ON DEV ALONE: held-out results must never influence a decision,
+        # or the held-out score stops being an honest estimate. Ties are reverted (keep the simpler definition).
         d_new, d_old = summ["dev"] or 0, before["dev"] or 0
-        kept = d_new > d_old or (d_new == d_old and summ["passed"] > before["passed"])
+        kept = d_new > d_old
         entry = {"iteration": it, "version": new_defn.version, "fix": fix.id, "category": fix.category,
                  "change": fix.description, "why": f"{counts[fix.category]} dev failure(s) classified {fix.category}",
                  "targeted_cases": targeted, "fixed_cases": fixed, "newly_broken_cases": broke,

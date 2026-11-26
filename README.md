@@ -93,6 +93,9 @@ brief + docs
 | The agent's calculator call uses invented operands | Every number in a calculator expression must appear in the question, the retrieved excerpts or earlier tool results; otherwise the call is rejected before it runs. |
 | Small models get date arithmetic wrong | `current_date(add_days=N)` does the arithmetic. Date questions always get today's date. |
 | Failures caused by the eval set, not the agent | The report flags suspect cases (e.g. an "out-of-scope" question that is highly relevant to the docs) but still counts them as failures. |
+| An exam question has more than one correct answer in the corpus ("price of *the* fuel injector nozzle" when there are two) | **Uniqueness check:** the source excerpt is shown among the most similar excerpts from the rest of the corpus. If a rival matches the question's words as well as the source but has different figures, or the independent answer uses a rival's figure, the case is rejected. |
+| Typos and slang make retrieval miss ("ovtime", "stat day") | Out-of-vocabulary query words are mapped to the nearest corpus word (edit distance ≤ 2). Before abstaining, the agent rewrites the query once into document vocabulary. |
+| Threshold rules are misapplied (approval limits) | The calculator also evaluates comparisons (`3960 <= 5000`), and the grounding rules tell the agent to state the value first, then quote the range that contains it. |
 | An "out-of-scope" eval question is actually answerable | It is dropped if retrieval finds a highly relevant passage. |
 | The agent hallucinates figures | Every number in an answer must appear in the retrieved text, a tool result or the question. |
 | The agent cites something it was never shown | Citations are checked against the retrieved chunk ids. |
@@ -115,13 +118,16 @@ brief + docs
 At runtime the agent may chain up to two tool calls, for example a lookup followed by a calculation. It can only call tools attached to its definition.
 
 ## Demo runs (all artifacts committed)
-| Run | Documents | Deliberate gap in the brief → guard result | Tools chosen | Evals | Baseline → final | Holdout | Time |
+| Run | Documents | Deliberate gap in the brief → guard result | Tools chosen | Evals | Baseline → final | Held-out | Time |
 |---|---|---|---|---|---|---|---|
-| [`runs/hr_policy`](runs/hr_policy) | 3 HR policy PDFs | payslip tax deductions → **flagged** | none | 23 | 20 → 20/23 (87%) | 86% | 9 min |
-| [`runs/ship_spares`](runs/ship_spares) | catalogue CSV, 2 supplier PDFs, policy Markdown | supplier on-time rating → **flagged** | csv_lookup, calculator, current_date (no weather) | 23 | 19 → 19/23 (83%) | 71% (overfitting warning raised) | 24 min |
-| [`runs/selftest_it_helpdesk`](runs/selftest_it_helpdesk) - generalisation check on a brief written after the factory was built | DOCX + TXT | self-service password reset → not flagged (merged into "Passwords") | none | 22 | 15 → 18/22 (82%) | 71% | 7 min |
+| [`runs/hr_policy`](runs/hr_policy) | 3 HR policy PDFs | payslip tax deductions → **flagged** | none | 23 | 22 → 22/23 (96%) | 86% | 4 min |
+| [`runs/ship_spares`](runs/ship_spares) | catalogue CSV, 2 supplier PDFs, policy Markdown | supplier on-time rating → **flagged** | csv_lookup, calculator, current_date (no weather) | 22 | 20 → 20/22 (91%) | 100% | 12 min |
+| [`runs/selftest_it_helpdesk`](runs/selftest_it_helpdesk) - generalisation check on a brief written after the factory was built | DOCX + TXT | self-service password reset → not flagged (merged into "Passwords") | none | 22 | 20 → 22/22 (100%) | 100% | 9 min |
 
-None of these runs reaches 100%. Each `report.md` lists the remaining failures, classifies them, and flags the ones that look like eval-set defects. Patches that did not pay for themselves were reverted; see the *Optimisation log* in each report. The models run on a 16 GB Apple-silicon laptop.
+How to read these numbers:
+- **HR** stops after the baseline because every dev case passed. Its one failure is a held-out case, and the factory never uses held-out cases to choose repairs.
+- **IT** reaches 100% after two repairs that each fixed a dev case and broke nothing. Its own report warns that a perfect score on a small, self-generated exam is weak evidence: only 5 out-of-scope cases survived validation there.
+- **Each `report.md`** lists the remaining failures and explains them.
 
 Each run folder contains:
 - `brief.txt`, `requirements.json`
@@ -134,6 +140,16 @@ The demo documents are LLM-synthesized; the prompts are in [`demos/SYNTHESIS_PRO
 
 ## Troubleshooting
 If runs stall (long gaps between requests), restart Ollama with its log going to a file or to `/dev/null`, not to a pipe nobody reads: `ollama serve > /dev/null 2>&1`. The client retries with a 90-second per-request timeout (`FORGE_REQUEST_TIMEOUT`) and counts stalls in `usage.json`.
+
+## Model choice (measured, not assumed)
+The produced agent's model is part of its definition (`"model"` in `agent.json`; override with `FORGE_AGENT_MODEL`). We re-ran the same exams with both installed Qwen models:
+
+| Exam | qwen2.5:3b | qwen2.5-coder:7b |
+|---|---|---|
+| Ship spares (23 cases) | 19/23 in 191 s | 20/23 in 514 s |
+| HR policy (23 cases) | 20/23 in 81 s | 20/23 in 160 s |
+
+The 7B model gained one case for 2–2.7× the latency, so the default stays 3B: a live, unattended run has to finish while the reviewers are watching.
 
 ## Known limitations
 - 3B models have weak instruction following. Expect some prompt-defect failures to remain; the report says which ones.

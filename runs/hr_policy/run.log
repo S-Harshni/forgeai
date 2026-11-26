@@ -33,10 +33,10 @@ BRIEF: I need an assistant that answers HR policy questions for our shore staff 
   agent 'Assistant': tools=none; retrieval={'chunk_size': 120, 'overlap': 24, 'top_k': 4, 'min_relevance': 0.2, 'mode': 'hybrid', 'query_rewrite': False}
 
 [5/7] Generating eval set
-  evals: 23 cases {'answerable': 10, 'multi_doc': 3, 'ambiguous': 4, 'out_of_scope': 6}; dropped: {'dropped_roundtrip_failed': 6}
+  evals: 23 cases {'answerable': 10, 'multi_doc': 3, 'ambiguous': 4, 'out_of_scope': 6}; dropped: {'dropped_oos_actually_answerable': 1, 'dropped_roundtrip_failed': 6, 'dropped_not_unique_in_corpus': 5}
 
 [6/7] Judge calibration + critic-optimizer loop
-  judge calibration: 90% agreement on 20 known-label checks
+  judge calibration: 86% agreement on 21 known-label checks
 
   iteration 0 (baseline)
     E01 answerable   dev     PASS
@@ -51,72 +51,20 @@ BRIEF: I need an assistant that answers HR policy questions for our shore staff 
     E10 answerable   dev     PASS
     E11 multi_doc    dev     PASS
     E12 multi_doc    dev     PASS
-    E13 multi_doc    holdout PASS
-    E14 ambiguous    dev     FAIL[retrieval_miss]
-    E15 ambiguous    dev     PASS
-    E16 ambiguous    holdout PASS
-    E17 ambiguous    dev     FAIL[retrieval_miss]
-    E18 out_of_scope dev     PASS
-    E19 out_of_scope dev     PASS
-    E20 out_of_scope holdout PASS
-    E21 out_of_scope dev     PASS
-    E22 out_of_scope dev     PASS
-    E23 out_of_scope holdout FAIL[hallucination]
-  baseline: 20/23 (dev 0.875, holdout 0.857) failures={'retrieval_miss': 2, 'prompt_defect': 0, 'hallucination': 1, 'wrong_refusal': 0}
-
-  iteration 1: fix retrieval_miss:lower_gate -> abstain gate fired on 2 miss(es): min_relevance 0.2 -> 0.12
-    E01 answerable   dev     PASS
-    E02 answerable   dev     PASS
-    E03 answerable   holdout PASS
-    E04 answerable   dev     PASS
-    E05 answerable   dev     PASS
-    E06 answerable   holdout PASS
-    E07 answerable   dev     PASS
-    E08 answerable   dev     PASS
-    E09 answerable   holdout PASS
-    E10 answerable   dev     PASS
-    E11 multi_doc    dev     PASS
-    E12 multi_doc    dev     PASS
-    E13 multi_doc    holdout PASS
+    E13 multi_doc    holdout FAIL[prompt_defect]
     E14 ambiguous    dev     PASS
     E15 ambiguous    dev     PASS
     E16 ambiguous    holdout PASS
-    E17 ambiguous    dev     FAIL[retrieval_miss]
-    E18 out_of_scope dev     PASS
-    E19 out_of_scope dev     PASS
-    E20 out_of_scope holdout PASS
-    E21 out_of_scope dev     PASS
-    E22 out_of_scope dev     FAIL[hallucination]
-    E23 out_of_scope holdout FAIL[hallucination]
-  -> 20/23 (dev 0.875 -> 0.875, holdout 0.857 -> 0.857); fixed ['E14']; broke ['E22']; REVERTED
-
-  iteration 2: fix retrieval_miss:top_k_up -> top_k 4 -> 6
-    E01 answerable   dev     PASS
-    E02 answerable   dev     FAIL[prompt_defect]
-    E03 answerable   holdout FAIL[hallucination]
-    E04 answerable   dev     PASS
-    E05 answerable   dev     PASS
-    E06 answerable   holdout PASS
-    E07 answerable   dev     PASS
-    E08 answerable   dev     PASS
-    E09 answerable   holdout PASS
-    E10 answerable   dev     PASS
-    E11 multi_doc    dev     PASS
-    E12 multi_doc    dev     PASS
-    E13 multi_doc    holdout PASS
-    E14 ambiguous    dev     FAIL[retrieval_miss]
-    E15 ambiguous    dev     PASS
-    E16 ambiguous    holdout PASS
-    E17 ambiguous    dev     FAIL[retrieval_miss]
+    E17 ambiguous    dev     PASS
     E18 out_of_scope dev     PASS
     E19 out_of_scope dev     PASS
     E20 out_of_scope holdout PASS
     E21 out_of_scope dev     PASS
     E22 out_of_scope dev     PASS
-    E23 out_of_scope holdout FAIL[hallucination]
-  -> 18/23 (dev 0.875 -> 0.812, holdout 0.857 -> 0.714); fixed []; broke ['E02', 'E03']; REVERTED
+    E23 out_of_scope holdout PASS
+  baseline: 22/23 (dev 1.0, holdout 0.857) failures={'retrieval_miss': 0, 'prompt_defect': 1, 'hallucination': 0, 'wrong_refusal': 0}
 
 [7/7] Writing artifacts
 
-DONE in 8.8 min. Final 20/23 (87%), holdout 86%.
+DONE in 4.0 min. Final 22/23 (96%), holdout 86%.
 Artifacts in runs/hr_policy/  ->  chat with it:  python chat.py runs/hr_policy/agent.json

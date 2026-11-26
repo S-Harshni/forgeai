@@ -4,83 +4,79 @@
     "version": 0,
     "change": "baseline",
     "summary": {
-      "overall": 0.682,
-      "dev": 0.667,
-      "holdout": 0.714,
-      "passed": 15,
+      "overall": 0.909,
+      "dev": 0.875,
+      "holdout": 1.0,
+      "passed": 20,
       "total": 22,
       "by_type": {
         "answerable": {
-          "pass": 8,
-          "total": 9,
-          "rate": 0.889
+          "pass": 10,
+          "total": 10,
+          "rate": 1.0
         },
         "multi_doc": {
-          "pass": 2,
+          "pass": 3,
           "total": 3,
-          "rate": 0.667
+          "rate": 1.0
         },
         "ambiguous": {
-          "pass": 1,
+          "pass": 3,
           "total": 4,
-          "rate": 0.25
+          "rate": 0.75
         },
         "out_of_scope": {
           "pass": 4,
-          "total": 6,
-          "rate": 0.667
+          "total": 5,
+          "rate": 0.8
         }
       },
       "failures": {
-        "retrieval_miss": 3,
-        "prompt_defect": 1,
-        "hallucination": 2,
-        "wrong_refusal": 1
+        "retrieval_miss": 1,
+        "prompt_defect": 0,
+        "hallucination": 1,
+        "wrong_refusal": 0
       },
-      "grounded_rate": 0.917
+      "grounded_rate": 1.0
     },
     "kept": true,
-    "tokens_so_far": 39006
+    "tokens_so_far": 60392
   },
   {
     "iteration": 1,
     "version": 1,
-    "fix": "retrieval_miss:lower_gate",
-    "category": "retrieval_miss",
-    "change": "abstain gate fired on 3 miss(es): min_relevance 0.2 -> 0.12",
-    "why": "3 dev failure(s) classified retrieval_miss",
+    "fix": "hallucination:refusal_topics",
+    "category": "hallucination",
+    "change": "added generalised decline categories to REFUSAL section: ['requests_for_personal_changes', 'requests_for_additional_resources', 'requests_for_unlimited_access']",
+    "why": "1 dev failure(s) classified hallucination",
     "targeted_cases": [
-      "E10",
-      "E13",
-      "E14"
+      "E22"
     ],
     "fixed_cases": [
-      "E10",
-      "E13",
-      "E14"
+      "E22"
     ],
     "newly_broken_cases": [],
     "score_before": {
-      "overall": 0.682,
-      "dev": 0.667,
-      "holdout": 0.714
+      "overall": 0.909,
+      "dev": 0.875,
+      "holdout": 1.0
     },
     "score_after": {
-      "overall": 0.818,
-      "dev": 0.867,
-      "holdout": 0.714
+      "overall": 0.955,
+      "dev": 0.938,
+      "holdout": 1.0
     },
     "summary": {
-      "overall": 0.818,
-      "dev": 0.867,
-      "holdout": 0.714,
-      "passed": 18,
+      "overall": 0.955,
+      "dev": 0.938,
+      "holdout": 1.0,
+      "passed": 21,
       "total": 22,
       "by_type": {
         "answerable": {
-          "pass": 8,
-          "total": 9,
-          "rate": 0.889
+          "pass": 10,
+          "total": 10,
+          "rate": 1.0
         },
         "multi_doc": {
           "pass": 3,
@@ -93,57 +89,57 @@
           "rate": 0.75
         },
         "out_of_scope": {
-          "pass": 4,
-          "total": 6,
-          "rate": 0.667
+          "pass": 5,
+          "total": 5,
+          "rate": 1.0
         }
       },
       "failures": {
-        "retrieval_miss": 0,
-        "prompt_defect": 1,
-        "hallucination": 2,
-        "wrong_refusal": 1
+        "retrieval_miss": 1,
+        "prompt_defect": 0,
+        "hallucination": 0,
+        "wrong_refusal": 0
       },
-      "grounded_rate": 0.933
+      "grounded_rate": 1.0
     },
     "kept": true,
-    "tokens_so_far": 59173
+    "tokens_so_far": 79134
   },
   {
     "iteration": 2,
     "version": 2,
-    "fix": "hallucination:refusal_topics",
-    "category": "hallucination",
-    "change": "added generalised decline categories to REFUSAL section: ['policy-related-questions', 'non-service-related-questions', 'personal-requests']",
-    "why": "1 dev failure(s) classified hallucination",
+    "fix": "retrieval_miss:lower_gate",
+    "category": "retrieval_miss",
+    "change": "abstain gate fired on 1 miss(es): min_relevance 0.2 -> 0.12",
+    "why": "1 dev failure(s) classified retrieval_miss",
     "targeted_cases": [
-      "E18"
+      "E17"
     ],
-    "fixed_cases": [],
-    "newly_broken_cases": [
-      "E21"
+    "fixed_cases": [
+      "E17"
     ],
+    "newly_broken_cases": [],
     "score_before": {
-      "overall": 0.818,
-      "dev": 0.867,
-      "holdout": 0.714
+      "overall": 0.955,
+      "dev": 0.938,
+      "holdout": 1.0
     },
     "score_after": {
-      "overall": 0.773,
-      "dev": 0.8,
-      "holdout": 0.714
+      "overall": 1.0,
+      "dev": 1.0,
+      "holdout": 1.0
     },
     "summary": {
-      "overall": 0.773,
-      "dev": 0.8,
-      "holdout": 0.714,
-      "passed": 17,
+      "overall": 1.0,
+      "dev": 1.0,
+      "holdout": 1.0,
+      "passed": 22,
       "total": 22,
       "by_type": {
         "answerable": {
-          "pass": 8,
-          "total": 9,
-          "rate": 0.889
+          "pass": 10,
+          "total": 10,
+          "rate": 1.0
         },
         "multi_doc": {
           "pass": 3,
@@ -151,89 +147,25 @@
           "rate": 1.0
         },
         "ambiguous": {
-          "pass": 3,
+          "pass": 4,
           "total": 4,
-          "rate": 0.75
+          "rate": 1.0
         },
         "out_of_scope": {
-          "pass": 3,
-          "total": 6,
-          "rate": 0.5
+          "pass": 5,
+          "total": 5,
+          "rate": 1.0
         }
       },
       "failures": {
         "retrieval_miss": 0,
-        "prompt_defect": 1,
-        "hallucination": 3,
-        "wrong_refusal": 1
+        "prompt_defect": 0,
+        "hallucination": 0,
+        "wrong_refusal": 0
       },
-      "grounded_rate": 0.933
+      "grounded_rate": 1.0
     },
-    "kept": false,
-    "tokens_so_far": 79946
-  },
-  {
-    "iteration": 3,
-    "version": 2,
-    "fix": "hallucination:raise_gate",
-    "category": "hallucination",
-    "change": "min_relevance 0.12 -> 0.19 (abstain more)",
-    "why": "1 dev failure(s) classified hallucination",
-    "targeted_cases": [
-      "E18"
-    ],
-    "fixed_cases": [],
-    "newly_broken_cases": [
-      "E10",
-      "E14"
-    ],
-    "score_before": {
-      "overall": 0.818,
-      "dev": 0.867,
-      "holdout": 0.714
-    },
-    "score_after": {
-      "overall": 0.727,
-      "dev": 0.733,
-      "holdout": 0.714
-    },
-    "summary": {
-      "overall": 0.727,
-      "dev": 0.733,
-      "holdout": 0.714,
-      "passed": 16,
-      "total": 22,
-      "by_type": {
-        "answerable": {
-          "pass": 8,
-          "total": 9,
-          "rate": 0.889
-        },
-        "multi_doc": {
-          "pass": 2,
-          "total": 3,
-          "rate": 0.667
-        },
-        "ambiguous": {
-          "pass": 2,
-          "total": 4,
-          "rate": 0.5
-        },
-        "out_of_scope": {
-          "pass": 4,
-          "total": 6,
-          "rate": 0.667
-        }
-      },
-      "failures": {
-        "retrieval_miss": 2,
-        "prompt_defect": 1,
-        "hallucination": 2,
-        "wrong_refusal": 1
-      },
-      "grounded_rate": 0.923
-    },
-    "kept": false,
-    "tokens_so_far": 98130
+    "kept": true,
+    "tokens_so_far": 99593
   }
 ]

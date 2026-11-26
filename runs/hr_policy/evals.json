@@ -3,10 +3,11 @@
     "generated": 24,
     "dropped_unverifiable_facts": 0,
     "dropped_duplicate": 0,
-    "dropped_oos_actually_answerable": 0,
+    "dropped_oos_actually_answerable": 1,
     "dropped_leaky_or_empty": 0,
     "dropped_roundtrip_failed": 6,
-    "facts_trimmed_by_roundtrip": 0,
+    "facts_trimmed_by_roundtrip": 2,
+    "dropped_not_unique_in_corpus": 5,
     "final": 23,
     "by_type": {
       "answerable": 10,
@@ -70,6 +71,25 @@
     {
       "id": "E04",
       "type": "answerable",
+      "question": "What is the limit on working from another country and how is the home office allowance structured?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "20 working days",
+        "300 USD",
+        "first 3 months"
+      ],
+      "generated_from": [
+        "hr_conduct_remote.pdf#c1"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_answerable"
+    },
+    {
+      "id": "E05",
+      "type": "answerable",
       "question": "How many weeks of fully paid parental leave do primary and secondary caregivers receive?",
       "should_refuse": false,
       "expected_sources": [
@@ -86,7 +106,7 @@
       "prompt": "evalgen_answerable"
     },
     {
-      "id": "E05",
+      "id": "E06",
       "type": "answerable",
       "question": "What are the hotel cost reimbursement rates for different cities?",
       "should_refuse": false,
@@ -100,11 +120,11 @@
       "generated_from": [
         "hr_travel_expenses.pdf#c2"
       ],
-      "split": "dev",
+      "split": "holdout",
       "prompt": "evalgen_answerable"
     },
     {
-      "id": "E06",
+      "id": "E07",
       "type": "answerable",
       "question": "What is the maximum number of days per week shore staff can work remotely?",
       "should_refuse": false,
@@ -117,40 +137,22 @@
       "generated_from": [
         "hr_conduct_remote.pdf#c0"
       ],
-      "split": "holdout",
-      "prompt": "evalgen_answerable"
-    },
-    {
-      "id": "E07",
-      "type": "answerable",
-      "question": "What is the minimum time required in advance for booking business travel?",
-      "should_refuse": false,
-      "expected_sources": [
-        "hr_travel_expenses.pdf"
-      ],
-      "key_facts": [
-        "14 days"
-      ],
-      "generated_from": [
-        "hr_travel_expenses.pdf#c0"
-      ],
       "split": "dev",
       "prompt": "evalgen_answerable"
     },
     {
       "id": "E08",
       "type": "answerable",
-      "question": "What is the purpose of the Speak Up hotline?",
+      "question": "What is the policy regarding unused sick leave and how many days of paid sick leave do employees receive per year?",
       "should_refuse": false,
       "expected_sources": [
-        "hr_conduct_remote.pdf"
+        "hr_leave_policy.pdf"
       ],
       "key_facts": [
-        "independent provider",
-        "24 hours a day"
+        "12 days"
       ],
       "generated_from": [
-        "hr_conduct_remote.pdf#c3"
+        "hr_leave_policy.pdf#c2"
       ],
       "split": "dev",
       "prompt": "evalgen_answerable"
@@ -158,16 +160,16 @@
     {
       "id": "E09",
       "type": "answerable",
-      "question": "What are the requirements for booking flights in Business Class?",
+      "question": "What is the purpose of the Speak Up hotline?",
       "should_refuse": false,
       "expected_sources": [
-        "hr_travel_expenses.pdf"
+        "hr_conduct_remote.pdf"
       ],
       "key_facts": [
-        "written approval"
+        "24 hours a day"
       ],
       "generated_from": [
-        "hr_travel_expenses.pdf#c1"
+        "hr_conduct_remote.pdf#c3"
       ],
       "split": "holdout",
       "prompt": "evalgen_answerable"
@@ -175,16 +177,17 @@
     {
       "id": "E10",
       "type": "answerable",
-      "question": "What is the timeframe for an employee to appeal a decision?",
+      "question": "What is the annual leave policy for full-time shore staff?",
       "should_refuse": false,
       "expected_sources": [
-        "hr_conduct_remote.pdf"
+        "hr_leave_policy.pdf"
       ],
       "key_facts": [
-        "10 working days"
+        "24 working days",
+        "27 working days"
       ],
       "generated_from": [
-        "hr_conduct_remote.pdf#c4"
+        "hr_leave_policy.pdf#c0"
       ],
       "split": "dev",
       "prompt": "evalgen_answerable"
@@ -232,19 +235,19 @@
     {
       "id": "E13",
       "type": "multi_doc",
-      "question": "What is the maximum duration for a flight to require premium economy booking, and how many working days per year are allowed for remote work from another country?",
+      "question": "What is the maximum value of a gift that employees must declare to the Compliance team within 5 working days, and what is the maximum value of hospitality that must be declared to avoid reimbursement issues?",
       "should_refuse": false,
       "expected_sources": [
         "hr_travel_expenses.pdf",
         "hr_conduct_remote.pdf"
       ],
       "key_facts": [
-        "6 hours",
-        "20 working days"
+        "25 USD",
+        "50 USD"
       ],
       "generated_from": [
-        "hr_travel_expenses.pdf#c1",
-        "hr_conduct_remote.pdf#c1"
+        "hr_travel_expenses.pdf#c4",
+        "hr_conduct_remote.pdf#c2"
       ],
       "split": "holdout",
       "prompt": "evalgen_multidoc"
@@ -252,16 +255,18 @@
     {
       "id": "E14",
       "type": "ambiguous",
-      "question": "What's the ovtime pay rate for qualified levels?",
+      "question": "What's the max to work abroad and how's the home office payout set up?",
       "should_refuse": false,
       "expected_sources": [
         "hr_conduct_remote.pdf"
       ],
       "key_facts": [
-        "1.5 hours"
+        "20 working days",
+        "300 USD",
+        "first 3 months"
       ],
       "generated_from": [
-        "hr_conduct_remote.pdf#c2"
+        "hr_conduct_remote.pdf#c1"
       ],
       "split": "dev",
       "prompt": "evalgen_ambiguous"
@@ -269,42 +274,7 @@
     {
       "id": "E15",
       "type": "ambiguous",
-      "question": "how many weeks of paid leave do primary and secondary caregivers get",
-      "should_refuse": false,
-      "expected_sources": [
-        "hr_leave_policy.pdf"
-      ],
-      "key_facts": [
-        "18 weeks",
-        "4 weeks"
-      ],
-      "generated_from": [
-        "hr_leave_policy.pdf#c3"
-      ],
-      "split": "dev",
-      "prompt": "evalgen_ambiguous"
-    },
-    {
-      "id": "E16",
-      "type": "ambiguous",
-      "question": "what is the timeline for an employee to appeal a decision",
-      "should_refuse": false,
-      "expected_sources": [
-        "hr_conduct_remote.pdf"
-      ],
-      "key_facts": [
-        "10 working days"
-      ],
-      "generated_from": [
-        "hr_conduct_remote.pdf#c4"
-      ],
-      "split": "holdout",
-      "prompt": "evalgen_ambiguous"
-    },
-    {
-      "id": "E17",
-      "type": "ambiguous",
-      "question": "What's the deal if an employee has to clock in on a stat day?",
+      "question": "What occurs if an employee needs to put in time on a public day off?",
       "should_refuse": false,
       "expected_sources": [
         "hr_leave_policy.pdf"
@@ -314,6 +284,41 @@
       ],
       "generated_from": [
         "hr_leave_policy.pdf#c5"
+      ],
+      "split": "dev",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E16",
+      "type": "ambiguous",
+      "question": "What's the speak up helpline for?",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_conduct_remote.pdf"
+      ],
+      "key_facts": [
+        "24 hours a day"
+      ],
+      "generated_from": [
+        "hr_conduct_remote.pdf#c3"
+      ],
+      "split": "holdout",
+      "prompt": "evalgen_ambiguous"
+    },
+    {
+      "id": "E17",
+      "type": "ambiguous",
+      "question": "what are the hotel cost rates for various cities",
+      "should_refuse": false,
+      "expected_sources": [
+        "hr_travel_expenses.pdf"
+      ],
+      "key_facts": [
+        "180 USD",
+        "260 USD"
+      ],
+      "generated_from": [
+        "hr_travel_expenses.pdf#c2"
       ],
       "split": "dev",
       "prompt": "evalgen_ambiguous"
@@ -376,7 +381,7 @@
     {
       "id": "E23",
       "type": "out_of_scope",
-      "question": "I've been working remotely for a few weeks now and I'm not sure if my hybrid working policy has changed. Could you check??",
+      "question": "I heard there might be a new policy on leave for employees who are on vacation. Can you inform me about it??",
       "should_refuse": true,
       "expected_sources": [],
       "key_facts": [],

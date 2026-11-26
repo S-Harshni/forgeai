@@ -2,12 +2,10 @@
 
 ## Bottom line
 
-- **Final score: 19/23 (83%)** - dev 88%, **holdout 71%** (holdout cases were never shown to the optimizer).
-- Baseline was 19/23 (83%); 2 optimisation iteration(s); stop reason: no untried targeted fix left for the remaining failure categories.
-- Judge calibration: 90% agreement on 20 synthetic known-label checks (0 false positives, 2 false negatives; by kind {'positive': '8/8', 'verbose-negative': '8/8', 'paraphrase-positive': '2/4'}; LLM judge consulted on 4).
-- Cost: 233 LLM calls, 218,966 tokens, 23.8 min wall clock.
-
-> **Overfitting warning:** dev beats holdout by 16 points - some fixes may be tuned to the dev questions rather than the domain.
+- **Final score: 20/22 (91%)** - dev 88%, **holdout 100%** (holdout cases were never shown to the optimizer).
+- Baseline was 20/22 (91%); 2 optimisation iteration(s); stop reason: early stop: two consecutive patches did not improve the score.
+- Judge calibration: 95% agreement on 21 synthetic known-label checks (0 false positives, 1 false negatives; by kind {'positive': '8/8', 'verbose-negative': '8/8', 'paraphrase-positive': '4/5'}; LLM judge consulted on 2).
+- Cost: 260 LLM calls, 239,633 tokens, 11.5 min wall clock.
 
 ## Groundability (requirements stage)
 
@@ -15,9 +13,9 @@
 |---|---|---|---|
 | Look Up Spare Parts | **supported** | 0.56 | Purchase orders for spares are approved according to total order value including freight: ... |
 | Calculate Orders | **supported** | 0.01 | A volume discount of 5% applies to any single purchase order above 10,000 USD, and 8% abov... |
-| Supplier Terms Comparison | **partial** | 0.37 | short [evidence quote NOT found in docs - ignored] |
-| Approval Thresholds | **supported** | 1.00 | short [evidence quote NOT found in docs - ignored] |
-| On-Time Delivery Rating | **unsupported** | 0.36 | documents never mention: rat. short [evidence quote NOT found in docs - ignored] |
+| Supplier Terms Comparison | **partial** | 0.37 | short (the checker's supporting quote was not found in the documents, so it was ignored) |
+| Approval Thresholds | **supported** | 1.00 | short (the checker's supporting quote was not found in the documents, so it was ignored) |
+| On-Time Delivery Rating | **unsupported** | 0.36 | documents never mention: rating. short (the checker's supporting quote was not found in th |
 
 **Flagged gaps:** On-Time Delivery Rating - the documents cannot support these, so they were moved to must-refuse instead of letting the agent improvise answers.
 
@@ -27,37 +25,35 @@
 
 ## Tool selection
 
-- `csv_lookup`: ATTACHED - model: To find spare parts information and supplier terms in the provided documents.; evidence: brief/requirements mention: catalogue, stock, parts, price + CSV present in documents
-- `calculator`: ATTACHED - model: To calculate order values and discounts based on unit prices and minimum order quantities.; evidence: brief/requirements mention: calculate, price, estimate
-- `current_date`: ATTACHED - model: To determine lead times and deadlines based on the current date and specified days.; evidence: brief/requirements mention: today, date, lead time
+- `csv_lookup`: ATTACHED - model: To find spare parts and supplier terms in the provided documents.; evidence: brief/requirements mention: catalogue, stock, parts, price + CSV present in documents
+- `calculator`: ATTACHED - model: To perform calculations and comparisons as requested.; evidence: brief/requirements mention: calculate, price, estimate
+- `current_date`: ATTACHED - model: To determine lead times and deadlines based on the current date.; evidence: brief/requirements mention: today, date, lead time
 - `weather`: not attached - no evidence in brief
 
 ## What still fails and why
 
-Failure mix: prompt_defect x3, hallucination x1
+Failure mix: prompt_defect x1, retrieval_miss x1
 
 | Case | Type | Split | Category | Question | Diagnosis | Eval case suspect? |
 |---|---|---|---|---|---|---|
-| E03 | answerable | holdout | prompt_defect | What is the payment term for orders above 50,000 USD? | facts were retrieved but the answer omitted them (coverage 50%) | - |
-| E10 | answerable | dev | prompt_defect | What is the unit price in USD for the Fuel injector nozzle? | facts were retrieved but the answer omitted them (coverage 0%) | - |
-| E15 | ambiguous | dev | prompt_defect | What is the warrrantee duraation and restocking fee for rturns? | facts were retrieved but the answer omitted them (coverage 50%) | - |
-| E20 | out_of_scope | holdout | hallucination | What are the internal processes for approving procurement requests?? | answered an out-of-scope question instead of refusing | - |
+| E10 | answerable | dev | prompt_defect | What is the minimum amount for the surcharge on express dispatch? | facts were retrieved but the answer omitted them (coverage 0%) | - |
+| E14 | ambiguous | dev | retrieval_miss | What's the time frame for the deal in the report? | refused; expected source ['supplier_pacific_terms.pdf'] not (fully) retrieved [abstain gate: best relevance 0.19 < 0.2] | - |
 
 **Likely root causes:**
-- *Hallucinations*: the small model answered from general knowledge or stated figures absent from the excerpts; the grounding check caught them (they would have shipped otherwise).
+- *Retrieval misses*: lexical/embedding search did not surface the passage - typically paraphrased or vague questions whose wording does not overlap the document text.
 - *Prompt defects*: relevant text was in context but the answer omitted key facts or broke the output contract (no citations) - a 3B model's instruction-following limit.
 
 ## Optimisation log
 
-- **Iter 1** `prompt_defect:complete_answer` - FORMAT: require complete answers with specific figures  
-  why: 2 dev failure(s) classified prompt_defect; targeted ['E10', 'E15']; fixed none; newly broken ['E03']; overall 83% -> 83% (holdout 86% -> 71%); **kept**
-- **Iter 2** `prompt_defect:longer_answers` - max_words 150 -> 210  
-  why: 2 dev failure(s) classified prompt_defect; targeted ['E10', 'E15']; fixed none; newly broken ['E21']; overall 83% -> 83% (holdout 71% -> 86%); **reverted**
+- **Iter 1** `retrieval_miss:lower_gate` - abstain gate fired on 1 miss(es): min_relevance 0.2 -> 0.12  
+  why: 1 dev failure(s) classified retrieval_miss; targeted ['E14']; fixed none; newly broken none; overall 91% -> 91% (holdout 100% -> 100%); **reverted**
+- **Iter 2** `retrieval_miss:top_k_up` - top_k 6 -> 8  
+  why: 1 dev failure(s) classified retrieval_miss; targeted ['E14']; fixed none; newly broken none; overall 91% -> 91% (holdout 100% -> 100%); **reverted**
 
 ## Eval set provenance
 
-- 23 cases, generated by the prompts in `prompts/evalgen_*.txt` (none hand-written).
-- Generation attempts: 20; dropped as unverifiable (key fact not literally in source): 1; duplicates: 0; leaky/empty: 0; 'out-of-scope' questions the docs actually answer: 0; failed round-trip check (an independent model, reading only the source excerpt, could not reproduce the expected facts - i.e. a mislabeled case): 1.
+- 22 cases, generated by the prompts in `prompts/evalgen_*.txt` (none hand-written).
+- Generation attempts: 32; dropped as unverifiable (key fact not literally in source): 4; duplicates: 2; leaky/empty: 0; 'out-of-scope' questions the docs actually answer: 2; failed round-trip check (an independent model, reading only the source excerpt, could not reproduce the expected facts - i.e. a mislabeled case): 9; not unique in the corpus (another passage fits the question equally well with different figures): 8.
 - Known limitation: questions are generated from single excerpts, so they skew towards literal, well-formed phrasing; real users will be messier than this set.
 
 ## How the judge is defended
@@ -70,12 +66,13 @@ Failure mix: prompt_defect x3, hallucination x1
 
 | Stage | Calls | Tokens | Seconds |
 |---|---|---|---|
-| intake | 7 | 7,825 | 33.29 |
-| guard | 5 | 3,864 | 18.31 |
-| generator | 1 | 1,293 | 12.04 |
-| evalgen | 21 | 6,738 | 137.35 |
-| evalgen_roundtrip | 18 | 4,025 | 44.96 |
-| calibration | 8 | 830 | 12.84 |
-| judge | 20 | 3,801 | 18.65 |
-| agent_tools | 96 | 97,791 | 215.1 |
-| agent_answer | 57 | 92,799 | 934.88 |
+| intake | 7 | 7,825 | 27.31 |
+| guard | 5 | 3,864 | 13.39 |
+| generator | 1 | 1,288 | 9.07 |
+| evalgen | 33 | 10,217 | 107.51 |
+| evalgen_roundtrip | 26 | 11,580 | 43.75 |
+| calibration | 8 | 833 | 6.78 |
+| judge | 8 | 1,130 | 4.16 |
+| agent_tools | 100 | 104,616 | 145.54 |
+| agent_answer | 58 | 96,740 | 317.6 |
+| agent_rewrite | 14 | 1,540 | 15.34 |

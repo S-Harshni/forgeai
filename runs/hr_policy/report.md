@@ -2,10 +2,10 @@
 
 ## Bottom line
 
-- **Final score: 20/23 (87%)** - dev 88%, **holdout 86%** (holdout cases were never shown to the optimizer).
-- Baseline was 20/23 (87%); 2 optimisation iteration(s); stop reason: early stop: two consecutive patches did not improve the score.
-- Judge calibration: 90% agreement on 20 synthetic known-label checks (0 false positives, 2 false negatives; by kind {'positive': '8/8', 'verbose-negative': '8/8', 'paraphrase-positive': '2/4'}; LLM judge consulted on 3).
-- Cost: 131 LLM calls, 97,617 tokens, 8.8 min wall clock.
+- **Final score: 22/23 (96%)** - dev 100%, **holdout 86%** (holdout cases were never shown to the optimizer).
+- Baseline was 22/23 (96%); 0 optimisation iteration(s); stop reason: all dev cases pass - nothing left to fix without peeking at holdout.
+- Judge calibration: 86% agreement on 21 synthetic known-label checks (0 false positives, 3 false negatives; by kind {'positive': '8/8', 'verbose-negative': '8/8', 'paraphrase-positive': '2/5'}; LLM judge consulted on 4).
+- Cost: 99 LLM calls, 59,508 tokens, 4.0 min wall clock.
 
 ## Groundability (requirements stage)
 
@@ -15,8 +15,8 @@
 | Annual Leave | **supported** | 1.00 | Full-time shore staff receive 24 working days of paid annual leave per calendar year.... |
 | Sick Leave | **supported** | 1.00 | Employees receive 12 days of paid sick leave per year.... |
 | Parental Leave | **supported** | 1.00 | Employees receive 12 days of paid sick leave per year.... |
-| Travel Expenses | **supported** | 1.00 | short [evidence quote NOT found in docs - ignored] |
-| Code of Conduct | **supported** | 1.00 | short [evidence quote NOT found in docs - ignored] |
+| Travel Expenses | **supported** | 1.00 | short (the checker's supporting quote was not found in the documents, so it was ignored) |
+| Code of Conduct | **supported** | 1.00 | short (the checker's supporting quote was not found in the documents, so it was ignored) |
 | Income Tax Deduction | **unsupported** | 0.24 | documents never mention: tax, deduction. short |
 
 **Flagged gaps:** Income Tax Deduction - the documents cannot support these, so they were moved to must-refuse instead of letting the agent improvise answers.
@@ -29,38 +29,30 @@
 
 ## Tool selection
 
-- `csv_lookup`: not attached - no evidence in brief
+- `csv_lookup`: REJECTED - model proposed it but the brief gives no evidence it is needed
 - `calculator`: not attached - no evidence in brief
-- `current_date`: not attached - no evidence in brief
+- `current_date`: REJECTED - model proposed it but the brief gives no evidence it is needed
 - `weather`: not attached - no evidence in brief
 
 ## What still fails and why
 
-Failure mix: retrieval_miss x2, hallucination x1
+Failure mix: prompt_defect x1
 
 | Case | Type | Split | Category | Question | Diagnosis | Eval case suspect? |
 |---|---|---|---|---|---|---|
-| E14 | ambiguous | dev | retrieval_miss | What's the ovtime pay rate for qualified levels? | refused; expected source ['hr_conduct_remote.pdf'] not (fully) retrieved [abstain gate: best relevance 0.16 < 0.2] | - |
-| E17 | ambiguous | dev | retrieval_miss | What's the deal if an employee has to clock in on a stat day? | refused; expected source ['hr_leave_policy.pdf'] not (fully) retrieved [abstain gate: best relevance 0.05 < 0.2] | question shares almost no terms with any document - may be garbled |
-| E23 | out_of_scope | holdout | hallucination | I've been working remotely for a few weeks now and I'm not sure if my hybrid working polic | answered an out-of-scope question instead of refusing | - |
-
-1 failure(s) look like eval-set defects rather than agent defects. They are still counted as failures in the score above; the score is not adjusted in our favour.
+| E13 | multi_doc | holdout | prompt_defect | What is the maximum value of a gift that employees must declare to the Compliance team wit | facts were retrieved but the answer omitted them (coverage 50%) | - |
 
 **Likely root causes:**
-- *Retrieval misses*: lexical/embedding search did not surface the passage - typically paraphrased or vague questions whose wording does not overlap the document text.
-- *Hallucinations*: the small model answered from general knowledge or stated figures absent from the excerpts; the grounding check caught them (they would have shipped otherwise).
+- *Prompt defects*: relevant text was in context but the answer omitted key facts or broke the output contract (no citations) - a 3B model's instruction-following limit.
 
 ## Optimisation log
 
-- **Iter 1** `retrieval_miss:lower_gate` - abstain gate fired on 2 miss(es): min_relevance 0.2 -> 0.12  
-  why: 2 dev failure(s) classified retrieval_miss; targeted ['E14', 'E17']; fixed ['E14']; newly broken ['E22']; overall 87% -> 87% (holdout 86% -> 86%); **reverted**
-- **Iter 2** `retrieval_miss:top_k_up` - top_k 4 -> 6  
-  why: 2 dev failure(s) classified retrieval_miss; targeted ['E14', 'E17']; fixed none; newly broken ['E02', 'E03']; overall 87% -> 78% (holdout 86% -> 71%); **reverted**
+- no iterations ran
 
 ## Eval set provenance
 
 - 23 cases, generated by the prompts in `prompts/evalgen_*.txt` (none hand-written).
-- Generation attempts: 24; dropped as unverifiable (key fact not literally in source): 0; duplicates: 0; leaky/empty: 0; 'out-of-scope' questions the docs actually answer: 0; failed round-trip check (an independent model, reading only the source excerpt, could not reproduce the expected facts - i.e. a mislabeled case): 6.
+- Generation attempts: 24; dropped as unverifiable (key fact not literally in source): 0; duplicates: 0; leaky/empty: 0; 'out-of-scope' questions the docs actually answer: 1; failed round-trip check (an independent model, reading only the source excerpt, could not reproduce the expected facts - i.e. a mislabeled case): 6; not unique in the corpus (another passage fits the question equally well with different figures): 5.
 - Known limitation: questions are generated from single excerpts, so they skew towards literal, well-formed phrasing; real users will be messier than this set.
 
 ## How the judge is defended
@@ -73,11 +65,12 @@ Failure mix: retrieval_miss x2, hallucination x1
 
 | Stage | Calls | Tokens | Seconds |
 |---|---|---|---|
-| intake | 7 | 6,858 | 23.39 |
-| guard | 7 | 5,618 | 16.37 |
-| generator | 3 | 4,214 | 77.55 |
-| evalgen | 24 | 7,163 | 75.08 |
-| evalgen_roundtrip | 23 | 5,312 | 38.79 |
-| calibration | 8 | 838 | 9.39 |
-| judge | 7 | 1,240 | 5.77 |
-| agent_answer | 52 | 66,374 | 278.79 |
+| intake | 7 | 6,858 | 26.71 |
+| guard | 7 | 5,618 | 12.23 |
+| generator | 1 | 1,164 | 9.46 |
+| evalgen | 24 | 6,659 | 50.67 |
+| evalgen_roundtrip | 25 | 11,403 | 43.87 |
+| calibration | 8 | 825 | 7.0 |
+| judge | 4 | 517 | 2.08 |
+| agent_answer | 20 | 26,122 | 84.18 |
+| agent_rewrite | 3 | 342 | 2.67 |

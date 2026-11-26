@@ -1,51 +1,56 @@
 {
-  "calls": 131,
-  "prompt_tokens": 90538,
-  "completion_tokens": 7079,
-  "total_tokens": 97617,
-  "seconds": 525.1,
-  "json_failures_recovered": 3,
+  "calls": 99,
+  "prompt_tokens": 55444,
+  "completion_tokens": 4064,
+  "total_tokens": 59508,
+  "seconds": 238.9,
+  "json_failures_recovered": 0,
   "server_stalls_retried": 0,
   "by_stage": {
     "intake": {
       "calls": 7,
       "tokens": 6858,
-      "seconds": 23.39
+      "seconds": 26.71
     },
     "guard": {
       "calls": 7,
       "tokens": 5618,
-      "seconds": 16.37
+      "seconds": 12.23
     },
     "generator": {
-      "calls": 3,
-      "tokens": 4214,
-      "seconds": 77.55
+      "calls": 1,
+      "tokens": 1164,
+      "seconds": 9.46
     },
     "evalgen": {
       "calls": 24,
-      "tokens": 7163,
-      "seconds": 75.08
+      "tokens": 6659,
+      "seconds": 50.67
     },
     "evalgen_roundtrip": {
-      "calls": 23,
-      "tokens": 5312,
-      "seconds": 38.79
+      "calls": 25,
+      "tokens": 11403,
+      "seconds": 43.87
     },
     "calibration": {
       "calls": 8,
-      "tokens": 838,
-      "seconds": 9.39
+      "tokens": 825,
+      "seconds": 7.0
     },
     "judge": {
-      "calls": 7,
-      "tokens": 1240,
-      "seconds": 5.77
+      "calls": 4,
+      "tokens": 517,
+      "seconds": 2.08
     },
     "agent_answer": {
-      "calls": 52,
-      "tokens": 66374,
-      "seconds": 278.79
+      "calls": 20,
+      "tokens": 26122,
+      "seconds": 84.18
+    },
+    "agent_rewrite": {
+      "calls": 3,
+      "tokens": 342,
+      "seconds": 2.67
     }
   }
 }

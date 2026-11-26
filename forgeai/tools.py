@@ -31,6 +31,9 @@ _OPS = {ast.Add: op.add, ast.Sub: op.sub, ast.Mult: op.mul, ast.Div: op.truediv,
         ast.Pow: op.pow, ast.USub: op.neg, ast.Mod: op.mod, ast.FloorDiv: op.floordiv}
 
 
+_CMP = {ast.Lt: op.lt, ast.LtE: op.le, ast.Gt: op.gt, ast.GtE: op.ge}
+
+
 def _eval(node):
     if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
         return node.value
@@ -40,14 +43,23 @@ def _eval(node):
         return _OPS[type(node.op)](_eval(node.left), _eval(node.right))
     if isinstance(node, ast.UnaryOp) and type(node.op) in _OPS:
         return _OPS[type(node.op)](_eval(node.operand))
+    if isinstance(node, ast.Compare) and all(type(o) in _CMP for o in node.ops):
+        left, out = _eval(node.left), True
+        for o, c in zip(node.ops, node.comparators):
+            right = _eval(c)
+            out = out and _CMP[type(o)](left, right)
+            left = right
+        return out
     raise ValueError("unsupported expression")
 
 
 def calculator(expression: str = "", **_) -> str:
     expr = str(expression).replace(",", "").replace("x", "*").replace("×", "*").replace("$", "")
-    expr = re.sub(r"[^0-9+\-*/().% ]", "", expr)
+    expr = re.sub(r"[^0-9+\-*/().%<>= ]", "", expr)
     try:
         val = _eval(ast.parse(expr, mode="eval").body)
+        if isinstance(val, bool):
+            return f"{expression} is {'TRUE' if val else 'FALSE'}"
         return f"{expression} = {round(val, 4)}"
     except Exception as e:
         return f"calculator error: {e}"
@@ -118,7 +130,7 @@ REGISTRY: dict[str, Tool] = {
                        ["catalogue", "catalog", "inventory", "stock", "part", "parts", "sku", "price", "list",
                         "table", "lookup", "look up", "spares", "item", "product", "record"],
                        needs_table=True, fn=csv_lookup),
-    "calculator": Tool("calculator", "Evaluate an arithmetic expression built ONLY from numbers in the question, excerpts or earlier tool results, e.g. '<quantity> * <unit price> + <fee>'.",
+    "calculator": Tool("calculator", "Evaluate arithmetic or a threshold comparison built ONLY from numbers in the question, excerpts or earlier tool results, e.g. '<quantity> * <unit price> + <fee>' or '<total> <= <limit>'.",
                        {"expression": "str"},
                        ["calculate", "calculation", "total", "cost", "sum", "compute", "percentage", "percent",
                         "how much", "quantity", "budget", "price", "prices", "amount", "multiply", "estimate",

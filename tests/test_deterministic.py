@@ -80,6 +80,8 @@ def test_refusal_detection():
 def test_calculator_is_safe():
     assert calculator("3 * 1450 + 350").endswith("4700")
     assert "error" in calculator("__import__('os').system('ls')")
+    assert calculator("3960 < 5000").endswith("TRUE")
+    assert calculator("3 * 1320 <= 5000").endswith("TRUE")
 
 
 def test_csv_lookup_finds_part():

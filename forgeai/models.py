@@ -64,6 +64,7 @@ class AgentDefinition(BaseModel):
     docs_dir: str
     prompt_sections: dict[str, str]  # role, scope, grounding, refusal, format, tone
     retrieval: RetrievalConfig = Field(default_factory=RetrievalConfig)
+    model: str = ""  # Ollama model the agent runs on; empty = factory default
     tools: list[str] = Field(default_factory=list)
     tool_rationale: dict[str, str] = Field(default_factory=dict)
     output_contract: OutputContract = Field(default_factory=OutputContract)

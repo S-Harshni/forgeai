@@ -7,7 +7,7 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 
 from .ingest import Document, inventory
-from .llm import json_call, render
+from .llm import AGENT_MODEL, json_call, render
 from .models import AgentDefinition, OutputContract, Requirements, RetrievalConfig
 from .textutil import tokens
 from .tools import REGISTRY, tool_evidence
@@ -23,7 +23,9 @@ class GenOut(BaseModel):
 GROUNDING = """- Answer ONLY from the CONTEXT excerpts supplied with each question (and tool results, if any).
 - Never use outside knowledge, never guess numbers, dates, names or amounts.
 - Cite the id of every excerpt you used in "citations".
-- If the excerpts only partly answer the question, answer that part and say what is missing."""
+- If the excerpts only partly answer the question, answer that part and say what is missing.
+- When a rule depends on a numeric range or threshold (limits, approval levels, discounts), first state the
+  value in question, then quote the one range from the excerpts that contains it - check both ends of the range."""
 
 REFUSAL = """- If the question is out of scope, or the CONTEXT does not contain the answer, set "refused": true and reply with the refusal message.
 - Do not refuse questions that the CONTEXT does answer, even if they are phrased informally."""
@@ -116,6 +118,7 @@ def generate_agent(req: Requirements, brief: str, docs: list[Document], docs_dir
         docs_dir=str(Path(docs_dir).resolve()),
         prompt_sections=sections,
         retrieval=choose_retrieval(docs),
+        model=AGENT_MODEL,
         tools=tools,
         tool_rationale=rationale,
         output_contract=contract,

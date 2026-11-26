@@ -122,7 +122,8 @@ def report_md(req: Requirements, defn: AgentDefinition, cases: list[EvalCase], r
             f"leaky/empty: {evalstats.get('dropped_leaky_or_empty')}; 'out-of-scope' questions the docs actually answer: "
             f"{evalstats.get('dropped_oos_actually_answerable')}; failed round-trip check (an independent model, "
             f"reading only the source excerpt, could not reproduce the expected facts - i.e. a mislabeled case): "
-            f"{evalstats.get('dropped_roundtrip_failed')}.",
+            f"{evalstats.get('dropped_roundtrip_failed')}; not unique in the corpus (another passage fits the question "
+            f"equally well with different figures): {evalstats.get('dropped_not_unique_in_corpus', 0)}.",
             "- Known limitation: questions are generated from single excerpts, so they skew towards literal, "
             "well-formed phrasing; real users will be messier than this set.",
             "", "## How the judge is defended", "",

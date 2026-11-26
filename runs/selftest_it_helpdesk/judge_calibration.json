@@ -11,7 +11,31 @@
   "false_negatives": 0,
   "details": [
     {
-      "case": "E05",
+      "case": "E09",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 10 MB."
+    },
+    {
+      "case": "E09",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "17 MB. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered"
+    },
+    {
+      "case": "E09",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "A buffer size of 10 MB."
+    },
+    {
+      "case": "E04",
       "kind": "positive",
       "expected": true,
       "got": true,
@@ -19,124 +43,12 @@
       "answer": "Yes - 1 hour."
     },
     {
-      "case": "E05",
+      "case": "E04",
       "kind": "verbose-negative",
       "expected": false,
       "got": false,
       "method": "deterministic (number missing)",
       "answer": "8 hour. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covere"
-    },
-    {
-      "case": "E12",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 14 characters."
-    },
-    {
-      "case": "E12",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "21 characters. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is"
-    },
-    {
-      "case": "E12",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "A concise message of 14 characters or less."
-    },
-    {
-      "case": "E11",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 2 working days."
-    },
-    {
-      "case": "E11",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "9 working days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This i"
-    },
-    {
-      "case": "E14",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 10 MB."
-    },
-    {
-      "case": "E14",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "17 MB. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered"
-    },
-    {
-      "case": "E14",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "A buffer size of 10 MB."
-    },
-    {
-      "case": "E13",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 2 Mbps."
-    },
-    {
-      "case": "E13",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "9 Mbps. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covere"
-    },
-    {
-      "case": "E13",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "A data transfer rate of 2 Mbps."
-    },
-    {
-      "case": "E04",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 10 MB."
-    },
-    {
-      "case": "E04",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "17 MB. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered"
-    },
-    {
-      "case": "E04",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "A buffer size of 10 MB."
     },
     {
       "case": "E07",
@@ -163,7 +75,47 @@
       "answer": "A total of 100 gigabytes."
     },
     {
-      "case": "E01",
+      "case": "E15",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 10 MB."
+    },
+    {
+      "case": "E15",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "17 MB. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered"
+    },
+    {
+      "case": "E15",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "A buffer size of 10 MB."
+    },
+    {
+      "case": "E12",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 2 working days."
+    },
+    {
+      "case": "E12",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "9 working days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This i"
+    },
+    {
+      "case": "E16",
       "kind": "positive",
       "expected": true,
       "got": true,
@@ -171,12 +123,60 @@
       "answer": "Yes - 180 days."
     },
     {
-      "case": "E01",
+      "case": "E16",
       "kind": "verbose-negative",
       "expected": false,
       "got": false,
       "method": "deterministic (number missing)",
       "answer": "187 days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cove"
+    },
+    {
+      "case": "E03",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 10 MB."
+    },
+    {
+      "case": "E03",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "17 MB. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered"
+    },
+    {
+      "case": "E03",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "A buffer size of 10 MB."
+    },
+    {
+      "case": "E13",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 14 characters."
+    },
+    {
+      "case": "E13",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "21 characters. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is"
+    },
+    {
+      "case": "E13",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "A concise message of 14 characters or less."
     }
   ]
 }

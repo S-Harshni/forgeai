@@ -32,10 +32,10 @@ BRIEF: Build a procurement assistant for our technical superintendents and chief
   agent 'AI Assistant for Procurement': tools=['csv_lookup', 'calculator', 'current_date']; retrieval={'chunk_size': 120, 'overlap': 24, 'top_k': 6, 'min_relevance': 0.2, 'mode': 'hybrid', 'query_rewrite': False}
 
 [5/7] Generating eval set
-  evals: 23 cases {'answerable': 10, 'multi_doc': 3, 'ambiguous': 4, 'out_of_scope': 6}; dropped: {'dropped_unverifiable_facts': 1, 'dropped_roundtrip_failed': 1}
+  evals: 22 cases {'answerable': 10, 'multi_doc': 2, 'ambiguous': 4, 'out_of_scope': 6}; dropped: {'dropped_unverifiable_facts': 4, 'dropped_duplicate': 2, 'dropped_oos_actually_answerable': 2, 'dropped_roundtrip_failed': 9, 'dropped_not_unique_in_corpus': 8}
 
 [6/7] Judge calibration + critic-optimizer loop
-  judge calibration: 90% agreement on 20 known-label checks
+  judge calibration: 95% agreement on 21 known-label checks
 
   iteration 0 (baseline)
     E01 answerable   dev     PASS
@@ -49,47 +49,20 @@ BRIEF: Build a procurement assistant for our technical superintendents and chief
     E09 answerable   holdout PASS
     E10 answerable   dev     FAIL[prompt_defect]
     E11 multi_doc    dev     PASS
-    E12 multi_doc    dev     FAIL[wrong_refusal]
-    E13 multi_doc    holdout PASS
-    E14 ambiguous    dev     PASS
-    E15 ambiguous    dev     FAIL[prompt_defect]
-    E16 ambiguous    holdout PASS
-    E17 ambiguous    dev     PASS
-    E18 out_of_scope dev     PASS
-    E19 out_of_scope dev     PASS
-    E20 out_of_scope holdout FAIL[hallucination]
-    E21 out_of_scope dev     PASS
-    E22 out_of_scope dev     PASS
-    E23 out_of_scope holdout PASS
-  baseline: 19/23 (dev 0.812, holdout 0.857) failures={'retrieval_miss': 0, 'prompt_defect': 2, 'hallucination': 1, 'wrong_refusal': 1}
-
-  iteration 1: fix prompt_defect:complete_answer -> FORMAT: require complete answers with specific figures
-    E01 answerable   dev     PASS
-    E02 answerable   dev     PASS
-    E03 answerable   holdout FAIL[prompt_defect]
-    E04 answerable   dev     PASS
-    E05 answerable   dev     PASS
-    E06 answerable   holdout PASS
-    E07 answerable   dev     PASS
-    E08 answerable   dev     PASS
-    E09 answerable   holdout PASS
-    E10 answerable   dev     FAIL[prompt_defect]
-    E11 multi_doc    dev     PASS
     E12 multi_doc    dev     PASS
-    E13 multi_doc    holdout PASS
-    E14 ambiguous    dev     PASS
-    E15 ambiguous    dev     FAIL[prompt_defect]
-    E16 ambiguous    holdout PASS
-    E17 ambiguous    dev     PASS
+    E13 ambiguous    dev     PASS
+    E14 ambiguous    dev     FAIL[retrieval_miss]
+    E15 ambiguous    holdout PASS
+    E16 ambiguous    dev     PASS
+    E17 out_of_scope dev     PASS
     E18 out_of_scope dev     PASS
-    E19 out_of_scope dev     PASS
-    E20 out_of_scope holdout FAIL[hallucination]
+    E19 out_of_scope holdout PASS
+    E20 out_of_scope dev     PASS
     E21 out_of_scope dev     PASS
-    E22 out_of_scope dev     PASS
-    E23 out_of_scope holdout PASS
-  -> 19/23 (dev 0.812 -> 0.875, holdout 0.857 -> 0.714); fixed []; broke ['E03']; KEPT
+    E22 out_of_scope holdout PASS
+  baseline: 20/22 (dev 0.875, holdout 1.0) failures={'retrieval_miss': 1, 'prompt_defect': 1, 'hallucination': 0, 'wrong_refusal': 0}
 
-  iteration 2: fix prompt_defect:longer_answers -> max_words 150 -> 210
+  iteration 1: fix retrieval_miss:lower_gate -> abstain gate fired on 1 miss(es): min_relevance 0.2 -> 0.12
     E01 answerable   dev     PASS
     E02 answerable   dev     PASS
     E03 answerable   holdout PASS
@@ -102,20 +75,44 @@ BRIEF: Build a procurement assistant for our technical superintendents and chief
     E10 answerable   dev     FAIL[prompt_defect]
     E11 multi_doc    dev     PASS
     E12 multi_doc    dev     PASS
-    E13 multi_doc    holdout PASS
-    E14 ambiguous    dev     PASS
-    E15 ambiguous    dev     FAIL[prompt_defect]
-    E16 ambiguous    holdout PASS
-    E17 ambiguous    dev     PASS
+    E13 ambiguous    dev     PASS
+    E14 ambiguous    dev     FAIL[wrong_refusal]
+    E15 ambiguous    holdout PASS
+    E16 ambiguous    dev     PASS
+    E17 out_of_scope dev     PASS
     E18 out_of_scope dev     PASS
-    E19 out_of_scope dev     PASS
-    E20 out_of_scope holdout FAIL[hallucination]
-    E21 out_of_scope dev     FAIL[hallucination]
-    E22 out_of_scope dev     PASS
-    E23 out_of_scope holdout PASS
-  -> 19/23 (dev 0.875 -> 0.812, holdout 0.714 -> 0.857); fixed []; broke ['E21']; REVERTED
+    E19 out_of_scope holdout PASS
+    E20 out_of_scope dev     PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope holdout PASS
+  -> 20/22 (dev 0.875 -> 0.875, holdout 1.0 -> 1.0); fixed []; broke []; REVERTED
+
+  iteration 2: fix retrieval_miss:top_k_up -> top_k 6 -> 8
+    E01 answerable   dev     PASS
+    E02 answerable   dev     PASS
+    E03 answerable   holdout PASS
+    E04 answerable   dev     PASS
+    E05 answerable   dev     PASS
+    E06 answerable   holdout PASS
+    E07 answerable   dev     PASS
+    E08 answerable   dev     PASS
+    E09 answerable   holdout PASS
+    E10 answerable   dev     FAIL[prompt_defect]
+    E11 multi_doc    dev     PASS
+    E12 multi_doc    dev     PASS
+    E13 ambiguous    dev     PASS
+    E14 ambiguous    dev     FAIL[retrieval_miss]
+    E15 ambiguous    holdout PASS
+    E16 ambiguous    dev     PASS
+    E17 out_of_scope dev     PASS
+    E18 out_of_scope dev     PASS
+    E19 out_of_scope holdout PASS
+    E20 out_of_scope dev     PASS
+    E21 out_of_scope dev     PASS
+    E22 out_of_scope holdout PASS
+  -> 20/22 (dev 0.875 -> 0.875, holdout 1.0 -> 1.0); fixed []; broke []; REVERTED
 
 [7/7] Writing artifacts
 
-DONE in 23.8 min. Final 19/23 (83%), holdout 71%.
+DONE in 11.5 min. Final 20/22 (91%), holdout 100%.
 Artifacts in runs/ship_spares/  ->  chat with it:  python chat.py runs/ship_spares/agent.json

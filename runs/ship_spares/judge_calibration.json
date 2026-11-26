@@ -1,161 +1,17 @@
 {
-  "n": 20,
-  "agreement": 0.9,
+  "n": 21,
+  "agreement": 0.952,
   "by_kind": {
     "positive": "8/8",
     "verbose-negative": "8/8",
-    "paraphrase-positive": "2/4"
+    "paraphrase-positive": "4/5"
   },
-  "llm_judge_invocations": 4,
+  "llm_judge_invocations": 2,
   "false_positives": 0,
-  "false_negatives": 2,
+  "false_negatives": 1,
   "details": [
     {
-      "case": "E09",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - class certificate."
-    },
-    {
-      "case": "E09",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "llm-judge",
-      "answer": "12 months. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cov"
-    },
-    {
-      "case": "E09",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": false,
-      "method": "llm-judge",
-      "answer": "employee certification..."
-    },
-    {
-      "case": "E04",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 12 months."
-    },
-    {
-      "case": "E04",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "19 months. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cov"
-    },
-    {
-      "case": "E07",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 15%."
-    },
-    {
-      "case": "E07",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "22%. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered i"
-    },
-    {
-      "case": "E07",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "A mere 15% is required."
-    },
-    {
-      "case": "E15",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 12 months."
-    },
-    {
-      "case": "E15",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "19 months. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cov"
-    },
-    {
-      "case": "E12",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - Class society certificates."
-    },
-    {
-      "case": "E12",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "llm-judge",
-      "answer": "class certificate. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. Thi"
-    },
-    {
-      "case": "E12",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": false,
-      "method": "llm-judge",
-      "answer": "Please ensure you have the class society certifications in place."
-    },
-    {
-      "case": "E16",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 1320."
-    },
-    {
-      "case": "E16",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "1327. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered "
-    },
-    {
-      "case": "E16",
-      "kind": "paraphrase-positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Please ensure that 1320 is accurately implemented in our system."
-    },
-    {
-      "case": "E03",
-      "kind": "positive",
-      "expected": true,
-      "got": true,
-      "method": "deterministic",
-      "answer": "Yes - 30%."
-    },
-    {
-      "case": "E03",
-      "kind": "verbose-negative",
-      "expected": false,
-      "got": false,
-      "method": "deterministic (number missing)",
-      "answer": "37%. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered i"
-    },
-    {
-      "case": "E13",
+      "case": "E05",
       "kind": "positive",
       "expected": true,
       "got": true,
@@ -163,12 +19,164 @@
       "answer": "Yes - 30 days."
     },
     {
-      "case": "E13",
+      "case": "E05",
       "kind": "verbose-negative",
       "expected": false,
       "got": false,
       "method": "deterministic (number missing)",
       "answer": "37 days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cover"
+    },
+    {
+      "case": "E12",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 30 days."
+    },
+    {
+      "case": "E12",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "37 days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cover"
+    },
+    {
+      "case": "E11",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 15%."
+    },
+    {
+      "case": "E11",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "22%. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered i"
+    },
+    {
+      "case": "E11",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "A mere 15% is required."
+    },
+    {
+      "case": "E14",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 24 months."
+    },
+    {
+      "case": "E14",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "31 months. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cov"
+    },
+    {
+      "case": "E13",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - lead_time_days: 9."
+    },
+    {
+      "case": "E13",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "lead_time_days: 16. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. Th"
+    },
+    {
+      "case": "E13",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "The lead time for our project is set at 9 days."
+    },
+    {
+      "case": "E04",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - lead_time_days: 9."
+    },
+    {
+      "case": "E04",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "lead_time_days: 16. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. Th"
+    },
+    {
+      "case": "E04",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "The lead time for our project is set at 9 days."
+    },
+    {
+      "case": "E07",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - 430."
+    },
+    {
+      "case": "E07",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "deterministic (number missing)",
+      "answer": "437. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is covered i"
+    },
+    {
+      "case": "E07",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Please ensure that the number 430 is accurately implemented in the system."
+    },
+    {
+      "case": "E01",
+      "kind": "positive",
+      "expected": true,
+      "got": true,
+      "method": "deterministic",
+      "answer": "Yes - Fleet Technical Manager."
+    },
+    {
+      "case": "E01",
+      "kind": "verbose-negative",
+      "expected": false,
+      "got": false,
+      "method": "llm-judge",
+      "answer": "30 days. This is covered in detail in the relevant policy, which has been carefully reviewed and is applied consistently across all teams and locations to ensure fairness and compliance. This is cover"
+    },
+    {
+      "case": "E01",
+      "kind": "paraphrase-positive",
+      "expected": true,
+      "got": false,
+      "method": "llm-judge",
+      "answer": "Engineer in charge of the fleet technology"
     }
   ]
 }

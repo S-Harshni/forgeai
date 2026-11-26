@@ -70,7 +70,7 @@
       "relevance": 0.372,
       "evidence": "",
       "evidence_source": "",
-      "reason": "short [evidence quote NOT found in docs - ignored]"
+      "reason": "short (the checker's supporting quote was not found in the documents, so it was ignored)"
     },
     {
       "topic": "Approval Thresholds",
@@ -78,7 +78,7 @@
       "relevance": 1.0,
       "evidence": "",
       "evidence_source": "",
-      "reason": "short [evidence quote NOT found in docs - ignored]"
+      "reason": "short (the checker's supporting quote was not found in the documents, so it was ignored)"
     },
     {
       "topic": "On-Time Delivery Rating",
@@ -86,7 +86,7 @@
       "relevance": 0.358,
       "evidence": "",
       "evidence_source": "",
-      "reason": "documents never mention: rat. short [evidence quote NOT found in docs - ignored]"
+      "reason": "documents never mention: rating. short (the checker's supporting quote was not found in the documents, so it was ignored)"
     }
   ],
   "unsupported_topics": [

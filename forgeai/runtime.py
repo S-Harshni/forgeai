@@ -12,10 +12,10 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 
 from .ingest import chunk_documents, load_folder
-from .llm import GEN_MODEL, chat, json_call, render, _extract_json
+from .llm import AGENT_MODEL, chat, json_call, render, _extract_json
 from .models import AgentDefinition
 from .retrieval import Index
-from .textutil import looks_like_refusal, numbers
+from .textutil import fact_present, looks_like_refusal, numbers
 from .tools import REGISTRY, bind_tables, run_tool
 
 
@@ -36,6 +36,7 @@ class Response:
     retrieved: list[dict] = field(default_factory=list)  # {id, doc, relevance}
     tool_calls: list[dict] = field(default_factory=list)
     gate: str = ""             # why the abstain gate fired, if it did
+    auto_cited: bool = False   # citations attributed by the runtime, not emitted by the model
     format_ok: bool = True
     context_text: str = ""
 
@@ -50,6 +51,7 @@ class Agent:
         self.d = definition
         self.docs = docs if docs is not None else load_folder(definition.docs_dir)
         bind_tables(self.docs)
+        self.model = definition.model or AGENT_MODEL
         r = definition.retrieval
         self.index = Index(chunk_documents(self.docs, r.chunk_size, r.overlap), mode=r.mode)
 
@@ -70,7 +72,8 @@ class Agent:
             prev = "\n".join(f"- {c['tool']}({json.dumps(c['args'])}) -> {c['result']}" for c in calls) or "(none)"
             route = json_call(render("agent_tool_route", tools=desc, question=question, previous=prev,
                                      context=context[:2500] or "(none)"), Route,
-                              fallback=lambda: Route(), stage="agent_tools", temperature=0.0, retries=1)
+                              fallback=lambda: Route(), stage="agent_tools", temperature=0.0, retries=1,
+                              model=self.model)
             if not route.tool or route.tool not in self.d.tools:  # never run an unattached tool
                 break
             if any(c["tool"] == route.tool and c["args"] == route.args for c in calls):
@@ -91,9 +94,17 @@ class Agent:
         query = question
         if r.query_rewrite:
             rw = json_call(render("agent_query_rewrite", question=question), Rewrite,
-                           fallback=lambda: Rewrite(query=""), stage="agent_rewrite", retries=0)
+                           fallback=lambda: Rewrite(query=""), stage="agent_rewrite", retries=0, model=self.model)
             query = f"{question} {rw.query}"
         hits = self.index.search(query, k=r.top_k)
+        if not r.query_rewrite and max((h.relevance for h in hits), default=0.0) < r.min_relevance:
+            # Before abstaining, try once with slang/abbreviations expanded into document vocabulary.
+            rw = json_call(render("agent_query_rewrite", question=question), Rewrite,
+                           fallback=lambda: Rewrite(query=""), stage="agent_rewrite", retries=0, model=self.model)
+            if rw.query.strip():
+                hits2 = self.index.search(f"{question} {rw.query}", k=r.top_k)
+                if max((h.relevance for h in hits2), default=0.0) > max((h.relevance for h in hits), default=0.0):
+                    hits = hits2
         retrieved = [{"id": h.chunk.id, "doc": h.chunk.doc, "relevance": round(h.relevance, 3)} for h in hits]
         tool_calls = self._route_tools(question, "\n".join(f"[{h.chunk.id}] {h.chunk.text}" for h in hits))
         best = max((h.relevance for h in hits), default=0.0)
@@ -113,7 +124,7 @@ class Agent:
                         max_words=self.d.output_contract.max_words, refusal=refusal,
                         example_id=hits[0].chunk.id if hits else "doc#c0",
                         tool_note=" and tool results" if tool_calls else "")
-        raw = chat(prompt, system=self.d.system_prompt(), json_mode=True, stage="agent_answer",
+        raw = chat(prompt, system=self.d.system_prompt(), json_mode=True, stage="agent_answer", model=self.model,
                    temperature=0.1, max_tokens=500)
         format_ok = True
         try:
@@ -131,4 +142,16 @@ class Agent:
         valid_ids = {h.chunk.id for h in hits} | {f"tool:{c['tool']}" for c in tool_calls}
         # keep only citations that point at something actually shown to the model
         cites = [c for c in cites if c in valid_ids]
-        return Response(answer, cites, refused, retrieved, tool_calls, format_ok=format_ok, context_text=context)
+        auto_cited = False
+        if not refused and not cites and answer:
+            # The small model often forgets ids. Attribute deterministically: cite only the excerpts
+            # (or tool results) that a sentence of the answer demonstrably comes from.
+            sources = [(h.chunk.id, h.chunk.text) for h in hits] + [(f"tool:{c['tool']}", c["result"]) for c in tool_calls_shown]
+            for sent in [x for x in re.split(r"(?<=[.!?])\s+", answer) if len(x.split()) >= 4]:
+                best = max(sources, key=lambda s_: fact_present(sent, s_[1]), default=None)
+                if best and fact_present(sent, best[1]) >= 0.6 and best[0] not in cites:
+                    cites.append(best[0])
+            auto_cited = bool(cites)
+        resp = Response(answer, cites, refused, retrieved, tool_calls, format_ok=format_ok, context_text=context)
+        resp.auto_cited = auto_cited
+        return resp
