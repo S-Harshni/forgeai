@@ -9,10 +9,30 @@ const STAGES = ["Documents", "Intake", "Groundability", "Agent", "Evals", "Judge
 
 const state = { runs: [], cache: {}, chats: {}, poll: null };
 
+const STATIC = !!window.FORGE_STATIC;  // hosted build: recorded results, no local model
 async function api(path, opts) {
+  if (STATIC) return staticApi(path, opts);
   const r = await fetch(path, opts);
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
   return r.json();
+}
+async function getJSON(url) { const r = await fetch(url); if (!r.ok) throw new Error(r.statusText); return r.json(); }
+const qnorm = (q) => q.toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+async function staticApi(path, opts) {
+  if (path === "/api/runs") return getJSON("data/runs.json");
+  if (path === "/api/health") return { static: true };
+  let m = path.match(/^\/api\/runs\/([\w-]+)$/);
+  if (m) return getJSON(`data/runs/${m[1]}.json`);
+  m = path.match(/^\/api\/runs\/([\w-]+)\/chat$/);
+  if (m) {
+    const run = await getRun(m[1]);
+    const q = qnorm(JSON.parse(opts.body).question);
+    const t = run.transcripts.find((x) => qnorm(x.question) === q);
+    if (!t) throw new Error("This hosted demo replays the agent's recorded answers to its exam questions — pick one of the suggestions. Live answers to any question need the local app (python server.py).");
+    return { ...t, replay: true, latency_ms: 0,
+      sources: (t.citations || []).map((c) => ({ id: c, text: run.chunks?.[c] || (t.tool_calls || []).find((x) => `tool:${x.tool}` === c)?.result || "" })) };
+  }
+  throw new Error("Not available in the hosted demo");
 }
 
 /* ------------------------------------------------------------------ rail */
@@ -36,6 +56,7 @@ const pretty = (n) => n.replace(/^selftest_/, "").split(/[_\s]+/).filter(Boolean
 async function loadHealth() {
   try {
     const h = await api("/api/health");
+    if (h.static) { $("#health").innerHTML = `<span class="dot ok"></span>Hosted demo<br><span class="mono">recorded runs · run locally to build</span>`; return; }
     $("#health").innerHTML = h.models_ready
       ? `<span class="dot ok"></span>Ollama ready<br><span class="mono">${esc(h.gen_model)} · judge ${esc(h.judge_model)}</span>`
       : `<span class="dot bad"></span>${h.ollama ? "Models missing" : "Ollama offline"}<br><span class="mono">ollama serve</span>`;
@@ -372,14 +393,14 @@ function tChat(el, run) {
   const hist = (state.chats[run.name] ||= []);
   const answerable = run.evals.filter((e) => !e.should_refuse).slice(0, 3).map((e) => e.question);
   const oos = run.evals.find((e) => e.should_refuse && !/cake/i.test(e.question))?.question;
-  const suggestions = [...answerable, ...(oos ? [oos] : [])];
+  const suggestions = STATIC ? run.transcripts.slice(0, 8).map((t) => t.question) : [...answerable, ...(oos ? [oos] : [])];
   el.innerHTML = `<div class="chat"><div class="msgs" id="msgs"></div>
     <form class="composer" id="composer"><textarea id="q" rows="1" placeholder="Ask ${esc(run.agent?.name || "the agent")} something…"></textarea>
     <button class="btn" id="send" type="submit">Ask <svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button></form></div>`;
   const msgs = $("#msgs"), q = $("#q");
   const paint = () => {
     msgs.innerHTML = hist.length ? hist.map(renderMsg).join("") : `<div class="empty-chat"><h2>Talk to the agent this run produced</h2>
-      <p>It answers only from the documents and cites what it used. Try a question from its exam — or one it should refuse.</p>
+      <p>${STATIC ? "Hosted demo: these are the agent's real recorded answers from its final exam run. Run the app locally to ask anything." : "It answers only from the documents and cites what it used. Try a question from its exam — or one it should refuse."}</p>
       <div class="suggest" style="justify-content:center">${suggestions.map((s) => `<button type="button" data-q="${esc(s)}">${esc(s)}</button>`).join("")}</div></div>`;
     msgs.scrollTop = msgs.scrollHeight;
     msgs.querySelectorAll("[data-q]").forEach((b) => b.addEventListener("click", () => send(b.dataset.q)));
@@ -412,7 +433,7 @@ function renderMsg(m) {
     <div class="meta">${r.refused ? `<span class="chip neutral">Declined</span>` : ""}
       ${r.sources.map((s) => `<button class="src" data-id="${esc(s.id)}" data-text="${esc(s.text)}">${esc(s.id)}</button>`).join("")}
       ${r.auto_cited ? `<span class="chip outline" title="The model gave no ids; the runtime matched the answer to these excerpts">attributed</span>` : ""}
-      <span class="muted mono" style="font-size:11.5px;margin-left:auto">${(r.latency_ms / 1000).toFixed(1)}s</span></div>
+      <span class="muted mono" style="font-size:11.5px;margin-left:auto">${r.replay ? "recorded answer" : (r.latency_ms / 1000).toFixed(1) + "s"}</span></div>
     <div class="src-body" hidden></div>
     ${r.tool_calls.map((t) => `<div class="trace">↳ <b>${esc(TOOL_LABEL[t.tool] || t.tool)}</b> ${esc(JSON.stringify(t.args))} → ${esc(t.result.slice(0, 140))}</div>`).join("")}
     ${r.gate ? `<div class="trace">↳ abstained before generation: ${esc(r.gate)}</div>` : ""}</div>`;
@@ -425,6 +446,18 @@ function tReport(el, run) {
 
 /* ----------------------------------------------------------- new agent */
 function renderNew(main) {
+  if (STATIC) {
+    main.innerHTML = `<div style="max-width:780px"><div class="eyebrow">Build an agent</div><h1>Builds run on your machine</h1>
+      <p class="muted" style="font-size:16px">ForgeAI runs entirely on local open models through Ollama, so this hosted page shows recorded runs.
+      To build a new agent from your own brief and documents, run the app locally:</p>
+      <div class="prompt">git clone https://github.com/S-Harshni/forgeai && cd forgeai
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+ollama pull qwen2.5:3b && ollama pull llama3.2:3b
+.venv/bin/python server.py      # then open http://localhost:8765</div>
+      <p class="muted">Or from the command line: <span class="mono">python forge.py --brief brief.txt --docs ./docs --out runs/my_agent --auto</span></p>
+      <a class="btn" href="#/">Browse the recorded runs</a></div>`;
+    return;
+  }
   let files = [];
   main.innerHTML = `<div style="max-width:780px">
     <div class="crumbs">New agent</div><h1>What should the agent do?</h1>
@@ -498,4 +531,4 @@ document.addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") $("#drawer").hidden = true; });
 window.addEventListener("hashchange", route);
-(async () => { await loadRuns(); loadHealth(); route(); setInterval(loadRuns, 15000); })();
+(async () => { await loadRuns(); loadHealth(); route(); if (!STATIC) setInterval(loadRuns, 15000); })();

@@ -1,5 +1,9 @@
 # ForgeAI: the agent that builds agents
 
+**Live demo:** https://s-harshni.github.io/forgeai/
+
+The hosted page shows the recorded runs: dashboards, the exam explorer, the repair log, agent definitions and reports. Chat replays the agent's real recorded answers. Live chat and new builds need the local app below, because everything runs on local Ollama models.
+
 ForgeAI takes a **one-paragraph brief** and a **folder of documents**. With no human involved, it produces a **working, tested RAG agent**:
 - a system prompt
 - a retrieval configuration
@@ -49,6 +53,8 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 | **Report** | The full `report.md`. |
 
 The frontend is plain HTML, CSS and JS in `web/` with no build step. The API is in `server.py`.
+
+To refresh the hosted demo after new runs, run `.venv/bin/python export_static.py` and commit `docs/`. GitHub Pages serves `main:/docs`.
 
 Leave out `--auto` to get the interactive mode. You then answer up to 5 clarifying questions (press Enter to let ForgeAI decide), and you approve or edit `requirements.json` before generation continues (the human checkpoint).
 
